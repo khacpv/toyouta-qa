@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.ngothi.checksheet.MainActivity">
+
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="250dp"
+        android:layout_height="170dp"
+        android:layout_marginLeft="50dp"
+        android:background="@drawable/image"
+        />
+
+    <Button
+        android:id="@+id/scan"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="80dp"
+        android:background="@android:drawable/btn_default"
+        android:text="SCAN"
+        android:onClick="Scan13"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/history"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="30dp"
+        android:background="@android:drawable/btn_default"
+        android:text="HISTORY"
+        android:textSize="24sp"
+        android:onClick="history"/>
+
+    <Button
+        android:id="@+id/edit"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="30dp"
+        android:background="@android:drawable/btn_default"
+        android:text="setting"
+        android:textSize="24sp"
+        android:onClick="setting"/>
+
+</LinearLayout>
