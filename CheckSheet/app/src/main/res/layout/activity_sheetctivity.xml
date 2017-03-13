@@ -117,7 +117,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:src="@drawable/lopoto"
             />
     </RelativeLayout>

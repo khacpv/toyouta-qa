@@ -36,6 +36,8 @@ public class SheetActivity extends AppCompatActivity {
     int widthImageCapture;
     int heightImageCapture;
 
+    int maxHeightImageCapture;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,16 @@ public class SheetActivity extends AppCompatActivity {
         Intent Myintent = this.getIntent();
         Bundle packageFromCaller = Myintent.getBundleExtra("GoiTen1");
         seq = packageFromCaller.getString("Seq");
-    }
 
+        lyImage.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        lyImage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        maxHeightImageCapture = lyImage.getHeight(); //height is ready
+                    }
+                });
+    }
 
     public void okClick(View v) {
     }
@@ -56,14 +66,12 @@ public class SheetActivity extends AppCompatActivity {
         FileUtils.createBitmapFromImageView(image12);
     }
 
-    public void captureClick(View v){
+    public void captureClick(View v) {
         AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mgr.setStreamMute(AudioManager.STREAM_SYSTEM, true);
         Intent intent = new Intent(SheetActivity.this, CameraActivity.class);
         startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
     }
-
-
 
     public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
@@ -130,23 +138,14 @@ public class SheetActivity extends AppCompatActivity {
                                 widthImageCapture = screenWidth;
                                 heightImageCapture = (int) (widthImageCapture / ratio);
                             } else {
+                                heightImageCapture = maxHeightImageCapture;
+                                widthImageCapture = (int) (heightImageCapture * ratio);
 
-                                lyImage.getViewTreeObserver()
-                                        .addOnGlobalLayoutListener(
-                                                new ViewTreeObserver.OnGlobalLayoutListener() {
-                                                    @Override
-                                                    public void onGlobalLayout() {
-                                                        lyImage.getViewTreeObserver()
-                                                                .removeOnGlobalLayoutListener(this);
-                                                        heightImageCapture = lyImage.getHeight(); //height is ready
-                                                        widthImageCapture = (int) (heightImageCapture * ratio);
-                                                    }
-                                                });
                             }
-                            image12.setImageBitmap(myBitmap1);
                             image12.getLayoutParams().height = heightImageCapture;
                             image12.getLayoutParams().width = widthImageCapture;
                             image12.requestLayout();
+                            image12.setImageBitmap(myBitmap1);
                         }
                     }
                 });
