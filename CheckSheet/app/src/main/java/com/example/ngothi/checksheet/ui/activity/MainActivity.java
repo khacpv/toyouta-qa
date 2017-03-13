@@ -2,6 +2,7 @@ package com.example.ngothi.checksheet.ui.activity;
 
 import android.content.Intent;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void Scan13(View v) {
         Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
