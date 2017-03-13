@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CheckSheet</string>
     <string name="title_activity_check">CheckActivity</string>
+    <string name="real_check">Thực tế</string>
 </resources>

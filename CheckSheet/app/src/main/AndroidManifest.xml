@@ -24,11 +24,11 @@
             android:name=".ui.activity.CheckActivity"
             android:label="@string/title_activity_check"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activity.Sheetctivity" />
+        <activity android:name=".ui.activity.SheetActivity" />
         <activity android:name=".ui.activity.HistoryActivity" />
         <activity android:name=".ui.activity.paperSheetActivity" />
         <activity android:name=".ui.activity.ScanActivity" />
-        <activity android:name=".ui.activity.CameraMain"></activity>
+        <activity android:name=".ui.activity.CameraActivity"></activity>
     </application>
 
 </manifest>

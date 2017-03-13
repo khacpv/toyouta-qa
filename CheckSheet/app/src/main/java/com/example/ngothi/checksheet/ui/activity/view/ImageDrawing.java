@@ -144,7 +144,7 @@ public class ImageDrawing extends ImageView {
     }
 
     public void clearDraw() {
-        clearCanvas = true;
+        mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         invalidate();
     }
 }

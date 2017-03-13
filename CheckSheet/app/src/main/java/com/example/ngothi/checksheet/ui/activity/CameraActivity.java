@@ -14,28 +14,24 @@ import android.hardware.SensorManager;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import com.example.ngothi.checksheet.R;
+import com.example.ngothi.checksheet.ui.utils.FileUtils;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CameraMain extends Activity implements SurfaceHolder.Callback {
+public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     Camera camera;
     SurfaceView surfaceCamera;
-    Button Quay, Chup;
-
-    String selectedImagePath, PathFile;
-
+    String filePath;
     boolean back = false;
 
     SurfaceHolder surfaceHolder;
@@ -50,9 +46,6 @@ public class CameraMain extends Activity implements SurfaceHolder.Callback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_main);
-        Chup = (Button) findViewById(R.id.btnCapture1);
-        Quay = (Button) findViewById(R.id.btnBack1);
-
         surfaceCamera = (SurfaceView) findViewById(R.id.surfaceCamera);
         surfaceHolder = surfaceCamera.getHolder();
         surfaceHolder.addCallback(this);
@@ -84,20 +77,11 @@ public class CameraMain extends Activity implements SurfaceHolder.Callback {
 
                 oldBitmap.recycle();
 
-                //Khai bao dinh dang ngay thang
-                SimpleDateFormat dinhDangThoiGian = new SimpleDateFormat("yyyyMMdd_hhmmss");
+                filePath = FileUtils.saveBimapToSdCard(image);
 
-                //parse ngay thang sang dinh dang va chuyen thanh string.
-                selectedImagePath = dinhDangThoiGian.format(thoiGian.getTime()) + ".jpg";
-                PathFile = "/storage/emulated/0/DCIM/Camera/"
-                        + selectedImagePath;//duong d?n file anh v?a chup
                 try {
-                    outStream = new FileOutputStream(String.format(PathFile));
-                    image.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                    outStream.flush();
-                    outStream.close();
-                    //   Toast.makeText(getApplicationContext(), "?nh đ? lưu", Toast.LENGTH_LONG).show();
-                    ExifInterface newExif = new ExifInterface(PathFile);
+
+                    ExifInterface newExif = new ExifInterface(filePath);
                     switch (rotation) {
                         case Surface.ROTATION_0:
                             newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
@@ -117,37 +101,28 @@ public class CameraMain extends Activity implements SurfaceHolder.Callback {
                             break;
                     }
                     newExif.saveAttributes();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
+                } catch (Exception e) {
+
                 }
 
                 Intent data1 = new Intent();
                 Bundle ten_image = new Bundle();
-                ten_image.putString("tenfile", PathFile);
+                ten_image.putString("tenfile", filePath);
                 data1.putExtra("GoiTen", ten_image);
-                setResult(Sheetctivity.RESULT_OK, data1);
+                setResult(SheetActivity.RESULT_OK, data1);
                 finish();
-                   /*
-                Intent Myintent = new Intent(CameraMain.this,edit_vaythoi.class);
-                Bundle ten_image  = new Bundle();
-                ten_image.putString("tenfile",PathFile);
-                Myintent.putExtra("GoiTen",ten_image);
-                startActivityForResult(Myintent,IMAGE_EDIT);
-                dialogCamera.dismiss();// thoat dialogCamera
-                */
+
+                ;
             }
         };
-    }// ket thuc onCreate
+    }
 
-    public void QuayLai(View v) {
+    public void back(View v) {
         back = true;
         finish();
     }
 
-    public void captureImage1(View v) throws IOException {
+    public void captureClick(View v) throws IOException {
         mOrientationListener.rememberOrientation();
         camera.takePicture(null, null, jpegCallback);
     }

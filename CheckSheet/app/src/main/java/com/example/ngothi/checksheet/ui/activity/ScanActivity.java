@@ -77,7 +77,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     public void Scan2(View v) {
-        Intent intent = new Intent(ScanActivity.this, Sheetctivity.class);
+        Intent intent = new Intent(ScanActivity.this, SheetActivity.class);
         Bundle ten_image = new Bundle();
         ten_image.putString("Seq", edittext.getText().toString());
         intent.putExtra("GoiTen1", ten_image);
