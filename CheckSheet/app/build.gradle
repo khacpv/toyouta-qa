@@ -32,5 +32,5 @@ dependencies {
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
   compile 'com.github.bumptech.glide:glide:3.5.2'
   compile 'com.android.support:support-v4:25.2.0'
-  compile 'com.mindorks:paracamera:0.2.2'
+    compile 'me.dm7.barcodescanner:zxing:1.9'
 }
