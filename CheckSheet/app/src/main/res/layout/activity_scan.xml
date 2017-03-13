@@ -5,60 +5,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.ngothi.checksheet.ui.activity.ScanBarcodeActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/white" />
+
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:background="@android:color/white"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/textSeq1"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Seq."
-            android:textSize="20sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/back1"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="0.5"
-                android:background="@android:color/holo_green_dark"
-                android:onClick="back1"
-                android:text="QUAY LạI"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/scan2"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="0.5"
-                android:background="@android:color/holo_blue_light"
-                android:onClick="Scan2"
-                android:text="SCAN"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:layout_marginTop="60dp"
+            android:gravity="center"
+            android:text="HƯỚNG CAMERA VÀO MÃ VẠCH"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <Button
+            android:onClick="back1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/black"
-            android:onClick="toggleFlash"
-            android:text="FLASH"
-            android:textColor="@android:color/white"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/rounded_button"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="QUAY LẠI"
+            android:textSize="24sp"
             android:textStyle="bold" />
+
+
     </LinearLayout>
 </LinearLayout>
