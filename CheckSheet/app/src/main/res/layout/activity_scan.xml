@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.ngothi.checksheet.ScanActivity">
-
+    tools:context="com.example.ngothi.checksheet.ui.activity.ScanBarcodeActivity">
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"

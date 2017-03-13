@@ -1,4 +1,4 @@
-package com.example.ngothi.checksheet;
+package com.example.ngothi.checksheet.ui.activity;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ngothi.checksheet.R;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
