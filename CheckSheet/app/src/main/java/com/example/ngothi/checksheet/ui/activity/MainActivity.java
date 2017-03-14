@@ -6,33 +6,51 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 
 import com.example.ngothi.checksheet.R;
+import com.example.ngothi.checksheet.ui.activity.history.KHistoryActivity;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
+public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
     }
 
-    public void Scan13(View v) {
-        Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+    @Override
+    public int getResourceLayout() {
+        return R.layout.activity_main;
+    }
+
+    @OnClick(R.id.scan)
+    void moveScanActivity() {
+        moveIntent(ScanActivity.class);
+    }
+
+    @OnClick(R.id.history)
+    void moveHistoryActivity() {
+        moveIntent(KHistoryActivity.class);
+    }
+
+    @OnClick(R.id.setting)
+    void moveSettingActivity() {
+        moveIntent(CheckActivity.class);
+    }
+
+    private void moveIntent(Class c) {
+        Intent intent = new Intent(MainActivity.this, c);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    public void history(View v) {
-
-        Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-        startActivity(intent);
-    }
-
-    public void setting(View v) {
-        Intent intent = new Intent(MainActivity.this, CheckActivity.class);
         startActivity(intent);
     }
 }

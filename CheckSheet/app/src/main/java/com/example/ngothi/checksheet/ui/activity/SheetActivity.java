@@ -24,7 +24,7 @@ import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
 import java.io.File;
 import java.io.IOException;
 
-public class Sheetctivity extends AppCompatActivity {
+public class SheetActivity extends AppCompatActivity {
     Dialog dialog;
     int number = 1;
     ImageView image;
@@ -79,7 +79,7 @@ public class Sheetctivity extends AppCompatActivity {
                 } else {
                     c3 = "NG";
                 }
-                Intent intent = new Intent(Sheetctivity.this, paperSheetActivity.class);
+                Intent intent = new Intent(SheetActivity.this, paperSheetActivity.class);
                 Bundle ten_image = new Bundle();
                 ten_image.putString("Seq", seq);
                 ten_image.putString("c1", c1);
@@ -103,7 +103,7 @@ public class Sheetctivity extends AppCompatActivity {
     public void chup1(View v) {
         AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mgr.setStreamMute(AudioManager.STREAM_SYSTEM, true);
-        Intent intent = new Intent(Sheetctivity.this, CameraMain.class);
+        Intent intent = new Intent(SheetActivity.this, CameraMain.class);
         startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
     }
 

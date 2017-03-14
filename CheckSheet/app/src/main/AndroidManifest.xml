@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <application
         android:allowBackup="true"
@@ -14,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,11 +26,16 @@
             android:name=".ui.activity.CheckActivity"
             android:label="@string/title_activity_check"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activity.Sheetctivity" />
-        <activity android:name=".ui.activity.HistoryActivity" />
+        <activity android:name=".ui.activity.SheetActivity"/>
+        <activity android:name=".ui.activity.HistoryActivity"
+            android:label="@string/title_activity_history" />
         <activity android:name=".ui.activity.paperSheetActivity" />
-        <activity android:name=".ui.activity.ScanActivity" />
-        <activity android:name=".ui.activity.CameraMain"></activity>
+        <activity
+            android:name=".ui.activity.ScanActivity"
+            android:label="@string/title_activity_scan" />
+        <activity android:name=".ui.activity.CameraMain"/>
+        <activity android:name=".ui.activity.history.KHistoryActivity"
+            android:label="@string/title_activity_history" />
     </application>
 
 </manifest>

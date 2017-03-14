@@ -14,13 +14,11 @@ import android.hardware.SensorManager;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import com.example.ngothi.checksheet.R;
 import java.io.FileNotFoundException;
@@ -128,7 +126,7 @@ public class CameraMain extends Activity implements SurfaceHolder.Callback {
                 Bundle ten_image = new Bundle();
                 ten_image.putString("tenfile", PathFile);
                 data1.putExtra("GoiTen", ten_image);
-                setResult(Sheetctivity.RESULT_OK, data1);
+                setResult(SheetActivity.RESULT_OK, data1);
                 finish();
                    /*
                 Intent Myintent = new Intent(CameraMain.this,edit_vaythoi.class);
