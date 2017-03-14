@@ -23,6 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.ngothi.checksheet.R;
 import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
 import com.example.ngothi.checksheet.ui.adapter.StepImageAdapter;
@@ -98,16 +101,25 @@ public class SheetActivity extends AppCompatActivity implements OnItemListener<I
     }
 
     public void okClick(View v) {
-       /* String fileOut = CanvasUtils.createImage(getApplicationContext(), R.drawable.lopoto,
-                FileUtils.getDirectoryImageCapturePath() + "/" + FileUtils.getCaptureImageName(),
-                imagePreview.getPathsLine(), imagePreview.getPaint(), imagePreview.getSize());*/
-
-        String fileOut =
-                CanvasUtils.createImage(imagePreview.getSourcePath(), imagePreview.getPathsLine(),
-                        imagePreview.getPaint(), imagePreview.getSize());
-        if (fileOut != null) {
-            Toast.makeText(getApplicationContext(), "create image in " + fileOut,
-                    Toast.LENGTH_SHORT).show();
+        if (mImageCaptures.get(selectedPosition).isFromFile()) {
+            String fileOut =
+                    CanvasUtils.createImage(mImageCaptures.get(selectedPosition).getFilepath(),
+                            imagePreview.getPathsLine(), imagePreview.getPaint(),
+                            imagePreview.getSize());
+            if (fileOut != null) {
+                Toast.makeText(getApplicationContext(), "create image in " + fileOut,
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            String fileOut = CanvasUtils.createImage(getApplicationContext(),
+                    mImageCaptures.get(selectedPosition).getResourceId(),
+                    new File(FileUtils.getDirectoryImageCapturePath(),
+                            FileUtils.getCaptureImageName()).getAbsolutePath(),
+                    imagePreview.getPathsLine(), imagePreview.getPaint(), imagePreview.getSize());
+            if (fileOut != null) {
+                Toast.makeText(getApplicationContext(), "create image in " + fileOut,
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -130,7 +142,7 @@ public class SheetActivity extends AppCompatActivity implements OnItemListener<I
     }
 
     public void showImagePreview(int resourceId) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        /*BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 3;
         options.inDither = true;
         options.inPreferredConfig = Bitmap.Config.RGB_565;
@@ -138,11 +150,22 @@ public class SheetActivity extends AppCompatActivity implements OnItemListener<I
                 BitmapFactory.decodeResource(getApplicationContext().getResources(), resourceId);
         originBitmap = Bitmap.createScaledBitmap(originBitmap, originBitmap.getWidth() / 4,
                 originBitmap.getHeight() / 4, false);
-        displayBitmap(originBitmap);
+        displayBitmap(originBitmap);*/
+
+        Glide.with(getApplicationContext())
+                .load(resourceId)
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource,
+                            GlideAnimation<? super Bitmap> glideAnimation) {
+                        displayBitmap(resource);
+                    }
+                });
     }
 
-    public void showImagePreview(String filePath) {
-        File fileImage = new File(filePath);
+    public void showImagePreview(final String filePath) {
+       /* File fileImage = new File(filePath);
         if (fileImage.exists()) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 3;
@@ -176,12 +199,49 @@ public class SheetActivity extends AppCompatActivity implements OnItemListener<I
             }
             imagePreview.setSourcePath(filePath);
             displayBitmap(originBitmap);
-        }
+        }*/
+
+        Glide.with(getApplicationContext())
+                .load(new File(filePath))
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap originBitmap,
+                            GlideAnimation<? super Bitmap> glideAnimation) {
+                        originBitmap =
+                                Bitmap.createScaledBitmap(originBitmap, originBitmap.getWidth() / 4,
+                                        originBitmap.getHeight() / 4, false);
+                        ExifInterface ei = null;
+                        try {
+                            ei = new ExifInterface(filePath);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                                ExifInterface.ORIENTATION_UNDEFINED);
+
+                        switch (orientation) {
+                            case ExifInterface.ORIENTATION_ROTATE_90:
+                                originBitmap = rotateImage(originBitmap, 90);
+                                break;
+                            case ExifInterface.ORIENTATION_ROTATE_180:
+                                originBitmap = rotateImage(originBitmap, 180);
+                                break;
+                            case ExifInterface.ORIENTATION_ROTATE_270:
+                                originBitmap = rotateImage(originBitmap, 270);
+                                break;
+                            case ExifInterface.ORIENTATION_NORMAL:
+                            default:
+                                break;
+                        }
+                        imagePreview.setSourcePath(filePath);
+                        displayBitmap(originBitmap);
+                    }
+                });
     }
 
     public void displayBitmap(Bitmap originBitmap) {
         imagePreview.clearDraw();
-        imagePreview.setSourcePath(null);
         widthImageCapture = originBitmap.getWidth();
         heightImageCapture = originBitmap.getHeight();
         Display display =
@@ -200,6 +260,9 @@ public class SheetActivity extends AppCompatActivity implements OnItemListener<I
         imagePreview.getLayoutParams().width = widthImageCapture;
         imagePreview.requestLayout();
         imagePreview.setImageBitmap(originBitmap);
+        if (mImageCaptures.get(selectedPosition).isEditted()) {
+            imagePreview.drawPath(mImageCaptures.get(selectedPosition).getPaths());
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
@@ -232,8 +295,6 @@ public class SheetActivity extends AppCompatActivity implements OnItemListener<I
             showImagePreview(item.getFilepath());
         }
 
-        if (item.isEditted()) {
-            imagePreview.drawPath(item.getPaths());
-        }
+
     }
 }

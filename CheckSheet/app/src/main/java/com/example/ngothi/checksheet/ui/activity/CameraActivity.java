@@ -267,7 +267,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 options.inPreferredConfig = Bitmap.Config.RGB_565;
                 options.inDither = true;
                 Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-                int maxWidth = 2048;//8mp
+                int maxWidth = 3264;//8mp
                 float ratio = (float) image.getWidth() / maxWidth;
                 int width = (int) (image.getWidth() / ratio);
                 int height = (int) (image.getHeight() / ratio);
