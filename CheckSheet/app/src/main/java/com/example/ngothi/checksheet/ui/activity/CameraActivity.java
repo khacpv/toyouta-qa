@@ -14,6 +14,8 @@ import android.hardware.SensorManager;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -47,6 +49,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_main);
         surfaceCamera = (SurfaceView) findViewById(R.id.surfaceCamera);
+
         surfaceHolder = surfaceCamera.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -141,20 +144,40 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             camera.setPreviewDisplay(surfaceHolder);
             camera.startPreview();
             Camera.Parameters parameters = camera.getParameters();
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            camera.autoFocus(null);
             int w = 0, h = 0;
             for (Camera.Size s : parameters.getSupportedPictureSizes()) {
                 //if s.width meets whatever criteria you want set it to your w
                 //and s.height meets whatever criteria you want for your h
                 w = s.width;
                 h = s.height;
+                parameters.setPictureSize(w, h);
+                camera.setParameters(parameters);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                int screenwidth = display.getWidth();
+                int screenHeight = (int) (screenwidth / ((float) h / w));
+
+                surfaceCamera.getLayoutParams().width = screenwidth;
+                surfaceCamera.getLayoutParams().height = screenHeight;
+                surfaceCamera.invalidate();
+
                 break;
             }
-
-            parameters.setPictureSize(w, h);
-
-            camera.setParameters(parameters);
         } catch (Exception e) {
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            Log.d("down", "focusing now");
+
+            camera.autoFocus(null);
+        }
+
+        return true;
     }
 
     public void changeOrientation() {
