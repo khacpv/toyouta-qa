@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-<<<<<<< HEAD
-=======
     android:padding="5dp"
->>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217
     tools:context="com.example.ngothi.checksheet.ui.activity.SheetActivity"
     >
 

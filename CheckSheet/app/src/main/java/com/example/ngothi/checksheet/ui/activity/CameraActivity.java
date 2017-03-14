@@ -9,32 +9,27 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.ShutterCallback;
 import android.hardware.SensorManager;
 import android.media.ExifInterface;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
-<<<<<<< HEAD:CheckSheet/app/src/main/java/com/example/ngothi/checksheet/ui/activity/CameraMain.java
-=======
 import android.view.Display;
 import android.view.MotionEvent;
->>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217:CheckSheet/app/src/main/java/com/example/ngothi/checksheet/ui/activity/CameraActivity.java
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 import com.example.ngothi.checksheet.R;
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import static android.R.attr.data;
 
 public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     Camera camera;
@@ -44,15 +39,20 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     SurfaceHolder surfaceHolder;
     PictureCallback jpegCallback;
     private CameraOrientationListener mOrientationListener;
-
     private int mCameraID = 0;
+    KProgressHUD dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_main);
-        surfaceCamera = (SurfaceView) findViewById(R.id.surfaceCamera);
+        dialog = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel(getResources().getString(R.string.saving_image))
+                .setWindowColor(getResources().getColor(R.color.colorPrimary))
+                .setAnimationSpeed(2);
 
+        surfaceCamera = (SurfaceView) findViewById(R.id.surfaceCamera);
         surfaceHolder = surfaceCamera.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -61,77 +61,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-
-                try {
-                    int rotation = getPhotoRotation();
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inPurgeable = true;
-                    options.inSampleSize = 2;
-                    options.inPreferredConfig = Bitmap.Config.RGB_565;
-                    options.inDither = true;
-                    Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-                    int maxWidth = 2048;//8mp
-                    float ratio = (float) image.getWidth() / maxWidth;
-                    int width = (int) (image.getWidth() / ratio);
-                    int height = (int) (image.getHeight() / ratio);
-                    image = Bitmap.createScaledBitmap(image, width, height, false);
-                    Log.e("TAG", "w:" + width + " h:" + height);
-
-                    Bitmap oldBitmap = image;
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(rotation);
-                    image = Bitmap.createBitmap(oldBitmap, 0, 0, (int) width, (int) height, matrix,
-                            false);
-                    filePath = FileUtils.saveBimapToSdCard(image);
-                    oldBitmap.recycle();
-                    image.recycle();
-                    ExifInterface newExif = new ExifInterface(filePath);
-                    switch (rotation) {
-                        case Surface.ROTATION_0:
-                            newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
-                                    String.valueOf(ExifInterface.ORIENTATION_NORMAL));
-                            break;
-                        case Surface.ROTATION_90:
-                            newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
-                                    String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
-                            break;
-                        case Surface.ROTATION_180:
-                            newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
-                                    String.valueOf(ExifInterface.ORIENTATION_ROTATE_180));
-                            break;
-                        case Surface.ROTATION_270:
-                            newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
-                                    String.valueOf(ExifInterface.ORIENTATION_ROTATE_270));
-                            break;
-                    }
-                    newExif.saveAttributes();
-
-                    Intent intent = new Intent();
-                    intent.putExtra("data", filePath);
-                    setResult(SheetActivity.RESULT_OK, intent);
-                    finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(CameraActivity.this, "err", Toast.LENGTH_SHORT).show();
-                }
-<<<<<<< HEAD:CheckSheet/app/src/main/java/com/example/ngothi/checksheet/ui/activity/CameraMain.java
-
-                Intent data1 = new Intent();
-                Bundle ten_image = new Bundle();
-                ten_image.putString("tenfile", PathFile);
-                data1.putExtra("GoiTen", ten_image);
-                setResult(SheetActivity.RESULT_OK, data1);
-                finish();
-                   /*
-                Intent Myintent = new Intent(CameraMain.this,edit_vaythoi.class);
-                Bundle ten_image  = new Bundle();
-                ten_image.putString("tenfile",PathFile);
-                Myintent.putExtra("GoiTen",ten_image);
-                startActivityForResult(Myintent,IMAGE_EDIT);
-                dialogCamera.dismiss();// thoat dialogCamera
-                */
-=======
->>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217:CheckSheet/app/src/main/java/com/example/ngothi/checksheet/ui/activity/CameraActivity.java
+                new SaveImageTask().execute(data);
             }
         };
     }
@@ -315,5 +245,85 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         super.onAttachedToWindow();
         mOrientationListener = new CameraOrientationListener(getApplicationContext());
         mOrientationListener.enable();
+    }
+
+    class SaveImageTask extends AsyncTask<byte[], Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+        @Override
+        protected String doInBackground(byte[]... bytes) {
+            try {
+                byte[] data = bytes[0];
+                int rotation = getPhotoRotation();
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPurgeable = true;
+                options.inSampleSize = 2;
+                options.inPreferredConfig = Bitmap.Config.RGB_565;
+                options.inDither = true;
+                Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+                int maxWidth = 2048;//8mp
+                float ratio = (float) image.getWidth() / maxWidth;
+                int width = (int) (image.getWidth() / ratio);
+                int height = (int) (image.getHeight() / ratio);
+                image = Bitmap.createScaledBitmap(image, width, height, false);
+                Log.e("TAG", "w:" + width + " h:" + height);
+
+                Bitmap oldBitmap = image;
+                Matrix matrix = new Matrix();
+                matrix.postRotate(rotation);
+                image = Bitmap.createBitmap(oldBitmap, 0, 0, (int) width, (int) height, matrix,
+                        false);
+                filePath = FileUtils.saveBimapToSdCard(image);
+                oldBitmap.recycle();
+                image.recycle();
+                ExifInterface newExif = new ExifInterface(filePath);
+                switch (rotation) {
+                    case Surface.ROTATION_0:
+                        newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
+                                String.valueOf(ExifInterface.ORIENTATION_NORMAL));
+                        break;
+                    case Surface.ROTATION_90:
+                        newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
+                                String.valueOf(ExifInterface.ORIENTATION_ROTATE_90));
+                        break;
+                    case Surface.ROTATION_180:
+                        newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
+                                String.valueOf(ExifInterface.ORIENTATION_ROTATE_180));
+                        break;
+                    case Surface.ROTATION_270:
+                        newExif.setAttribute(ExifInterface.TAG_ORIENTATION,
+                                String.valueOf(ExifInterface.ORIENTATION_ROTATE_270));
+                        break;
+                }
+                newExif.saveAttributes();
+
+                return filePath;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+            if (s == null) {
+                Toast.makeText(CameraActivity.this,
+                        getResources().getString(R.string.capture_error), Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+            Intent intent = new Intent();
+            intent.putExtra("data", s);
+            setResult(SheetActivity.RESULT_OK, intent);
+            finish();
+        }
     }
 }

@@ -1,16 +1,10 @@
 package com.example.ngothi.checksheet.ui.activity;
-
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
-
 import com.example.ngothi.checksheet.R;
-<<<<<<< HEAD
-=======
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
->>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217
 
 import butterknife.OnClick;
 
@@ -20,7 +14,6 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -29,10 +22,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public int getResourceLayout() {
         return R.layout.activity_main;
-=======
-        setContentView(R.layout.activity_main);
-        Log.e("file directory", FileUtils.getDirectoryImageCapturePath());
->>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217
     }
 
     @OnClick(R.id.scan)

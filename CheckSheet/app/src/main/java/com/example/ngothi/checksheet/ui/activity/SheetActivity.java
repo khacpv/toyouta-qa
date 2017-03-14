@@ -6,116 +6,200 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Path;
 import android.media.AudioManager;
 import android.media.ExifInterface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.example.ngothi.checksheet.R;
 import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
+import com.example.ngothi.checksheet.ui.adapter.StepImageAdapter;
+import com.example.ngothi.checksheet.ui.event.OnItemListener;
+import com.example.ngothi.checksheet.ui.model.ImageCapture;
+import com.example.ngothi.checksheet.ui.utils.CanvasUtils;
+import com.example.ngothi.checksheet.ui.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SheetActivity extends AppCompatActivity {
+public class SheetActivity extends AppCompatActivity implements OnItemListener<ImageCapture> {
     Dialog dialog;
     int number = 1;
     ImageView image;
-    ImageDrawing image12;
-    TextView textseq, index;
-    String seq, c1, c2, c3;
+    ImageDrawing imagePreview;
     int REQUEST_ID_IMAGE_CAPTURE = 1000;
     RelativeLayout lyImage;
+    int widthImageCapture;
+    int heightImageCapture;
+    int maxHeightImageCapture;
+
+    @BindView(R.id.rcvImage)
+    RecyclerView rcvImage;
+
+    StepImageAdapter mStepImageAdapter;
+
+    List<ImageCapture> mImageCaptures = new ArrayList<>();
+
+    private int selectedPosition = 0;
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sheetctivity);
-        image = (ImageView) findViewById(R.id.icon_check);
-        textseq = (TextView) findViewById(R.id.textSeq);
-        index = (TextView) findViewById(R.id.index);
-        image12 = (ImageDrawing) findViewById(R.id.image12);
+        ButterKnife.bind(this);
+        imagePreview = (ImageDrawing) findViewById(R.id.imagePreview);
         lyImage = (RelativeLayout) findViewById(R.id.lyImage);
-        Intent Myintent = this.getIntent();
-        Bundle packageFromCaller = Myintent.getBundleExtra("GoiTen1");
-        seq = packageFromCaller.getString("Seq");
-        textseq.setText(seq);
+        imagePreview.setOnImageDrawListener(new ImageDrawing.OnImageDrawListener() {
+            @Override
+            public void onDrawComplete(List<Path> paths) {
+                if (mImageCaptures == null) {
+                    return;
+                }
+                mImageCaptures.get(selectedPosition).setEditted(true);
+                mImageCaptures.get(selectedPosition).setPaths(paths);
+            }
+        });
+
+        lyImage.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        lyImage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        maxHeightImageCapture = lyImage.getHeight(); //height is ready
+                        showImagePreview(R.drawable.lopoto);
+                    }
+                });
+
+        mImageCaptures.add(new ImageCapture.Builder().setFromFile(false)
+                .setResourceId(R.drawable.lopoto)
+                .build());
+
+        mStepImageAdapter = new StepImageAdapter(getApplicationContext(), mImageCaptures, this);
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,
+                        false);
+        rcvImage.setHasFixedSize(true);
+        rcvImage.setLayoutManager(layoutManager);
+        rcvImage.setAdapter(mStepImageAdapter);
     }
 
-    void number_check(int i, int c) {
-        switch (i) {
-            case 1:
-                image.setImageResource(R.drawable.lopoto);
-                if (c == 0) {
-                    c1 = "OK";
-                } else {
-                    c1 = "NG";
-                }
-                number++;
-                index.setText("2");
-                break;
-            case 2:
-                image.setImageResource(R.drawable.denpha);
-                if (c == 0) {
-                    c2 = "OK";
-                } else {
-                    c2 = "NG";
-                }
-                number++;
-                index.setText("3");
-                break;
-            case 3:
+    public void okClick(View v) {
+       /* String fileOut = CanvasUtils.createImage(getApplicationContext(), R.drawable.lopoto,
+                FileUtils.getDirectoryImageCapturePath() + "/" + FileUtils.getCaptureImageName(),
+                imagePreview.getPathsLine(), imagePreview.getPaint(), imagePreview.getSize());*/
 
-                if (c == 0) {
-                    c3 = "OK";
-                } else {
-                    c3 = "NG";
-                }
-                Intent intent = new Intent(SheetActivity.this, paperSheetActivity.class);
-                Bundle ten_image = new Bundle();
-                ten_image.putString("Seq", seq);
-                ten_image.putString("c1", c1);
-                ten_image.putString("c2", c2);
-                ten_image.putString("c3", c3);
-                ten_image.putString("goi", "ghi");
-                intent.putExtra("GoiTen2", ten_image);
-                startActivity(intent);
-                break;
+        String fileOut =
+                CanvasUtils.createImage(imagePreview.getSourcePath(), imagePreview.getPathsLine(),
+                        imagePreview.getPaint(), imagePreview.getSize());
+        if (fileOut != null) {
+            Toast.makeText(getApplicationContext(), "create image in " + fileOut,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void ok1(View v) {
-        number_check(number, 0);
+    public void notGoodClick(View v) {
+        FileUtils.createBitmapFromImageView(imagePreview);
     }
 
-    public void NG1(View v) {
-        number_check(number, 1);
-    }
-
-    public void chup1(View v) {
+    public void captureClick(View v) {
         AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mgr.setStreamMute(AudioManager.STREAM_SYSTEM, true);
-        Intent intent = new Intent(SheetActivity.this, CameraMain.class);
+        Intent intent = new Intent(SheetActivity.this, CameraActivity.class);
         startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
     }
-
-    int w;
-    int h;
-
 
     public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
-                matrix, true);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix,
+                true);
+    }
+
+    public void showImagePreview(int resourceId) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 3;
+        options.inDither = true;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        Bitmap originBitmap =
+                BitmapFactory.decodeResource(getApplicationContext().getResources(), resourceId);
+        originBitmap = Bitmap.createScaledBitmap(originBitmap, originBitmap.getWidth() / 4,
+                originBitmap.getHeight() / 4, false);
+        displayBitmap(originBitmap);
+    }
+
+    public void showImagePreview(String filePath) {
+        File fileImage = new File(filePath);
+        if (fileImage.exists()) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 3;
+            options.inDither = true;
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            Bitmap originBitmap = BitmapFactory.decodeFile(fileImage.getAbsolutePath(), options);
+            originBitmap = Bitmap.createScaledBitmap(originBitmap, originBitmap.getWidth() / 4,
+                    originBitmap.getHeight() / 4, false);
+            ExifInterface ei = null;
+            try {
+                ei = new ExifInterface(fileImage.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    originBitmap = rotateImage(originBitmap, 90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    originBitmap = rotateImage(originBitmap, 180);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    originBitmap = rotateImage(originBitmap, 270);
+                    break;
+                case ExifInterface.ORIENTATION_NORMAL:
+                default:
+                    break;
+            }
+            imagePreview.setSourcePath(filePath);
+            displayBitmap(originBitmap);
+        }
+    }
+
+    public void displayBitmap(Bitmap originBitmap) {
+        imagePreview.clearDraw();
+        imagePreview.setSourcePath(null);
+        widthImageCapture = originBitmap.getWidth();
+        heightImageCapture = originBitmap.getHeight();
+        Display display =
+                ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int screenWidth = display.getWidth();
+
+        final float ratio = (float) widthImageCapture / heightImageCapture;
+        if (widthImageCapture > heightImageCapture) {
+            widthImageCapture = screenWidth;
+            heightImageCapture = (int) (widthImageCapture / ratio);
+        } else {
+            heightImageCapture = maxHeightImageCapture;
+            widthImageCapture = (int) (heightImageCapture * ratio);
+        }
+        imagePreview.getLayoutParams().height = heightImageCapture;
+        imagePreview.getLayoutParams().width = widthImageCapture;
+        imagePreview.requestLayout();
+        imagePreview.setImageBitmap(originBitmap);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
@@ -125,82 +209,31 @@ public class SheetActivity extends AppCompatActivity {
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
-                        Bundle packageFromCaller = data.getBundleExtra("GoiTen");
-                        String tenFile = packageFromCaller.getString("tenfile");
-                        // Toast.makeText(MainActivity.this,tenFile,Toast.LENGTH_LONG).show();
-                        File imgFile = new File(tenFile);
-                        if (imgFile.exists()) {
 
-                            Bitmap myBitmap1 = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-
-                            ExifInterface ei = null;
-                            try {
-                                ei = new ExifInterface(imgFile.getAbsolutePath());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                                    ExifInterface.ORIENTATION_UNDEFINED);
-
-                            switch(orientation) {
-
-                                case ExifInterface.ORIENTATION_ROTATE_90:
-                                    myBitmap1=  rotateImage(myBitmap1, 90);
-                                    break;
-
-                                case ExifInterface.ORIENTATION_ROTATE_180:
-                                    myBitmap1= rotateImage(myBitmap1, 180);
-                                    break;
-
-                                case ExifInterface.ORIENTATION_ROTATE_270:
-                                    myBitmap1=rotateImage(myBitmap1, 270);
-                                    break;
-
-                                case ExifInterface.ORIENTATION_NORMAL:
-
-                                default:
-                                    break;
-                            }
-
-                            //image12.clearDraw();
-
-                            w = myBitmap1.getWidth();
-                            h = myBitmap1.getHeight();
-
-                            Display display = ((WindowManager) getSystemService(
-                                    Context.WINDOW_SERVICE)).getDefaultDisplay();
-                            int screenWidth = display.getWidth();
-
-                            final float ratio = (float) w / h;
-                            if (w > h) {
-                                w = screenWidth;
-                                h = (int) (w / ratio);
-                            } else {
-
-                                lyImage.getViewTreeObserver()
-                                        .addOnGlobalLayoutListener(
-                                                new ViewTreeObserver.OnGlobalLayoutListener() {
-                                                    @Override
-                                                    public void onGlobalLayout() {
-                                                        lyImage.getViewTreeObserver()
-                                                                .removeOnGlobalLayoutListener(this);
-                                                        h = lyImage.getHeight(); //height is ready
-                                                        w = (int) (h * ratio);
-                                                    }
-                                                });
-                            }
-
-
-
-                            image12.setImageBitmap(myBitmap1);
-                           // image12.setRotation(90f);
-                            image12.getLayoutParams().height = h;
-                            image12.getLayoutParams().width = w;
-                            image12.requestLayout();
-                        }
+                        String filePath = data.getExtras().getString("data");
+                        mStepImageAdapter.addImage(new ImageCapture.Builder().setFromFile(true)
+                                .setFilepath(filePath)
+                                .build());
+                        showImagePreview(filePath);
+                        selectedPosition = mImageCaptures.size() - 1;
+                        rcvImage.scrollToPosition(selectedPosition);
                     }
                 });
             }
+        }
+    }
+
+    @Override
+    public void onItemClick(ImageCapture item, int position) {
+        selectedPosition = position;
+        if (!item.isFromFile()) {
+            showImagePreview(item.getResourceId());
+        } else {
+            showImagePreview(item.getFilepath());
+        }
+
+        if (item.isEditted()) {
+            imagePreview.drawPath(item.getPaths());
         }
     }
 }

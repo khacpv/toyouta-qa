@@ -35,11 +35,10 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
         mScannerView.setFlash(mFlash);
         mScannerView.setAutoFocus(true);
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                requestPermissions(new String[] { Manifest.permission.CAMERA },
                         CAMERA_REQUEST_CODE);
             }
         } else {
@@ -51,11 +50,11 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
             }, 200);
         }
 
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-             Scan2(null);
+                finish();
+                moveSheetActivity();
             }
         }, 500);
     }
@@ -85,8 +84,9 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
     @Override
     public void handleResult(Result result) {
         mSeq = result.getText();
-        Toast.makeText(this, "Contents = " + result.getText() +
-                ", Format = " + result.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,
+                "Contents = " + result.getText() + ", Format = " + result.getBarcodeFormat()
+                        .toString(), Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -96,9 +96,9 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
         }, 2000);
     }
 
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -120,16 +120,7 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
         outState.putBoolean(FLASH_STATE, mFlash);
     }
 
-<<<<<<< HEAD
     public void moveSheetActivity() {
-=======
-//    public void toggleFlash(View v) {
-//        mFlash = !mFlash;
-//        mScannerView.setFlash(mFlash);
-//    }
-
-    public void Scan2(View v) {
->>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217
         Intent intent = new Intent(ScanActivity.this, SheetActivity.class);
         Bundle ten_image = new Bundle();
         ten_image.putString("Seq", mSeq);
@@ -137,16 +128,13 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
         startActivity(intent);
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
 
-
-//    public void toggleFlash(View v) {
-//        mFlash = !mFlash;
-//        mScannerView.setFlash(mFlash);
-//    }
-
+    //    public void toggleFlash(View v) {
+    //        mFlash = !mFlash;
+    //        mScannerView.setFlash(mFlash);
+    //    }
 }
