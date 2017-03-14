@@ -2,24 +2,17 @@ package com.example.ngothi.checksheet.ui.activity;
 
 import android.content.Intent;
 
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 
 import com.example.ngothi.checksheet.R;
 <<<<<<< HEAD
-import com.example.ngothi.checksheet.ui.activity.history.KHistoryActivity;
 =======
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
 >>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class MainActivity extends BaseActivity {
 

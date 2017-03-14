@@ -1,4 +1,4 @@
-package com.example.ngothi.checksheet.ui.activity.model;
+package com.example.ngothi.checksheet.ui.model;
 
 /**
  * Created by kienht on 3/14/17.

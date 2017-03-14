@@ -1,4 +1,4 @@
-package com.example.ngothi.checksheet.ui.activity.history;
+package com.example.ngothi.checksheet.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,9 +7,9 @@ import android.view.View;
 
 import com.example.ngothi.checksheet.R;
 import com.example.ngothi.checksheet.ui.activity.BaseActivity;
-import com.example.ngothi.checksheet.ui.activity.history.adapter.HistoryRecyclerAdapter;
-import com.example.ngothi.checksheet.ui.activity.model.HistoryObj;
-import com.example.ngothi.checksheet.ui.activity.utils.RecyclerItemClickListener;
+import com.example.ngothi.checksheet.ui.adapter.HistoryRecyclerAdapter;
+import com.example.ngothi.checksheet.ui.model.HistoryObj;
+import com.example.ngothi.checksheet.ui.event.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

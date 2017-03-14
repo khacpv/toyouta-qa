@@ -1,4 +1,4 @@
-package com.example.ngothi.checksheet.ui.activity.history.adapter;
+package com.example.ngothi.checksheet.ui.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ngothi.checksheet.R;
-import com.example.ngothi.checksheet.ui.activity.model.HistoryObj;
+import com.example.ngothi.checksheet.ui.model.HistoryObj;
 
 import java.util.List;
 

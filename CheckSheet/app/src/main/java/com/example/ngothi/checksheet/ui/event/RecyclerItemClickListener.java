@@ -1,4 +1,4 @@
-package com.example.ngothi.checksheet.ui.activity.utils;
+package com.example.ngothi.checksheet.ui.event;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
