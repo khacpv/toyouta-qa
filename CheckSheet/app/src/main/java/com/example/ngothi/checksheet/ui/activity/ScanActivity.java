@@ -53,8 +53,8 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                finish();
-                moveSheetActivity();
+                /*finish();
+                moveSheetActivity();*/
             }
         }, 500);
     }

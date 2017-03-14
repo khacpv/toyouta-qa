@@ -263,11 +263,11 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 int rotation = getPhotoRotation();
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inPurgeable = true;
-                options.inSampleSize = 2;
+                options.inSampleSize = 1;
                 options.inPreferredConfig = Bitmap.Config.RGB_565;
                 options.inDither = true;
                 Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-                int maxWidth = 3264;//8mp
+                int maxWidth = image.getWidth();//8mp
                 float ratio = (float) image.getWidth() / maxWidth;
                 int width = (int) (image.getWidth() / ratio);
                 int height = (int) (image.getHeight() / ratio);

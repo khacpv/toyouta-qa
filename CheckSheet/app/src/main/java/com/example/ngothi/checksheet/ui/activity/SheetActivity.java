@@ -288,13 +288,14 @@ public class SheetActivity extends AppCompatActivity implements OnItemListener<I
 
     @Override
     public void onItemClick(ImageCapture item, int position) {
+        if (selectedPosition == position) {
+            return;
+        }
         selectedPosition = position;
         if (!item.isFromFile()) {
             showImagePreview(item.getResourceId());
         } else {
             showImagePreview(item.getFilepath());
         }
-
-
     }
 }
