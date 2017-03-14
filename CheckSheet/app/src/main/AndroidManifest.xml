@@ -11,6 +11,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Spection Check"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -26,6 +27,7 @@
             android:name=".ui.activity.CheckActivity"
             android:label="@string/title_activity_check"
             android:theme="@style/AppTheme.NoActionBar" />
+<<<<<<< HEAD
         <activity android:name=".ui.activity.SheetActivity"/>
         <activity android:name=".ui.activity.HistoryActivity"
             android:label="@string/title_activity_history" />
@@ -36,6 +38,13 @@
         <activity android:name=".ui.activity.CameraMain"/>
         <activity android:name=".ui.activity.history.KHistoryActivity"
             android:label="@string/title_activity_history" />
+=======
+        <activity android:name=".ui.activity.SheetActivity" />
+        <activity android:name=".ui.activity.HistoryActivity" />
+        <activity android:name=".ui.activity.paperSheetActivity" />
+        <activity android:name=".ui.activity.ScanActivity" />
+        <activity android:name=".ui.activity.CameraActivity"></activity>
+>>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217
     </application>
 
 </manifest>

@@ -50,6 +50,14 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
                 }
             }, 200);
         }
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+             Scan2(null);
+            }
+        }, 500);
     }
 
     @OnClick(R.id.button_back)
@@ -112,7 +120,16 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
         outState.putBoolean(FLASH_STATE, mFlash);
     }
 
+<<<<<<< HEAD
     public void moveSheetActivity() {
+=======
+//    public void toggleFlash(View v) {
+//        mFlash = !mFlash;
+//        mScannerView.setFlash(mFlash);
+//    }
+
+    public void Scan2(View v) {
+>>>>>>> a09cfe2ce70db6e42cb47541428009a38dc42217
         Intent intent = new Intent(ScanActivity.this, SheetActivity.class);
         Bundle ten_image = new Bundle();
         ten_image.putString("Seq", mSeq);
