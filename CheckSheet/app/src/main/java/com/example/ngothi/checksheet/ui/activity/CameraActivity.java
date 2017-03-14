@@ -12,7 +12,9 @@ import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.hardware.SensorManager;
 import android.media.ExifInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -22,6 +24,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import com.example.ngothi.checksheet.R;
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
 import java.io.FileNotFoundException;
@@ -35,10 +38,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     SurfaceView surfaceCamera;
     String filePath;
     boolean back = false;
-
     SurfaceHolder surfaceHolder;
-    PictureCallback rawCallback;
-    ShutterCallback shutterCallback;
     PictureCallback jpegCallback;
     private CameraOrientationListener mOrientationListener;
 
@@ -55,35 +55,33 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         jpegCallback = new PictureCallback() {// code lưu file ?nh
 
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                FileOutputStream outStream = null;
-                Date thoiGian = new Date();
-
-                int rotation = getPhotoRotation();
-
-                Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
-                float ratio = 3 / 4;
-                int width = image.getWidth() / 4;
-                int height = image.getHeight() / 4;
-
-                image = Bitmap.createScaledBitmap(image, width, height, false);
-
-                Log.e("TAG", "w:" + width + " h:" + height);
-
-                Bitmap oldBitmap = image;
-                Matrix matrix = new Matrix();
-                matrix.postRotate(rotation);
-
-                image = Bitmap.createBitmap(oldBitmap, 0, 0, (int) width, (int) height, matrix,
-                        false);
-
-                oldBitmap.recycle();
-
-                filePath = FileUtils.saveBimapToSdCard(image);
 
                 try {
+                    int rotation = getPhotoRotation();
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPurgeable = true;
+                    options.inSampleSize = 2;
+                    options.inPreferredConfig = Bitmap.Config.RGB_565;
+                    options.inDither = true;
+                    Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+                    int maxWidth = 2048;//8mp
+                    float ratio = (float) image.getWidth() / maxWidth;
+                    int width = (int) (image.getWidth() / ratio);
+                    int height = (int) (image.getHeight() / ratio);
+                    image = Bitmap.createScaledBitmap(image, width, height, false);
+                    Log.e("TAG", "w:" + width + " h:" + height);
 
+                    Bitmap oldBitmap = image;
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(rotation);
+                    image = Bitmap.createBitmap(oldBitmap, 0, 0, (int) width, (int) height, matrix,
+                            false);
+                    filePath = FileUtils.saveBimapToSdCard(image);
+                    oldBitmap.recycle();
+                    image.recycle();
                     ExifInterface newExif = new ExifInterface(filePath);
                     switch (rotation) {
                         case Surface.ROTATION_0:
@@ -104,18 +102,15 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                             break;
                     }
                     newExif.saveAttributes();
+
+                    Intent intent = new Intent();
+                    intent.putExtra("data", filePath);
+                    setResult(SheetActivity.RESULT_OK, intent);
+                    finish();
                 } catch (Exception e) {
-
+                    e.printStackTrace();
+                    Toast.makeText(CameraActivity.this, "err", Toast.LENGTH_SHORT).show();
                 }
-
-                Intent data1 = new Intent();
-                Bundle ten_image = new Bundle();
-                ten_image.putString("tenfile", filePath);
-                data1.putExtra("GoiTen", ten_image);
-                setResult(SheetActivity.RESULT_OK, data1);
-                finish();
-
-                ;
             }
         };
     }
@@ -170,8 +165,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Log.d("down", "focusing now");
 
             camera.autoFocus(null);
@@ -230,11 +225,15 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         camera = null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private int getPhotoRotation() {
         int rotation;
         int orientation = mOrientationListener.getRememberedNormalOrientation();
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(mCameraID, info);
+        if (info.canDisableShutterSound) {
+            camera.enableShutterSound(false);
+        }
 
         if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             rotation = (info.orientation - orientation + 360) % 360;

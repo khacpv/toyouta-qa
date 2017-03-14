@@ -7,9 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Size;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by FRAMGIA\hoang.van.cuong on 13/03/2017.
@@ -25,22 +29,17 @@ public class ImageDrawing extends ImageView {
     private Paint mBitmapPaint;
     Context context;
     private Paint mPaint;
-    private Paint circlePaint;
-    private Path circlePath;
     private boolean clearCanvas = false;
+    private Size mSize;
+    private String sourcePath;
+    private int resourceId = -1;
+    List<Path> mPathsLine = new ArrayList<>();
+    OnImageDrawListener mOnImageDrawListener;
 
     public void init(Context context) {
         this.context = context;
         mPath = new Path();
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
-        circlePaint = new Paint();
-        circlePath = new Path();
-        circlePaint.setAntiAlias(true);
-        circlePaint.setColor(Color.BLUE);
-        circlePaint.setStyle(Paint.Style.STROKE);
-        circlePaint.setStrokeJoin(Paint.Join.MITER);
-        circlePaint.setStrokeWidth(4f);
-
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -49,6 +48,7 @@ public class ImageDrawing extends ImageView {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(4f);
+        mSize = new Size(0, 0);
     }
 
     public ImageDrawing(Context context) {
@@ -66,9 +66,57 @@ public class ImageDrawing extends ImageView {
         init(context);
     }
 
+    public List<Path> getPathsLine() {
+        return mPathsLine;
+    }
+
+    public Size getSize() {
+        return mSize;
+    }
+
+    public Paint getPaint() {
+        return mPaint;
+    }
+
+    public String getSourcePath() {
+        return sourcePath;
+    }
+
+    public void setSourcePath(String sourcePath) {
+        this.sourcePath = sourcePath;
+        resourceId = -1;
+    }
+
+    public int getResourceId() {
+        return resourceId;
+    }
+
+    public void setOnImageDrawListener(OnImageDrawListener onImageDrawListener) {
+        mOnImageDrawListener = onImageDrawListener;
+    }
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public void drawPath(final List<Path> paths) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                mPathsLine.addAll(paths);
+                for (Path path : mPathsLine) {
+                    mCanvas.drawPath(path, mPaint);
+                }
+                invalidate();
+            }
+        });
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        mSize.setWidth(w);
+        mSize.setHeight(h);
         if (w == 0 || h == 0) {
             return;
         }
@@ -85,8 +133,12 @@ public class ImageDrawing extends ImageView {
             return;
         }
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+        addPath(mPath);
         canvas.drawPath(mPath, mPaint);
-        //canvas.drawPath(circlePath, circlePaint);
+    }
+
+    private void addPath(Path path) {
+        mPathsLine.add(new Path(path));
     }
 
     private float mX, mY;
@@ -106,17 +158,15 @@ public class ImageDrawing extends ImageView {
             mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
             mX = x;
             mY = y;
-
-            circlePath.reset();
-            circlePath.addCircle(mX, mY, 30, Path.Direction.CW);
         }
     }
 
     private void touch_up() {
         mPath.lineTo(mX, mY);
-        circlePath.reset();
         // commit the path to our offscreen
+        addPath(mPath);
         mCanvas.drawPath(mPath, mPaint);
+
         // kill this so we don't double draw
         mPath.reset();
     }
@@ -138,13 +188,57 @@ public class ImageDrawing extends ImageView {
             case MotionEvent.ACTION_UP:
                 touch_up();
                 invalidate();
+                if (mOnImageDrawListener != null) {
+                    mOnImageDrawListener.onDrawComplete(mPathsLine);
+                }
+
                 break;
         }
         return true;
     }
 
+    @Override
+    public void setImageResource(int resId) {
+        super.setImageResource(resId);
+        this.resourceId = resId;
+        setSourcePath(null);
+    }
+
     public void clearDraw() {
+        if (mCanvas == null) return;
         mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        mPathsLine.clear();
         invalidate();
+    }
+
+    public class Size {
+
+        private int width;
+        private int height;
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        public Size(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    public interface OnImageDrawListener {
+        void onDrawComplete(List<Path> paths);
     }
 }

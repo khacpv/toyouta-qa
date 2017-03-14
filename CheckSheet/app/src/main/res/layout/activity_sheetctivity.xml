@@ -25,8 +25,9 @@
     <LinearLayout
         android:id="@+id/lyTop"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:layout_below="@id/stepCount"
+        android:layout_margin="5dp"
         android:orientation="horizontal"
         >
         <android.support.v7.widget.RecyclerView
@@ -112,13 +113,12 @@
         android:layout_margin="5dp"
         >
         <com.example.ngothi.checksheet.ui.activity.view.ImageDrawing
-            android:id="@+id/image12"
+            android:id="@+id/imagePreview"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/lopoto"
             />
     </RelativeLayout>
 

@@ -44,6 +44,7 @@ public class FileUtils {
             FileOutputStream fos = new FileOutputStream(filePath);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
+            bitmap.recycle();
             fos.close();
             return true;
         } catch (Exception e) {

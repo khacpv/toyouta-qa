@@ -53,6 +53,14 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                 }
             }, 200);
         }
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+             Scan2(null);
+            }
+        }, 500);
     }
 
     @Override
