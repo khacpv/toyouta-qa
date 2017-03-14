@@ -37,6 +37,7 @@
         <activity android:name=".ui.activity.KHistoryActivity"
             android:label="@string/title_activity_history" />
         <activity android:name=".ui.activity.CameraActivity"></activity>
+        <activity android:name=".ui.activity.KHistoryDetailActivity"/>
     </application>
 
 </manifest>

@@ -78,7 +78,7 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
     @Override
     public void onPause() {
         super.onPause();
-        mScannerView.stopCamera();           // Stop camera on pause
+        mScannerView.stopCameraPreview();           // Stop camera on pause
     }
 
     @Override
