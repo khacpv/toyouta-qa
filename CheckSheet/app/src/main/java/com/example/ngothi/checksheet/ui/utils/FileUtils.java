@@ -15,23 +15,24 @@ import java.util.Date;
 
 public class FileUtils {
     public static String getDirectory() {
-        String directoryName = "toyota-capture";
-        File file = new File(Environment.getExternalStorageDirectory(), directoryName);
-        if (!file.exists()) {
-            file.mkdir();
-        }
-
-        File noMediaFile = new File(file.getAbsolutePath(), ".nomedia");
-        if (!noMediaFile.exists()) {
-            try {
-                noMediaFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            String directoryName = "toyota-capture";
+            File file = new File(Environment.getExternalStorageDirectory(), directoryName);
+            if (!file.exists()) {
+                file.mkdir();
             }
-        }
-        return file.getAbsolutePath();
-    }
 
+            File noMediaFile = new File(file.getAbsolutePath(), ".nomedia");
+            if (!noMediaFile.exists()) {
+
+                noMediaFile.createNewFile();
+            }
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static String getCaptureImageName() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_hhmmss");

@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">CheckSheet</string>
     <string name="title_activity_check">CheckActivity</string>
+    <string name="title_activity_scan">SCAN MODEL XE</string>
+    <string name="title_activity_history">Lịch sử kiểm tra</string>
+    <string name="scan_model">QUÉT MODEL</string>
+    <string name="review">XEM LẠI</string>
+    <string name="setting">CÀI ĐẶT</string>
     <string name="real_check">Thực tế</string>
+    <string name="saving_image">Lưu ảnh...</string>
+    <string name="capture_error">Không thể chụp ảnh, tắt app và bật lại, sau đó thử lại...</string>
 </resources>
