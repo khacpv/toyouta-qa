@@ -132,6 +132,7 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
 
     @Override
     protected void onDestroy() {
+        mScannerView.stopCamera();
         super.onDestroy();
     }
 

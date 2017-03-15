@@ -1,9 +1,22 @@
 package com.example.ngothi.checksheet.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.ngothi.checksheet.R;
+import com.example.ngothi.checksheet.ui.adapter.HistoryDetailRecyclerAdapter;
+import com.example.ngothi.checksheet.ui.model.HistoryDetailObj;
+import com.example.ngothi.checksheet.ui.model.HistoryObj;
+import com.example.ngothi.checksheet.ui.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 
 /**
@@ -12,13 +25,13 @@ import com.example.ngothi.checksheet.R;
 
 public class KHistoryDetailActivity extends BaseActivity {
 
-    RecyclerView mRecyclerBanhXe;
-    RecyclerView mRecyclerThanXe;
-    RecyclerView mRecyclerVoLang;
-    RecyclerView mRecyclerLop;
-    RecyclerView mRecyclerKhung;
-    RecyclerView mRecyclerSuon;
-    RecyclerView mRecyclerMui;
+    @BindView(R.id.list)
+    RecyclerView mRecyclerHistoryDetail;
+
+    private HistoryDetailRecyclerAdapter historyDetailRecyclerAdapter;
+    private List<HistoryDetailObj> historyDetailObjList = new ArrayList<>();
+
+    private HistoryObj historyObj;
 
     @Override
     public int getResourceLayout() {
@@ -27,19 +40,24 @@ public class KHistoryDetailActivity extends BaseActivity {
 
     @Override
     public void afterSetcontenview() {
-        initViews();
+
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        historyObj = (HistoryObj) intent.getSerializableExtra(Constants.HISTORY_OBJ);
+        historyDetailObjList = historyObj.getHistoryDetailObjList();
+        setTitle(historyObj.getmNameCar());
+        initRecycler();
+    }
 
+    private void initRecycler() {
+        mRecyclerHistoryDetail.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecyclerHistoryDetail.setHasFixedSize(true);
 
-    private void initViews() {
-//        mRecyclerBanhXe = (RecyclerView) findViewById(R.id.layout_banhxe).findViewById(R.id.list);
-//        mRecyclerThanXe = (RecyclerView) findViewById(R.id.layout_thanxe).findViewById(R.id.list);
-//        mRecyclerVoLang = (RecyclerView) findViewById(R.id.layout_volang).findViewById(R.id.list);
-//        mRecyclerLop = (RecyclerView) findViewById(R.id.layout_lop).findViewById(R.id.list);
-//        mRecyclerKhung = (RecyclerView) findViewById(R.id.layout_khung).findViewById(R.id.list);
-//        mRecyclerSuon = (RecyclerView) findViewById(R.id.layout_suon).findViewById(R.id.list);
-//        mRecyclerMui = (RecyclerView) findViewById(R.id.layout_mui).findViewById(R.id.list);
-
+        historyDetailRecyclerAdapter = new HistoryDetailRecyclerAdapter(this, historyDetailObjList);
+        mRecyclerHistoryDetail.setAdapter(historyDetailRecyclerAdapter);
     }
 }
