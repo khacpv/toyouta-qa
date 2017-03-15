@@ -1,9 +1,9 @@
 package com.example.ngothi.checksheet.ui.activity;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,7 +33,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void afterSetcontenview() {
-
         requestPermissionWrite();
     }
 
@@ -100,6 +99,7 @@ public class MainActivity extends BaseActivity {
         moveIntent(ScanActivity.class);
         // moveIntent(SheetActivity.class);
     }
+
 
     @OnClick(R.id.history)
     void moveHistoryActivity() {

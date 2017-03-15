@@ -181,6 +181,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     public void surfaceDestroyed(SurfaceHolder holder) {
         mOrientationListener.disable();
         if (camera == null) {
+
             return;
         }
         camera.stopPreview();
