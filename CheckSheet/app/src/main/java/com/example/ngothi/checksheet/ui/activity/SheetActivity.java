@@ -100,7 +100,7 @@ public class SheetActivity extends AppCompatActivity implements OnItemListener<I
 
     public void okClick(View v) {
        /* String fileOut = CanvasUtils.createImage(getApplicationContext(), R.drawable.lopoto,
-                FileUtils.getDirectoryImageCapturePath() + "/" + FileUtils.getCaptureImageName(),
+                FileUtils.getDirectory() + "/" + FileUtils.getCaptureImageName(),
                 imagePreview.getPathsLine(), imagePreview.getPaint(), imagePreview.getSize());*/
 
         String fileOut =

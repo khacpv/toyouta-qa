@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.widget.ImageView;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -15,9 +14,8 @@ import java.util.Date;
  */
 
 public class FileUtils {
-    public static String getDirectoryImageCapturePath() {
-        String directoryName = "toyato-capture";
-
+    public static String getDirectory() {
+        String directoryName = "toyota-capture";
         File file = new File(Environment.getExternalStorageDirectory(), directoryName);
         if (!file.exists()) {
             file.mkdir();
@@ -33,6 +31,7 @@ public class FileUtils {
         }
         return file.getAbsolutePath();
     }
+
 
     public static String getCaptureImageName() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_hhmmss");
@@ -55,7 +54,7 @@ public class FileUtils {
 
     public static String saveBimapToSdCard(Bitmap bitmap) {
         try {
-            File file = new File(getDirectoryImageCapturePath(), getCaptureImageName());
+            File file = new File(getDirectory(), getCaptureImageName());
             FileOutputStream fos = new FileOutputStream(file.getAbsolutePath());
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
