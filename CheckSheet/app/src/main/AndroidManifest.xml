@@ -2,12 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ngothi.checksheet">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
-    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera"/>
     <application
+        android:name=".ui.ToyotaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Spection Check"
@@ -15,27 +16,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="AA_SERIALIZERS"
+            android:value="com.example.ngothi.checksheet.ui.model.ListGsonSerializer,com.example.ngothi.checksheet.ui.model.ListCategorySerializer"/>
+
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="Toyota_DB.db"/>
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="2"/>
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.example.ngothi.checksheet.ui.model.SettingModel"/>
         <activity android:name=".ui.activity.MainActivity">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.CheckActivity"
+            android:name=".ui.activity.SettingActivity"
             android:label="@string/title_activity_check"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.activity.SheetActivity"/>
-        <activity android:name=".ui.activity.HistoryActivity"
-            android:label="@string/title_activity_history" />
-        <activity android:name=".ui.activity.paperSheetActivity" />
+        <activity
+            android:name=".ui.activity.HistoryActivity"
+            android:label="@string/title_activity_history"/>
+        <activity android:name=".ui.activity.paperSheetActivity"/>
         <activity
             android:name=".ui.activity.ScanActivity"
-            android:label="@string/title_activity_scan" />
-        <activity android:name=".ui.activity.KHistoryActivity"
-            android:label="@string/title_activity_history" />
+            android:label="@string/title_activity_scan"/>
+        <activity
+            android:name=".ui.activity.KHistoryActivity"
+            android:label="@string/title_activity_history"/>
         <activity android:name=".ui.activity.CameraActivity"></activity>
         <activity android:name=".ui.activity.KHistoryDetailActivity"/>
     </application>

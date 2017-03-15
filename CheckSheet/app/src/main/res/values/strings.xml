@@ -9,4 +9,8 @@
     <string name="real_check">Thực tế</string>
     <string name="saving_image">Lưu ảnh...</string>
     <string name="capture_error">Không thể chụp ảnh, tắt app và bật lại, sau đó thử lại...</string>
+    <string name="input_position">Nhập vị trí</string>
+    <string name="data_syn">Dữ liệu đang đồng bộ...</string>
+    <string name="save">Lưu</string>
+    <string name="step_by_step">Bước : %1$d / %2$d</string>
 </resources>

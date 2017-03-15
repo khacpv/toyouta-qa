@@ -1,9 +1,9 @@
 package com.example.ngothi.checksheet.ui.activity;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -12,8 +12,11 @@ import android.view.Window;
 import android.widget.Toast;
 import butterknife.OnClick;
 import com.example.ngothi.checksheet.R;
+import com.example.ngothi.checksheet.ui.model.CategoyCheck;
+import com.example.ngothi.checksheet.ui.model.SettingModel;
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class MainActivity extends BaseActivity {
 
@@ -34,6 +37,22 @@ public class MainActivity extends BaseActivity {
     @Override
     public void afterSetcontenview() {
         requestPermissionWrite();
+
+        CategoyCheck categoyCheck1 = new CategoyCheck();
+        categoyCheck1.setNoStt(0);
+        categoyCheck1.setName("Hang muc 1");
+        categoyCheck1.setSpecificities(Arrays.asList("xanh", "dep"));
+
+        CategoyCheck categoyCheck2 = new CategoyCheck();
+        categoyCheck1.setNoStt(1);
+        categoyCheck1.setName("Hang muc 2");
+        categoyCheck1.setSpecificities(Arrays.asList("do", "trang"));
+
+        SettingModel settingModel = new SettingModel();
+        settingModel.setCarModel("INNOVA");
+        settingModel.setCategoyChecks(Arrays.asList(categoyCheck1, categoyCheck2));
+
+        settingModel.save();
     }
 
     private void createDirectory() {
@@ -79,7 +98,6 @@ public class MainActivity extends BaseActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE
                 }, 1);
-
             }
         }
     }
@@ -96,10 +114,9 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.scan)
     void moveScanActivity() {
-        moveIntent(ScanActivity.class);
-        // moveIntent(SheetActivity.class);
+        //moveIntent(ScanActivity.class);
+         moveIntent(SheetActivity.class);
     }
-
 
     @OnClick(R.id.history)
     void moveHistoryActivity() {
@@ -108,7 +125,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.setting)
     void moveSettingActivity() {
-        moveIntent(CheckActivity.class);
+        moveIntent(SettingActivity.class);
     }
 
     private void moveIntent(Class c) {

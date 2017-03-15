@@ -1,29 +1,24 @@
 package com.example.ngothi.checksheet.ui.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Path;
 import android.media.AudioManager;
 import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -31,12 +26,16 @@ import com.example.ngothi.checksheet.R;
 import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
 import com.example.ngothi.checksheet.ui.adapter.StepImageAdapter;
 import com.example.ngothi.checksheet.ui.event.OnItemListener;
+import com.example.ngothi.checksheet.ui.model.CategoyCheck;
 import com.example.ngothi.checksheet.ui.model.ImageCapture;
+import com.example.ngothi.checksheet.ui.model.SettingModel;
 import com.example.ngothi.checksheet.ui.utils.CanvasUtils;
+import com.example.ngothi.checksheet.ui.utils.DrawableUtils;
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SheetActivity extends BaseActivity implements OnItemListener<ImageCapture> {
@@ -49,6 +48,18 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     @BindView(R.id.lyImage)
     RelativeLayout lyImage;
 
+    @BindView(R.id.tvGrade)
+    TextView tvGrade;
+
+    @BindView(R.id.tvSequence)
+    TextView tvSequence;
+
+    @BindView(R.id.tvCategory)
+    TextView tvCategory;
+
+    @BindView(R.id.tvStepCount)
+    TextView tvStepCount;
+
     int REQUEST_ID_IMAGE_CAPTURE = 1000;
     int widthImageCapture;
     int heightImageCapture;
@@ -56,6 +67,13 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     StepImageAdapter mStepImageAdapter;
     List<ImageCapture> mImageCaptures = new ArrayList<>();
     private int selectedPosition = 0;
+
+    private String mSequence = "1H00543";
+    private String mGrade = "2403";
+    private SettingModel mSettingModel;
+    private int currentStep = 1;
+    private int maxStep;
+    private CategoyCheck currenCategory;
 
     @Override
     public int getResourceLayout() {
@@ -85,9 +103,9 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
                     }
                 });
 
-        mImageCaptures.add(new ImageCapture.Builder().setFromFile(false)
+     /*   mImageCaptures.add(new ImageCapture.Builder().setFromFile(false)
                 .setResourceId(R.drawable.lopoto)
-                .build());
+                .build());*/
 
         mStepImageAdapter = new StepImageAdapter(getApplicationContext(), mImageCaptures, this);
         LinearLayoutManager layoutManager =
@@ -96,14 +114,103 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
         rcvImage.setHasFixedSize(true);
         rcvImage.setLayoutManager(layoutManager);
         rcvImage.setAdapter(mStepImageAdapter);
+
+        initData();
+    }
+
+    private void initData() {
+        fakeData();
+
+        currentStep = 1;
+        currenCategory = mSettingModel.getCategoyChecks().get(currentStep - 1);
+        maxStep = mSettingModel.getCategoyChecks().size();
+        refreshStepView();
+
+        tvGrade.setText(
+                "GRADE " + mSettingModel.getCarModel() + " : " + mSettingModel.getCarModelName());
+        tvSequence.setText("SEQUENCE: "+mSequence);
+
+        refreshCurrentCategory();
+    }
+
+    private void refreshCurrentCategory() {
+        tvCategory.setText(currenCategory.getName());
+        if (currenCategory.getImageDefaul() != null) {
+            mStepImageAdapter.clear();
+            selectedPosition=0;
+            mStepImageAdapter.addImage(new ImageCapture.Builder().setFromFile(false)
+                    .setResourceId(DrawableUtils.getResourceIdFromName(getApplicationContext(),
+                            currenCategory.getImageDefaul()))
+                    .build());
+            showImagePreview(mImageCaptures.get(0).getResourceId());
+        }
+    }
+
+    private void refreshStepView() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String step =
+                        String.format(getResources().getString(R.string.step_by_step), currentStep,
+                                maxStep);
+                tvStepCount.setText(step);
+            }
+        });
+    }
+
+    private void fakeData() {
+
+        CategoyCheck categoyCheck1 = new CategoyCheck();
+        categoyCheck1.setNoStt(0);
+        categoyCheck1.setName("Kiem tra lop ");
+        categoyCheck1.setSpecificities(Arrays.asList("xanh", "dep"));
+        categoyCheck1.setImageDefaul("lopoto");
+
+        CategoyCheck categoyCheck2 = new CategoyCheck();
+        categoyCheck2.setNoStt(1);
+        categoyCheck2.setName("Kiem tra canh cua");
+        categoyCheck2.setSpecificities(Arrays.asList("to", "vuong"));
+        categoyCheck2.setImageDefaul("canhcua");
+
+        CategoyCheck categoyCheck3 = new CategoyCheck();
+        categoyCheck3.setNoStt(2);
+        categoyCheck3.setName("Kiem tra den pha");
+        categoyCheck3.setSpecificities(Arrays.asList("sang ", "trang"));
+        categoyCheck3.setImageDefaul("denpha");
+
+        mSettingModel = new SettingModel();
+        mSettingModel.setCarModel("2403");
+        mSettingModel.setCarModelName("INNOVA HA");
+
+        List<CategoyCheck> categoyChecks=new ArrayList<>();
+        categoyChecks.add(categoyCheck1);
+        categoyChecks.add(categoyCheck2);
+        categoyChecks.add(categoyCheck3);
+        mSettingModel.setCategoyChecks(categoyChecks);
     }
 
     public void okClick(View v) {
-
-        new SaveImageTask().execute();
+        if (currentStep == maxStep) {
+            startActivity(new Intent(SheetActivity.this, paperSheetActivity.class));
+            finish();
+            return;
+        }
+        currentStep++;
+        currenCategory = mSettingModel.getCategoyChecks().get(currentStep - 1);
+        refreshStepView();
+        refreshCurrentCategory();
     }
 
     public void notGoodClick(View v) {
+        if (currentStep == maxStep) {
+            startActivity(new Intent(SheetActivity.this, paperSheetActivity.class));
+            finish();
+            return;
+        }
+        currentStep++;
+        currenCategory = mSettingModel.getCategoyChecks().get(currentStep - 1);
+        refreshStepView();
+        refreshCurrentCategory();
     }
 
     public void captureClick(View v) {
@@ -121,6 +228,11 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     }
 
     public void showImagePreview(int resourceId) {
+        if (resourceId < 0) {
+            imagePreview.setVisibility(View.GONE);
+            return;
+        }
+        imagePreview.setVisibility(View.VISIBLE);
         Glide.with(getApplicationContext())
                 .load(resourceId)
                 .asBitmap()
@@ -134,6 +246,12 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     }
 
     public void showImagePreview(final String filePath) {
+        if (filePath == null) {
+            imagePreview.setVisibility(View.GONE);
+            return;
+        }
+        imagePreview.setVisibility(View.VISIBLE);
+
         Glide.with(getApplicationContext())
                 .load(new File(filePath))
                 .asBitmap()
@@ -174,6 +292,11 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     }
 
     public void displayBitmap(Bitmap originBitmap) {
+
+        if (mImageCaptures.size() == 0) {
+            return;
+        }
+
         imagePreview.clearDraw();
         widthImageCapture = originBitmap.getWidth();
         heightImageCapture = originBitmap.getHeight();
@@ -249,7 +372,6 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
                 e.printStackTrace();
                 return null;
             }
-
         }
 
         return fileOut;
