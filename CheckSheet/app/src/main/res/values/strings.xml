@@ -9,4 +9,6 @@
     <string name="real_check">Thực tế</string>
     <string name="saving_image">Lưu ảnh...</string>
     <string name="capture_error">Không thể chụp ảnh, tắt app và bật lại, sau đó thử lại...</string>
+    <string name="number_step">%1$d. %2$s</string>
+    <string name="number_error">%d lỗi</string>
 </resources>
