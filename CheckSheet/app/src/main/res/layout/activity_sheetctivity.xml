@@ -25,7 +25,7 @@
     <LinearLayout
         android:id="@+id/lyTop"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_below="@id/stepCount"
         android:layout_margin="5dp"
         android:orientation="horizontal"

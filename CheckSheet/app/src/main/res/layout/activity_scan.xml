@@ -34,13 +34,13 @@
             android:textStyle="bold" />
 
         <Button
-            android:onClick="back1"
+            android:id="@+id/button_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="80dp"
             android:layout_marginRight="80dp"
             android:layout_marginTop="60dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_scan"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"

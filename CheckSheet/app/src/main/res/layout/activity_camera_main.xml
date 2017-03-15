@@ -15,16 +15,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/surfaceCamera"
-        android:background="#000"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:orientation="horizontal"
-        android:weightSum="1"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:background="#00ffffff"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:weightSum="1"
         >
         <ImageView
             android:id="@+id/btnBack1"
@@ -42,6 +41,7 @@
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             android:layout_marginLeft="10dp"
             android:onClick="back"
             android:src="@drawable/bg_close_capture"

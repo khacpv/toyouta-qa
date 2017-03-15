@@ -29,12 +29,13 @@ public class CanvasUtils {
         float ratio = (float) bitmap.getWidth() / viewSize.getWidth();
         Matrix matrix = new Matrix();
         matrix.setScale(ratio, ratio);
-
+        Paint mPaint=new Paint(paint);
+        mPaint.setStrokeWidth(paint.getStrokeWidth() * ratio);
         for (Path path : paths) {
             Path mPath = new Path();
             mPath.addPath(path, matrix);
             canvas.drawBitmap(mutableBitmap, 0, 0, mBitmapPaint);
-            canvas.drawPath(mPath, paint);
+            canvas.drawPath(mPath, mPaint);
         }
 
         try {
@@ -58,12 +59,13 @@ public class CanvasUtils {
         float ratio = (float) bitmap.getWidth() / viewSize.getWidth();
         Matrix matrix = new Matrix();
         matrix.setScale(ratio, ratio);
-
+        Paint mPaint=new Paint(paint);
+        mPaint.setStrokeWidth(paint.getStrokeWidth() * ratio);
         for (Path path : paths) {
             Path mPath = new Path();
             mPath.addPath(path, matrix);
             canvas.drawBitmap(mutableBitmap, 0, 0, null);
-            canvas.drawPath(mPath, paint);
+            canvas.drawPath(mPath, mPaint);
         }
 
         try {
