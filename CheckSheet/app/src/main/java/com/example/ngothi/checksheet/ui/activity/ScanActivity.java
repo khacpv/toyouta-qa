@@ -35,26 +35,32 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
         mScannerView.setFlash(mFlash);
         mScannerView.setAutoFocus(true);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[] { Manifest.permission.CAMERA },
                         CAMERA_REQUEST_CODE);
             } else {
-                new Handler().postDelayed(new Runnable() {
+                new Handler().post(new Runnable() {
                     @Override
                     public void run() {
                         mScannerView.startCamera();
                     }
-                }, 200);
+                });
             }
         } else {
-            new Handler().postDelayed(new Runnable() {
+            new Handler().post(new Runnable() {
                 @Override
                 public void run() {
                     mScannerView.startCamera();
                 }
-            }, 200);
+            });
         }
     }
 
@@ -77,10 +83,7 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
     public void onPause() {
         super.onPause();
         mScannerView.stopCamera();
-
     }
-
-
 
     @Override
     public void handleResult(Result result) {
@@ -95,7 +98,7 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
                 finish();
                 moveSheetActivity();
             }
-        }, 2000);
+        }, 10);
     }
 
     @Override
@@ -109,7 +112,7 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
                     public void run() {
                         mScannerView.startCamera();
                     }
-                }, 200);
+                }, 50);
             } else {
 
             }

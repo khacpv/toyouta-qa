@@ -15,6 +15,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,9 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
 
     @BindView(R.id.tvStepCount)
     TextView tvStepCount;
+
+    @BindView(R.id.inputNote)
+    EditText inputNote;
 
     int REQUEST_ID_IMAGE_CAPTURE = 1000;
     int widthImageCapture;
@@ -128,16 +132,17 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
 
         tvGrade.setText(
                 "GRADE " + mSettingModel.getCarModel() + " : " + mSettingModel.getCarModelName());
-        tvSequence.setText("SEQUENCE: "+mSequence);
+        tvSequence.setText("SEQUENCE: " + mSequence);
 
         refreshCurrentCategory();
     }
 
     private void refreshCurrentCategory() {
+        inputNote.setText("");
         tvCategory.setText(currenCategory.getName());
         if (currenCategory.getImageDefaul() != null) {
             mStepImageAdapter.clear();
-            selectedPosition=0;
+            selectedPosition = 0;
             mStepImageAdapter.addImage(new ImageCapture.Builder().setFromFile(false)
                     .setResourceId(DrawableUtils.getResourceIdFromName(getApplicationContext(),
                             currenCategory.getImageDefaul()))
@@ -182,7 +187,7 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
         mSettingModel.setCarModel("2403");
         mSettingModel.setCarModelName("INNOVA HA");
 
-        List<CategoyCheck> categoyChecks=new ArrayList<>();
+        List<CategoyCheck> categoyChecks = new ArrayList<>();
         categoyChecks.add(categoyCheck1);
         categoyChecks.add(categoyCheck2);
         categoyChecks.add(categoyCheck3);
