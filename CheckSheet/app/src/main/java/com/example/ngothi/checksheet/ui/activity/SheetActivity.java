@@ -30,6 +30,7 @@ import com.example.ngothi.checksheet.ui.event.OnItemListener;
 import com.example.ngothi.checksheet.ui.model.CategoyCheck;
 import com.example.ngothi.checksheet.ui.model.ImageCapture;
 import com.example.ngothi.checksheet.ui.model.SettingModel;
+import com.example.ngothi.checksheet.ui.model.Step;
 import com.example.ngothi.checksheet.ui.utils.CanvasUtils;
 import com.example.ngothi.checksheet.ui.utils.DrawableUtils;
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
@@ -79,6 +80,9 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     private int maxStep;
     private CategoyCheck currenCategory;
 
+    private List<Step> mSteps = new ArrayList<>();
+    private Step mStep;
+
     @Override
     public int getResourceLayout() {
         return R.layout.activity_sheetctivity;
@@ -125,11 +129,16 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     private void initData() {
         fakeData();
 
+        if (mSettingModel.getCategoyChecks().size() == 0) {
+            return;
+        }
         currentStep = 1;
         currenCategory = mSettingModel.getCategoyChecks().get(currentStep - 1);
         maxStep = mSettingModel.getCategoyChecks().size();
+        mStep = new Step();
+        mStep.setNoNumber(currentStep);
+        mStep.setCategoyCheck(currenCategory);
         refreshStepView();
-
         tvGrade.setText(
                 "GRADE " + mSettingModel.getCarModel() + " : " + mSettingModel.getCarModelName());
         tvSequence.setText("SEQUENCE: " + mSequence);
@@ -194,16 +203,21 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
         mSettingModel.setCategoyChecks(categoyChecks);
     }
 
-    public void okClick(View v) {
-        // TODO update logic later. it's for demo only
-        switch (v.getId()){
-            case R.id.ok1:
-                paperSheetActivity.stepIsOk[currentStep-1] = true;
-                break;
-            case R.id.NG:
-                paperSheetActivity.hasError = true;
-                paperSheetActivity.stepIsOk[currentStep-1] = false;
-                break;
+    private void onStepCheckDone(boolean isGood) {
+
+        for (ImageCapture imageCapture : mImageCaptures) {
+            if (imageCapture.isFromFile()) {
+                mStep.addImage(imageCapture.getFilepath());
+            }else{
+                if(imageCapture.isEditted()){
+                    mStep.addImage(imageCapture.getFilepath());
+                }
+            }
+
+        }
+
+        if (mStep != null) {
+            mSteps.add(mStep);
         }
 
         if (currentStep == maxStep) {
@@ -214,31 +228,40 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
 
         currentStep++;
         currenCategory = mSettingModel.getCategoyChecks().get(currentStep - 1);
+        mStep = new Step();
+        mStep.setNoNumber(currentStep);
+        mStep.setCategoyCheck(currenCategory);
         refreshStepView();
         refreshCurrentCategory();
     }
 
-    public void notGoodClick(View v) {
+    public void okClick(View v) {
         // TODO update logic later. it's for demo only
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ok1:
-                paperSheetActivity.stepIsOk[currentStep-1] = true;
+                paperSheetActivity.stepIsOk[currentStep - 1] = true;
                 break;
             case R.id.NG:
                 paperSheetActivity.hasError = true;
-                paperSheetActivity.stepIsOk[currentStep-1] = false;
+                paperSheetActivity.stepIsOk[currentStep - 1] = false;
                 break;
         }
 
-        if (currentStep == maxStep) {
-            startActivity(new Intent(SheetActivity.this, paperSheetActivity.class));
-            finish();
-            return;
+        onStepCheckDone(true);
+    }
+
+    public void notGoodClick(View v) {
+        // TODO update logic later. it's for demo only
+        switch (v.getId()) {
+            case R.id.ok1:
+                paperSheetActivity.stepIsOk[currentStep - 1] = true;
+                break;
+            case R.id.NG:
+                paperSheetActivity.hasError = true;
+                paperSheetActivity.stepIsOk[currentStep - 1] = false;
+                break;
         }
-        currentStep++;
-        currenCategory = mSettingModel.getCategoyChecks().get(currentStep - 1);
-        refreshStepView();
-        refreshCurrentCategory();
+        onStepCheckDone(false);
     }
 
     public void captureClick(View v) {
