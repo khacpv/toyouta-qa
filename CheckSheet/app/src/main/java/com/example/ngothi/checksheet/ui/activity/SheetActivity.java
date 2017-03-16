@@ -195,11 +195,23 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     }
 
     public void okClick(View v) {
+        // TODO update logic later. it's for demo only
+        switch (v.getId()){
+            case R.id.ok1:
+                paperSheetActivity.stepIsOk[currentStep-1] = true;
+                break;
+            case R.id.NG:
+                paperSheetActivity.hasError = true;
+                paperSheetActivity.stepIsOk[currentStep-1] = false;
+                break;
+        }
+
         if (currentStep == maxStep) {
             startActivity(new Intent(SheetActivity.this, paperSheetActivity.class));
             finish();
             return;
         }
+
         currentStep++;
         currenCategory = mSettingModel.getCategoyChecks().get(currentStep - 1);
         refreshStepView();
@@ -207,6 +219,17 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     }
 
     public void notGoodClick(View v) {
+        // TODO update logic later. it's for demo only
+        switch (v.getId()){
+            case R.id.ok1:
+                paperSheetActivity.stepIsOk[currentStep-1] = true;
+                break;
+            case R.id.NG:
+                paperSheetActivity.hasError = true;
+                paperSheetActivity.stepIsOk[currentStep-1] = false;
+                break;
+        }
+
         if (currentStep == maxStep) {
             startActivity(new Intent(SheetActivity.this, paperSheetActivity.class));
             finish();

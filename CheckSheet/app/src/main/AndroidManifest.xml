@@ -48,7 +48,8 @@
         <activity
             android:name=".ui.activity.HistoryActivity"
             android:label="@string/title_activity_history"/>
-        <activity android:name=".ui.activity.paperSheetActivity"/>
+        <activity android:name=".ui.activity.paperSheetActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.activity.ScanActivity"
             android:label="@string/title_activity_scan"/>
