@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
+import com.example.ngothi.checksheet.ui.model.Size;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 public class CanvasUtils {
 
     public static String createImage(String inputFile, String outputFile, List<Path> paths,
-            Paint paint, ImageDrawing.Size viewSize) {
+            Paint paint, Size viewSize) {
 
         Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 
@@ -51,7 +52,7 @@ public class CanvasUtils {
     }
 
     public static String createImage(Context context, int resouce, String outputFile,
-            List<Path> paths, Paint paint, ImageDrawing.Size viewSize) {
+            List<Path> paths, Paint paint, Size viewSize) {
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resouce);
         Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -81,7 +82,7 @@ public class CanvasUtils {
     }
 
     public static String createImage(String inputFile, List<Path> paths, Paint paint,
-            ImageDrawing.Size viewSize) {
+            Size viewSize) {
         String outputFile = inputFile;
        /* outputFile = outputFile.replace(".jpg", "_edited.jpg");
         outputFile = outputFile.replace(".JPG", "_edited.jpg");

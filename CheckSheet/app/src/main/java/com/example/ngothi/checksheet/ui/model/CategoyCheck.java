@@ -24,6 +24,9 @@ public class CategoyCheck {
     @Expose
     private String imageDefaul;
 
+    @Expose
+    private String position;
+
     public int getNoStt() {
         return mNoStt;
     }
@@ -56,5 +59,11 @@ public class CategoyCheck {
         this.imageDefaul = imageDefaul;
     }
 
+    public String getPosition() {
+        return position;
+    }
 
+    public void setPosition(String position) {
+        this.position = position;
+    }
 }

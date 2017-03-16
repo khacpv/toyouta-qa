@@ -24,16 +24,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.ngothi.checksheet.R;
+import com.example.ngothi.checksheet.ui.Common;
 import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
 import com.example.ngothi.checksheet.ui.adapter.StepImageAdapter;
 import com.example.ngothi.checksheet.ui.event.OnItemListener;
 import com.example.ngothi.checksheet.ui.model.CategoyCheck;
 import com.example.ngothi.checksheet.ui.model.ImageCapture;
 import com.example.ngothi.checksheet.ui.model.SettingModel;
+import com.example.ngothi.checksheet.ui.model.Size;
 import com.example.ngothi.checksheet.ui.model.Step;
 import com.example.ngothi.checksheet.ui.utils.CanvasUtils;
 import com.example.ngothi.checksheet.ui.utils.DrawableUtils;
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
+import com.example.ngothi.checksheet.ui.utils.GsonUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,6 +50,7 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
 
     @BindView(R.id.rcvImage)
     RecyclerView rcvImage;
+
     @BindView(R.id.lyImage)
     RelativeLayout lyImage;
 
@@ -205,23 +209,19 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
 
     private void onStepCheckDone(boolean isGood) {
 
-        for (ImageCapture imageCapture : mImageCaptures) {
-            if (imageCapture.isFromFile()) {
-                mStep.addImage(imageCapture.getFilepath());
-            }else{
-                if(imageCapture.isEditted()){
-                    mStep.addImage(imageCapture.getFilepath());
-                }
-            }
-
-        }
-
         if (mStep != null) {
+            mStep.setGood(isGood);
+            mStep.setNoteReality(inputNote.getText().toString());
+            mStep.setImageList(mImageCaptures);
             mSteps.add(mStep);
         }
 
         if (currentStep == maxStep) {
-            startActivity(new Intent(SheetActivity.this, paperSheetActivity.class));
+            Intent intent = new Intent(SheetActivity.this, ResultSheetActivity.class);
+            intent.putExtra(Common.BundleConstant.LIST_STEP, GsonUtils.Object2String(mSteps));
+            intent.putExtra(Common.BundleConstant.GRADE, mGrade);
+            intent.putExtra(Common.BundleConstant.SEQUENCE, mSequence);
+            startActivity(intent);
             finish();
             return;
         }
@@ -236,31 +236,10 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     }
 
     public void okClick(View v) {
-        // TODO update logic later. it's for demo only
-        switch (v.getId()) {
-            case R.id.ok1:
-                paperSheetActivity.stepIsOk[currentStep - 1] = true;
-                break;
-            case R.id.NG:
-                paperSheetActivity.hasError = true;
-                paperSheetActivity.stepIsOk[currentStep - 1] = false;
-                break;
-        }
-
         onStepCheckDone(true);
     }
 
     public void notGoodClick(View v) {
-        // TODO update logic later. it's for demo only
-        switch (v.getId()) {
-            case R.id.ok1:
-                paperSheetActivity.stepIsOk[currentStep - 1] = true;
-                break;
-            case R.id.NG:
-                paperSheetActivity.hasError = true;
-                paperSheetActivity.stepIsOk[currentStep - 1] = false;
-                break;
-        }
         onStepCheckDone(false);
     }
 
@@ -367,6 +346,12 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
         imagePreview.getLayoutParams().width = widthImageCapture;
         imagePreview.requestLayout();
         imagePreview.setImageBitmap(originBitmap);
+
+        //set size of imageview
+        if (mImageCaptures.get(selectedPosition).getViewSize() == null) {
+            mImageCaptures.get(selectedPosition)
+                    .setViewSize(new Size(widthImageCapture, heightImageCapture));
+        }
         if (mImageCaptures.get(selectedPosition).isEditted()) {
             imagePreview.drawPath(mImageCaptures.get(selectedPosition).getPaths());
         }
@@ -450,5 +435,11 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
                         .show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.have_to_complete),
+                Toast.LENGTH_SHORT).show();
     }
 }

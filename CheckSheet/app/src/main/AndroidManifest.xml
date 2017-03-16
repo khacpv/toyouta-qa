@@ -48,7 +48,8 @@
         <activity
             android:name=".ui.activity.HistoryActivity"
             android:label="@string/title_activity_history"/>
-        <activity android:name=".ui.activity.paperSheetActivity"
+        <activity
+            android:name=".ui.activity.ResultSheetActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.activity.ScanActivity"
@@ -58,6 +59,10 @@
             android:label="@string/title_activity_history"/>
         <activity android:name=".ui.activity.CameraActivity"></activity>
         <activity android:name=".ui.activity.KHistoryDetailActivity"/>
+
+        <service
+            android:name=".ui.activity.SaveHistoryService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

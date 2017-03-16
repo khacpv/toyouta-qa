@@ -138,7 +138,7 @@ Button ma0,ma1,ma2,ma3,cc01,cc02,cc03,cc11,cc12,cc13,cc21,cc22,cc23,cc31,cc32,cc
 
     }
     public void click_maseq0(View v){
-        Intent intent = new Intent(HistoryActivity.this, paperSheetActivity.class);
+        Intent intent = new Intent(HistoryActivity.this, ResultSheetActivity.class);
         Bundle ten_image = new Bundle();
         ten_image.putString("Seq", ma0.getText().toString());
         ten_image.putString("c1",cc01.getText().toString());
@@ -149,7 +149,7 @@ Button ma0,ma1,ma2,ma3,cc01,cc02,cc03,cc11,cc12,cc13,cc21,cc22,cc23,cc31,cc32,cc
         startActivity(intent);
     }
     public void click_maseq1(View v){
-        Intent intent = new Intent(HistoryActivity.this, paperSheetActivity.class);
+        Intent intent = new Intent(HistoryActivity.this, ResultSheetActivity.class);
         Bundle ten_image = new Bundle();
         ten_image.putString("Seq", ma1.getText().toString());
         ten_image.putString("c1",cc11.getText().toString());
@@ -160,7 +160,7 @@ Button ma0,ma1,ma2,ma3,cc01,cc02,cc03,cc11,cc12,cc13,cc21,cc22,cc23,cc31,cc32,cc
         startActivity(intent);
     }
     public void click_maseq2(View v){
-        Intent intent = new Intent(HistoryActivity.this, paperSheetActivity.class);
+        Intent intent = new Intent(HistoryActivity.this, ResultSheetActivity.class);
         Bundle ten_image = new Bundle();
         ten_image.putString("Seq", ma2.getText().toString());
         ten_image.putString("c1",cc21.getText().toString());
@@ -171,7 +171,7 @@ Button ma0,ma1,ma2,ma3,cc01,cc02,cc03,cc11,cc12,cc13,cc21,cc22,cc23,cc31,cc32,cc
         startActivity(intent);
     }
     public void click_maseq3(View v){
-        Intent intent = new Intent(HistoryActivity.this, paperSheetActivity.class);
+        Intent intent = new Intent(HistoryActivity.this, ResultSheetActivity.class);
         Bundle ten_image = new Bundle();
         ten_image.putString("Seq", ma3.getText().toString());
         ten_image.putString("c1",cc31.getText().toString());
@@ -197,7 +197,7 @@ Button ma0,ma1,ma2,ma3,cc01,cc02,cc03,cc11,cc12,cc13,cc21,cc22,cc23,cc31,cc32,cc
         }
         else
         {
-            Intent intent = new Intent(HistoryActivity.this, paperSheetActivity.class);
+            Intent intent = new Intent(HistoryActivity.this, ResultSheetActivity.class);
             Bundle ten_image = new Bundle();
             ten_image.putString("Seq", timSqe);
             ten_image.putString("c1",data.substring(index_sh+timSqe.length()+1,index_sh+timSqe.length()+3));

@@ -9,9 +9,9 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Size;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+import com.example.ngothi.checksheet.ui.model.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -211,32 +211,6 @@ public class ImageDrawing extends ImageView {
         invalidate();
     }
 
-    public class Size {
-
-        private int width;
-        private int height;
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        public Size(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-    }
 
     public interface OnImageDrawListener {
         void onDrawComplete(List<Path> paths);

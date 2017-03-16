@@ -1,5 +1,6 @@
 package com.example.ngothi.checksheet.ui.model;
 
+import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +10,15 @@ import java.util.List;
 
 public class Step {
 
+    @Expose
     private int noNumber;
+    @Expose
     private CategoyCheck mCategoyCheck;
+    @Expose
     private boolean isGood;
+    @Expose
     List<ImageCapture> mImageList;
+    @Expose
     private String mNoteReality;
 
     public Step() {

@@ -1,6 +1,8 @@
 package com.example.ngothi.checksheet.ui.model;
 
 import android.graphics.Path;
+import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
+import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +11,20 @@ import java.util.List;
  */
 
 public class ImageCapture {
+    @Expose
     private int mResourceId;
+    @Expose
     private String mFilepath;
+    @Expose
     private boolean isEditted;
+    @Expose
     private String mFileEdittedpath;
+    @Expose
     private boolean isFromFile;
+    @Expose
     private List<Path> mPaths;
+    @Expose
+    private Size mViewSize;
 
     public void setResourceId(int resourceId) {
         mResourceId = resourceId;
@@ -34,6 +44,14 @@ public class ImageCapture {
 
     public void setFromFile(boolean fromFile) {
         isFromFile = fromFile;
+    }
+
+    public Size getViewSize() {
+        return mViewSize;
+    }
+
+    public void setViewSize(Size viewSize) {
+        mViewSize = viewSize;
     }
 
     public List<Path> getPaths() {
@@ -75,6 +93,7 @@ public class ImageCapture {
         private boolean isEditted;
         private String mFileEdittedpath;
         private boolean isFromFile;
+        private Size mViewSize;
 
         public Builder setResourceId(int resourceId) {
             mResourceId = resourceId;
@@ -101,6 +120,11 @@ public class ImageCapture {
             return this;
         }
 
+        public Builder setFromFile(Size viewSize) {
+            mViewSize = viewSize;
+            return this;
+        }
+
         public ImageCapture build() {
             ImageCapture imageCapture = new ImageCapture();
             imageCapture.mResourceId = mResourceId;
@@ -108,6 +132,7 @@ public class ImageCapture {
             imageCapture.isEditted = isEditted;
             imageCapture.mFileEdittedpath = mFileEdittedpath;
             imageCapture.isFromFile = isFromFile;
+            imageCapture.mViewSize = mViewSize;
             return imageCapture;
         }
     }
