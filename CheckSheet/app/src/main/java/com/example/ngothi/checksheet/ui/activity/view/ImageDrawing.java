@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+import com.example.ngothi.checksheet.ui.model.DrawEntityPath;
 import com.example.ngothi.checksheet.ui.model.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ImageDrawing extends ImageView {
     private int resourceId = -1;
     List<Path> mPathsLine = new ArrayList<>();
     OnImageDrawListener mOnImageDrawListener;
+    List<DrawEntityPath> mDrawEntityPaths = new ArrayList<>();
 
     public void init(Context context) {
         this.context = context;
@@ -134,6 +136,8 @@ public class ImageDrawing extends ImageView {
         }
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         addPath(mPath);
+        mDrawEntityPaths.add(
+                new DrawEntityPath.Builder().action(DrawEntityPath.ACTION_DRAW).build());
         canvas.drawPath(mPath, mPaint);
     }
 
@@ -146,7 +150,12 @@ public class ImageDrawing extends ImageView {
 
     private void touch_start(float x, float y) {
         mPath.reset();
+        mDrawEntityPaths.add(
+                new DrawEntityPath.Builder().action(DrawEntityPath.ACTION_RESET).build());
         mPath.moveTo(x, y);
+        mDrawEntityPaths.add(new DrawEntityPath.Builder().action(DrawEntityPath.ACTION_MOVE_TO)
+                .data(x, y)
+                .build());
         mX = x;
         mY = y;
     }
@@ -156,6 +165,9 @@ public class ImageDrawing extends ImageView {
         float dy = Math.abs(y - mY);
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
             mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
+            mDrawEntityPaths.add(new DrawEntityPath.Builder().action(DrawEntityPath.ACTION_QUAD_TO)
+                    .data(mX, mY, (x + mX) / 2, (y + mY) / 2)
+                    .build());
             mX = x;
             mY = y;
         }
@@ -210,7 +222,6 @@ public class ImageDrawing extends ImageView {
         mPathsLine.clear();
         invalidate();
     }
-
 
     public interface OnImageDrawListener {
         void onDrawComplete(List<Path> paths);

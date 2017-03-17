@@ -119,6 +119,7 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
                 .setResourceId(R.drawable.lopoto)
                 .build());*/
 
+
         mStepImageAdapter = new StepImageAdapter(getApplicationContext(), mImageCaptures, this);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,

@@ -25,8 +25,6 @@ public class Step {
         mImageList=new ArrayList<>();
     }
 
-
-
     public int getNoNumber() {
         return noNumber;
     }
