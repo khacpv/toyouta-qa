@@ -25,6 +25,8 @@ public class ImageCapture {
     private List<Path> mPaths;
     @Expose
     private Size mViewSize;
+    @Expose
+    private List<DrawEntityPath> mDrawEntityPaths;
 
     public void setResourceId(int resourceId) {
         mResourceId = resourceId;
@@ -64,6 +66,18 @@ public class ImageCapture {
         }
         mPaths.clear();
         mPaths.addAll(paths);
+    }
+
+    public void setDrawEntityPaths(List<DrawEntityPath> paths) {
+        if (mDrawEntityPaths == null) {
+            mDrawEntityPaths = new ArrayList<>();
+        }
+        mDrawEntityPaths.clear();
+        mDrawEntityPaths.addAll(paths);
+    }
+
+    public List<DrawEntityPath> getDrawEntityPaths() {
+        return mDrawEntityPaths;
     }
 
     public int getResourceId() {

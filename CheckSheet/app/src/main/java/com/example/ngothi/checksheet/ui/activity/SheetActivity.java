@@ -29,6 +29,7 @@ import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
 import com.example.ngothi.checksheet.ui.adapter.StepImageAdapter;
 import com.example.ngothi.checksheet.ui.event.OnItemListener;
 import com.example.ngothi.checksheet.ui.model.CategoyCheck;
+import com.example.ngothi.checksheet.ui.model.DrawEntityPath;
 import com.example.ngothi.checksheet.ui.model.ImageCapture;
 import com.example.ngothi.checksheet.ui.model.SettingModel;
 import com.example.ngothi.checksheet.ui.model.Size;
@@ -96,12 +97,13 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     public void afterSetcontenview() {
         imagePreview.setOnImageDrawListener(new ImageDrawing.OnImageDrawListener() {
             @Override
-            public void onDrawComplete(List<Path> paths) {
+            public void onDrawComplete(List<Path> paths, List<DrawEntityPath> drawEntityPaths) {
                 if (mImageCaptures == null) {
                     return;
                 }
                 mImageCaptures.get(selectedPosition).setEditted(true);
                 mImageCaptures.get(selectedPosition).setPaths(paths);
+                mImageCaptures.get(selectedPosition).setDrawEntityPaths(drawEntityPaths);
             }
         });
 
@@ -118,7 +120,6 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
      /*   mImageCaptures.add(new ImageCapture.Builder().setFromFile(false)
                 .setResourceId(R.drawable.lopoto)
                 .build());*/
-
 
         mStepImageAdapter = new StepImageAdapter(getApplicationContext(), mImageCaptures, this);
         LinearLayoutManager layoutManager =
@@ -354,7 +355,7 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
                     .setViewSize(new Size(widthImageCapture, heightImageCapture));
         }
         if (mImageCaptures.get(selectedPosition).isEditted()) {
-            imagePreview.drawPath(mImageCaptures.get(selectedPosition).getPaths());
+            imagePreview.drawPath(mImageCaptures.get(selectedPosition).getDrawEntityPaths());
         }
     }
 

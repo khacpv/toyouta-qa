@@ -1,31 +1,44 @@
 package com.example.ngothi.checksheet.ui.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by FRAMGIA\hoang.van.cuong on 17/03/2017.
  */
 
 public class DrawEntityPath {
 
-    public static final String ACTION_MOVE_TO = "move_to";
-    public static final String ACTION_LINE_TO = "line_to";
-    public static final String ACTION_QUAD_TO = "quad_to";
-    public static final String ACTION_RESET = "reset";
-    public static final String ACTION_DRAW = "draw";
+    public enum Action {
+        @SerializedName("move_to")
+        ACTION_MOVE_TO,
 
-    public String action = "";
+        @SerializedName("line_to")
+        ACTION_LINE_TO,
+
+        @SerializedName("quad_to")
+        ACTION_QUAD_TO,
+
+        @SerializedName("reset")
+        ACTION_RESET,
+
+        @SerializedName("draw")
+        ACTION_DRAW,
+    }
+
+    public Action action ;
     public String data = "";
 
-    public DrawEntityPath(String action, String data) {
+    public DrawEntityPath(Action action, String data) {
         this.action = action;
         this.data = data;
     }
 
     public static class Builder {
 
-        public String action;
+        public Action action;
         public String data;
 
-        public Builder action(String action) {
+        public Builder action(Action action) {
             this.action = action;
             return this;
         }

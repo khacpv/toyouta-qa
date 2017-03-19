@@ -9,10 +9,12 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import com.example.ngothi.checksheet.ui.model.DrawEntityPath;
 import com.example.ngothi.checksheet.ui.model.Size;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +70,14 @@ public class ImageDrawing extends ImageView {
         init(context);
     }
 
+    public List<DrawEntityPath> getDrawEntityPaths() {
+        return mDrawEntityPaths;
+    }
+
+    public void setDrawEntityPaths(List<DrawEntityPath> drawEntityPaths) {
+        mDrawEntityPaths = drawEntityPaths;
+    }
+
     public List<Path> getPathsLine() {
         return mPathsLine;
     }
@@ -101,7 +111,7 @@ public class ImageDrawing extends ImageView {
         this.resourceId = resourceId;
     }
 
-    public void drawPath(final List<Path> paths) {
+    public void drawPath2(final List<Path> paths) {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -112,6 +122,44 @@ public class ImageDrawing extends ImageView {
                 invalidate();
             }
         });
+    }
+
+    public void drawPath(final List<DrawEntityPath> drawEntityPaths) {
+       new Handler().post(new Runnable() {
+           @Override
+           public void run() {
+               mDrawEntityPaths.addAll(drawEntityPaths);
+               Gson gson = new Gson();
+               String demoPath = gson.toJson(drawEntityPaths);
+               Log.e("path", demoPath);
+               Path myPath = new Path();
+               for (DrawEntityPath drawEntityPath : mDrawEntityPaths) {
+                   switch (drawEntityPath.action) {
+                       case ACTION_MOVE_TO:
+                           String[] dataMove = drawEntityPath.data.split(",");
+                           myPath.moveTo(Float.parseFloat(dataMove[0]), Float.parseFloat(dataMove[1]));
+                           break;
+
+                       case ACTION_LINE_TO:
+                           String[] dataLine = drawEntityPath.data.split(",");
+                           myPath.lineTo(Float.parseFloat(dataLine[0]), Float.parseFloat(dataLine[1]));
+                           break;
+                       case ACTION_QUAD_TO:
+                           String[] dataQuad = drawEntityPath.data.split(",");
+                           myPath.quadTo(Float.parseFloat(dataQuad[0]), Float.parseFloat(dataQuad[1]),
+                                   Float.parseFloat(dataQuad[2]), Float.parseFloat(dataQuad[3]));
+                           break;
+                       case ACTION_RESET:
+                           myPath.reset();
+                           break;
+                       case ACTION_DRAW:
+                           mCanvas.drawPath(myPath, mPaint);
+                           invalidate();
+                           break;
+                   }
+               }
+           }
+       });
     }
 
     @Override
@@ -137,7 +185,7 @@ public class ImageDrawing extends ImageView {
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         addPath(mPath);
         mDrawEntityPaths.add(
-                new DrawEntityPath.Builder().action(DrawEntityPath.ACTION_DRAW).build());
+                new DrawEntityPath.Builder().action(DrawEntityPath.Action.ACTION_DRAW).build());
         canvas.drawPath(mPath, mPaint);
     }
 
@@ -151,11 +199,12 @@ public class ImageDrawing extends ImageView {
     private void touch_start(float x, float y) {
         mPath.reset();
         mDrawEntityPaths.add(
-                new DrawEntityPath.Builder().action(DrawEntityPath.ACTION_RESET).build());
+                new DrawEntityPath.Builder().action(DrawEntityPath.Action.ACTION_RESET).build());
         mPath.moveTo(x, y);
-        mDrawEntityPaths.add(new DrawEntityPath.Builder().action(DrawEntityPath.ACTION_MOVE_TO)
-                .data(x, y)
-                .build());
+        mDrawEntityPaths.add(
+                new DrawEntityPath.Builder().action(DrawEntityPath.Action.ACTION_MOVE_TO)
+                        .data(x, y)
+                        .build());
         mX = x;
         mY = y;
     }
@@ -165,9 +214,10 @@ public class ImageDrawing extends ImageView {
         float dy = Math.abs(y - mY);
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
             mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
-            mDrawEntityPaths.add(new DrawEntityPath.Builder().action(DrawEntityPath.ACTION_QUAD_TO)
-                    .data(mX, mY, (x + mX) / 2, (y + mY) / 2)
-                    .build());
+            mDrawEntityPaths.add(
+                    new DrawEntityPath.Builder().action(DrawEntityPath.Action.ACTION_QUAD_TO)
+                            .data(mX, mY, (x + mX) / 2, (y + mY) / 2)
+                            .build());
             mX = x;
             mY = y;
         }
@@ -175,12 +225,18 @@ public class ImageDrawing extends ImageView {
 
     private void touch_up() {
         mPath.lineTo(mX, mY);
+        mDrawEntityPaths.add(
+                new DrawEntityPath.Builder().action(DrawEntityPath.Action.ACTION_LINE_TO)
+                        .data(mX, mY)
+                        .build());
         // commit the path to our offscreen
         addPath(mPath);
         mCanvas.drawPath(mPath, mPaint);
 
         // kill this so we don't double draw
         mPath.reset();
+        mDrawEntityPaths.add(
+                new DrawEntityPath.Builder().action(DrawEntityPath.Action.ACTION_RESET).build());
     }
 
     @Override
@@ -201,7 +257,7 @@ public class ImageDrawing extends ImageView {
                 touch_up();
                 invalidate();
                 if (mOnImageDrawListener != null) {
-                    mOnImageDrawListener.onDrawComplete(mPathsLine);
+                    mOnImageDrawListener.onDrawComplete(mPathsLine, mDrawEntityPaths);
                 }
 
                 break;
@@ -220,10 +276,11 @@ public class ImageDrawing extends ImageView {
         if (mCanvas == null) return;
         mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         mPathsLine.clear();
+        mDrawEntityPaths.clear();
         invalidate();
     }
 
     public interface OnImageDrawListener {
-        void onDrawComplete(List<Path> paths);
+        void onDrawComplete(List<Path> paths, List<DrawEntityPath> drawEntityPaths);
     }
 }
