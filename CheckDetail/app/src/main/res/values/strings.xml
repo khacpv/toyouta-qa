@@ -4,4 +4,6 @@
     <string name="review">XEM LẠI</string>
     <string name="setting">CÀI ĐẶT</string>
     <string name="real_check">Thực tế</string>
+    <string name="step_by_step">Bước : %1$d / %2$d</string>
+    <string name="have_to_complete">Đang trong tiến trình kiểm tra, không thể quay lại</string>
 </resources>

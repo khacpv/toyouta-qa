@@ -122,11 +122,13 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.history)
     void moveHistoryActivity() {
+        //TODO add KHistoryActivity
 //        moveIntent(KHistoryActivity.class);
     }
 
     @OnClick(R.id.setting)
     void moveSettingActivity() {
+        //TODO add SettingActivity
 //        moveIntent(SettingActivity.class);
     }
 
