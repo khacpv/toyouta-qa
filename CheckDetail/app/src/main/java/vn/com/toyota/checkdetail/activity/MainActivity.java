@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.scan)
     void moveScanActivity() {
-        //moveIntent(ScanActivity.class);
+        moveIntent(ScanActivity.class);
     }
 
     @OnClick(R.id.history)
