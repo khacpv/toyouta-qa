@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">CheckDetail</string>
+    <string name="app_name">Check Detail</string>
+    <string name="scan_model">QUÉT MODEL</string>
+    <string name="review">XEM LẠI</string>
+    <string name="setting">CÀI ĐẶT</string>
 </resources>
