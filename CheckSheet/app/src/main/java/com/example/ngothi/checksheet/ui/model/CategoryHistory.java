@@ -7,15 +7,15 @@ import java.util.List;
  * Created by kienht on 3/15/17.
  */
 
-public class HistoryDetailObj implements Serializable {
+public class CategoryHistory implements Serializable {
 
     private String mNumberStep;
     private List<ImageError> imageErrorsList;
 
-    public HistoryDetailObj() {
+    public CategoryHistory() {
     }
 
-    public HistoryDetailObj(String mNumberStep, List<ImageError> imageErrorsList) {
+    public CategoryHistory(String mNumberStep, List<ImageError> imageErrorsList) {
         this.mNumberStep = mNumberStep;
         this.imageErrorsList = imageErrorsList;
     }

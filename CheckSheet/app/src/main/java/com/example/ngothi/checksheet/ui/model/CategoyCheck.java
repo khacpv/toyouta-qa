@@ -3,7 +3,9 @@ package com.example.ngothi.checksheet.ui.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.example.ngothi.checksheet.ui.utils.GsonUtils;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
@@ -12,18 +14,23 @@ import java.util.List;
 
 public class CategoyCheck {
 
+    @SerializedName("no_stt")
     @Expose
     private int mNoStt;
 
+    @SerializedName("name")
     @Expose
     private String mName;
 
+    @SerializedName("specificities")
     @Expose
-    private List<String> mSpecificities;
+    private String mSpecificities;
 
+    @SerializedName("image_default")
     @Expose
     private String imageDefaul;
 
+    @SerializedName("position")
     @Expose
     private String position;
 
@@ -44,11 +51,11 @@ public class CategoyCheck {
     }
 
     public List<String> getSpecificities() {
-        return mSpecificities;
+        return GsonUtils.String2ListObject(mSpecificities, String[].class);
     }
 
     public void setSpecificities(List<String> specificities) {
-        mSpecificities = specificities;
+        mSpecificities = GsonUtils.Object2String(specificities);
     }
 
     public String getImageDefaul() {
