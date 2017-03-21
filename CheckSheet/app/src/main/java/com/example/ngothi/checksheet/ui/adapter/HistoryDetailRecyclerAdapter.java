@@ -65,6 +65,7 @@ public class HistoryDetailRecyclerAdapter extends RecyclerView.Adapter<HistoryDe
             super(itemView);
             ButterKnife.bind(this, itemView);
             mRecyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
+            mRecyclerView.setHasFixedSize(true);
         }
 
         public void bindData(HistoryDetailObj historyDetailObj, int position) {
