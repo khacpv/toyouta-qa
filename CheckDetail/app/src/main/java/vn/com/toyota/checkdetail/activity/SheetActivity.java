@@ -222,12 +222,11 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
         }
 
         if (currentStep == maxStep) {
-            //TODO add ResultSheetActivity
-            /*Intent intent = new Intent(SheetActivity.this, ResultSheetActivity.class);
+            Intent intent = new Intent(SheetActivity.this, ResultSheetActivity.class);
             intent.putExtra(Common.BundleConstant.LIST_STEP, GsonUtils.Object2String(mSteps));
             intent.putExtra(Common.BundleConstant.GRADE, mGrade);
             intent.putExtra(Common.BundleConstant.SEQUENCE, mSequence);
-            startActivity(intent);*/
+            startActivity(intent);
             finish();
             return;
         }

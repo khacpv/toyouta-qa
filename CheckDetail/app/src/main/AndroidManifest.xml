@@ -43,6 +43,9 @@
         <activity
             android:name=".activity.ScanActivity"
             android:label="@string/title_activity_scan"/>
+        <activity
+            android:name=".activity.ResultSheetActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
