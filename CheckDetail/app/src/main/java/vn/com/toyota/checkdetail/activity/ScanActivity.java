@@ -126,11 +126,11 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
     }
 
     public void moveSheetActivity() {
-//        Intent intent = new Intent(ScanActivity.this, SheetActivity.class);
-//        Bundle ten_image = new Bundle();
-//        ten_image.putString("Seq", mSeq);
-//        intent.putExtra("GoiTen1", ten_image);
-//        startActivity(intent);
+        Intent intent = new Intent(ScanActivity.this, SheetActivity.class);
+        Bundle ten_image = new Bundle();
+        ten_image.putString("Seq", mSeq);
+        intent.putExtra("GoiTen1", ten_image);
+        startActivity(intent);
     }
 
     @Override
