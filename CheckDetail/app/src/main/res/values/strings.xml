@@ -9,4 +9,6 @@
     <string name="have_to_complete">Đang trong tiến trình kiểm tra, không thể quay lại</string>
     <string name="category">Hạng mục</string>
     <string name="result">Kết quả</string>
+    <string name="saving_image">Lưu ảnh...</string>
+    <string name="capture_error">Không thể chụp ảnh, tắt app và bật lại, sau đó thử lại...</string>
 </resources>
