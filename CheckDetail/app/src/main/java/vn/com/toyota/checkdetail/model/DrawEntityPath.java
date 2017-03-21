@@ -1,4 +1,4 @@
-package com.example.ngothi.checksheet.ui.model;
+package vn.com.toyota.checkdetail.model;
 
 import com.google.gson.annotations.SerializedName;
 

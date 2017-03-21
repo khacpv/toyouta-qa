@@ -1,4 +1,4 @@
-package com.example.ngothi.checksheet.ui.activity.view;
+package vn.com.toyota.checkdetail.activity.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,9 +12,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import com.example.ngothi.checksheet.ui.model.DrawEntityPath;
-import com.example.ngothi.checksheet.ui.model.Size;
+
+import vn.com.toyota.checkdetail.model.DrawEntityPath;
+import vn.com.toyota.checkdetail.model.Size;
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 

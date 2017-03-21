@@ -1,11 +1,12 @@
-package com.example.ngothi.checksheet.ui.model;
+package vn.com.toyota.checkdetail.model;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
-import com.example.ngothi.checksheet.ui.utils.GsonUtils;
+import vn.com.toyota.checkdetail.utils.GsonUtils;
 import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**

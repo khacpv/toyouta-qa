@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.example.ngothi.checksheet.R;
 import com.example.ngothi.checksheet.ui.adapter.HistoryRecyclerAdapter;
-import com.example.ngothi.checksheet.ui.model.HistoryDetailObj;
-import com.example.ngothi.checksheet.ui.model.HistoryObj;
+import com.example.ngothi.checksheet.ui.model.CategoryHistory;
+import com.example.ngothi.checksheet.ui.model.History;
 import com.example.ngothi.checksheet.ui.event.RecyclerItemClickListener;
 import com.example.ngothi.checksheet.ui.utils.Constants;
 
@@ -28,7 +28,7 @@ public class KHistoryActivity extends BaseActivity {
     RecyclerView mRecyclerHistory;
 
     HistoryRecyclerAdapter historyRecyclerAdapter;
-    List<HistoryObj> historyObjList = new ArrayList<>();
+    List<History> historyObjList = new ArrayList<>();
 
     @Override
     public int getResourceLayout() {
@@ -50,23 +50,23 @@ public class KHistoryActivity extends BaseActivity {
         mRecyclerHistory.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerHistory.setHasFixedSize(true);
 
-        final List<HistoryDetailObj> historyDetailObjList = new ArrayList<>();
-        List<HistoryDetailObj.ImageError> imageErrorArrayList = new ArrayList<>();
+        final List<CategoryHistory> historyDetailObjList = new ArrayList<>();
+        List<CategoryHistory.ImageError> imageErrorArrayList = new ArrayList<>();
 
         //Fake data
-        imageErrorArrayList.add(new HistoryDetailObj().new ImageError(R.drawable.lopoto));
-        imageErrorArrayList.add(new HistoryDetailObj().new ImageError(R.drawable.lopoto));
-        imageErrorArrayList.add(new HistoryDetailObj().new ImageError(R.drawable.lopoto));
-        imageErrorArrayList.add(new HistoryDetailObj().new ImageError(R.drawable.lopoto));
-        imageErrorArrayList.add(new HistoryDetailObj().new ImageError(R.drawable.lopoto));
+        imageErrorArrayList.add(new CategoryHistory().new ImageError(R.drawable.lopoto));
+        imageErrorArrayList.add(new CategoryHistory().new ImageError(R.drawable.lopoto));
+        imageErrorArrayList.add(new CategoryHistory().new ImageError(R.drawable.lopoto));
+        imageErrorArrayList.add(new CategoryHistory().new ImageError(R.drawable.lopoto));
+        imageErrorArrayList.add(new CategoryHistory().new ImageError(R.drawable.lopoto));
 
-        historyDetailObjList.add(new HistoryDetailObj("Bánh xe", imageErrorArrayList));
-        historyDetailObjList.add(new HistoryDetailObj("Lốp xe", imageErrorArrayList));
+        historyDetailObjList.add(new CategoryHistory("Bánh xe", imageErrorArrayList));
+        historyDetailObjList.add(new CategoryHistory("Lốp xe", imageErrorArrayList));
 
-        historyObjList.add(new HistoryObj("Ferrari", true, "#23598", "17:06 12/3/2017"
+        historyObjList.add(new History("Ferrari", true, "#23598", "17:06 12/3/2017"
                 , "12 bước: bánh xe, thân xe, vô lăng, lốp, khung, sường, mui", historyDetailObjList));
 
-        historyObjList.add(new HistoryObj("Lamborghini", false, "#23598", "17:06 12/3/2017"
+        historyObjList.add(new History("Lamborghini", false, "#23598", "17:06 12/3/2017"
                 , "12 bước: bánh xe, thân xe, vô lăng, lốp, khung, sường, mui", historyDetailObjList));
         historyRecyclerAdapter = new HistoryRecyclerAdapter(this, historyObjList);
 
@@ -80,7 +80,7 @@ public class KHistoryActivity extends BaseActivity {
         }));
     }
 
-    private void moveHistoryDetail(HistoryObj historyObj) {
+    private void moveHistoryDetail(History historyObj) {
         Intent intent = new Intent(KHistoryActivity.this, KHistoryDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.HISTORY_OBJ, historyObj);

@@ -7,22 +7,22 @@ import java.util.List;
  * Created by kienht on 3/14/17.
  */
 
-public class HistoryObj implements Serializable {
+public class History implements Serializable {
 
     private String mNameCar;
     private boolean mStatus;
     private String mBarcodeNumber;
     private String mTimeScan;
     private String mDetail;
-    private List<HistoryDetailObj> historyDetailObjList;
+    private List<CategoryHistory> mCategoryHistories;
 
-    public HistoryObj(String mNameCar, boolean mStatus, String mBarcodeNumber, String mTimeScan, String mDetail, List<HistoryDetailObj> historyDetailObjList) {
+    public History(String mNameCar, boolean mStatus, String mBarcodeNumber, String mTimeScan, String mDetail, List<CategoryHistory> historyDetailObjList) {
         this.mNameCar = mNameCar;
         this.mStatus = mStatus;
         this.mBarcodeNumber = mBarcodeNumber;
         this.mTimeScan = mTimeScan;
         this.mDetail = mDetail;
-        this.historyDetailObjList = historyDetailObjList;
+        this.mCategoryHistories = historyDetailObjList;
     }
 
     public String getmNameCar() {
@@ -33,12 +33,12 @@ public class HistoryObj implements Serializable {
         this.mNameCar = mNameCar;
     }
 
-    public List<HistoryDetailObj> getHistoryDetailObjList() {
-        return historyDetailObjList;
+    public List<CategoryHistory> getCategoryHistories() {
+        return mCategoryHistories;
     }
 
-    public void setHistoryDetailObjList(List<HistoryDetailObj> historyDetailObjList) {
-        this.historyDetailObjList = historyDetailObjList;
+    public void setCategoryHistories(List<CategoryHistory> categoryHistories) {
+        this.mCategoryHistories = categoryHistories;
     }
 
     public boolean ismStatus() {

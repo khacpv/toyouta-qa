@@ -1,8 +1,9 @@
-package com.example.ngothi.checksheet.ui.model;
+package vn.com.toyota.checkdetail.model;
 
 import android.graphics.Path;
-import com.example.ngothi.checksheet.ui.activity.view.ImageDrawing;
+
 import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
