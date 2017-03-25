@@ -22,11 +22,12 @@ public class ImageCapture {
     @Expose
     private boolean isFromFile;
     @Expose
-    private List<Path> mPaths;
-    @Expose
     private Size mViewSize;
     @Expose
     private List<DrawEntityPath> mDrawEntityPaths;
+
+    @Expose
+    private String thumbPath;
 
     public void setResourceId(int resourceId) {
         mResourceId = resourceId;
@@ -54,18 +55,6 @@ public class ImageCapture {
 
     public void setViewSize(Size viewSize) {
         mViewSize = viewSize;
-    }
-
-    public List<Path> getPaths() {
-        return mPaths;
-    }
-
-    public void setPaths(List<Path> paths) {
-        if (mPaths == null) {
-            mPaths = new ArrayList<>();
-        }
-        mPaths.clear();
-        mPaths.addAll(paths);
     }
 
     public void setDrawEntityPaths(List<DrawEntityPath> paths) {
@@ -100,6 +89,14 @@ public class ImageCapture {
         return isFromFile;
     }
 
+    public String getThumbPath() {
+        return thumbPath;
+    }
+
+    public void setThumbPath(String thumbPath) {
+        this.thumbPath = thumbPath;
+    }
+
     public static class Builder {
 
         private int mResourceId;
@@ -108,6 +105,7 @@ public class ImageCapture {
         private String mFileEdittedpath;
         private boolean isFromFile;
         private Size mViewSize;
+        private String thumbPath;
 
         public Builder setResourceId(int resourceId) {
             mResourceId = resourceId;
@@ -139,6 +137,11 @@ public class ImageCapture {
             return this;
         }
 
+        public Builder setThumbPath(String thumbPath) {
+            thumbPath = thumbPath;
+            return this;
+        }
+
         public ImageCapture build() {
             ImageCapture imageCapture = new ImageCapture();
             imageCapture.mResourceId = mResourceId;
@@ -147,6 +150,7 @@ public class ImageCapture {
             imageCapture.mFileEdittedpath = mFileEdittedpath;
             imageCapture.isFromFile = isFromFile;
             imageCapture.mViewSize = mViewSize;
+            imageCapture.thumbPath = thumbPath;
             return imageCapture;
         }
     }

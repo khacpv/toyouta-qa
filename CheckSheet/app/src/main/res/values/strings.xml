@@ -17,5 +17,6 @@
     <string name="number_error">%d lỗi</string>
     <string name="category">Hạng mục</string>
     <string name="result">Kết quả</string>
+    <string name="close">Đóng</string>
     <string name="have_to_complete">Đang trong tiến trình kiểm tra, không thể quay lại</string>
 </resources>
