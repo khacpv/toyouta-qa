@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="vn.com.toyota.checkdetail.activity.ResultSheetActivity"
+    >
+    <LinearLayout
+        android:id="@+id/lyInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/green"
+        android:orientation="vertical"
+        android:padding="5dp"
+        >
+        <TextView
+            android:id="@+id/tvGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Grade : INNOVA HA"
+            android:textColor="@color/blue"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/tvSequence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SEQUENCE: 1H00543"
+            android:textColor="@color/blue"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnDone"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="170dp"
+        android:background="@drawable/bg_round_grey"
+        android:text="Xong"
+        android:textSize="30sp"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcvResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnDone"
+        android:layout_below="@id/lyInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:layout_marginBottom="14dp"
+        ></android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>

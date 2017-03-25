@@ -130,6 +130,7 @@ public class MainActivity extends BaseActivity {
     void moveSettingActivity() {
         //TODO add SettingActivity
 //        moveIntent(SettingActivity.class);
+        moveIntent(HomeActivity.class);
     }
 
     private void moveIntent(Class c) {
