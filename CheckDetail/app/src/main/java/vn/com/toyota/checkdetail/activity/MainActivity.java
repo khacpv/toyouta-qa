@@ -124,6 +124,7 @@ public class MainActivity extends BaseActivity {
     void moveHistoryActivity() {
         //TODO add KHistoryActivity
 //        moveIntent(KHistoryActivity.class);
+        moveIntent(Home2Activity.class);
     }
 
     @OnClick(R.id.setting)
