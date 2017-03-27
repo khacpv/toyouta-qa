@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+   >
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_ttx"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:scaleType="center"-->
+        <!--android:layout_height="466dp"-->
+         <!--/>-->
+    <com.example.ngothi.feebbackquality.MyView
+        android:id="@+id/my_view"
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/khoanhloi"/>
+        	<LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+            <Button
+                android:id="@+id/btn_save_image"
+                android:layout_width="75dp"
+                android:layout_height="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="Đồng ý"
+                android:textSize="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="95dp"
+                android:background="@android:drawable/btn_default"
+                android:drawableBottom="@drawable/checkmark2"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>

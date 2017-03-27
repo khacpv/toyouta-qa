@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="      BẠN CÓ MUỐN GỬI LẠI KHÔNG ?"
+    android:textSize="20dp"
+    android:textStyle="normal|bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Có"
+            android:background="@android:drawable/btn_default"
+            android:id="@+id/btncoguilai"
+            android:drawableRight="@drawable/checkmark2"/>
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Không"
+            android:id="@+id/btnkhongguilai"
+            android:background="@android:drawable/btn_default"
+            android:drawableRight="@drawable/cross"
+            />
+    </LinearLayout>
+
+</LinearLayout>

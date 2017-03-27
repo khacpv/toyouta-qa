@@ -1,0 +1,48 @@
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\bin\Debug\Quality Feedback.exe
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\bin\Debug\Quality Feedback.pdb
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\bin\Debug\ZedGraph.dll
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality_Feedback.Form1.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality_Feedback.Properties.Resources.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.csproj.GenerateResource.Cache
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.exe
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.pdb
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality_Feedback.Details_Information.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.csproj.ResolveComReference.cache
+D:\OneDrive\STU Data\JIJIKOKOKU\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.csproj.ResolveComReference.cache
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.exe
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.pdb
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\bin\Debug\Quality Feedback.exe
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\bin\Debug\Quality Feedback.pdb
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality_Feedback.Details_Information.resources
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality_Feedback.Form1.resources
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality_Feedback.Properties.Resources.resources
+C:\Users\Administrator\Desktop\Quality Feedback\Quality Feedback\obj\x86\Debug\Quality Feedback.csproj.GenerateResource.Cache
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.csproj.ResolveComReference.cache
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.exe
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.pdb
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\bin\Debug\Quality Feedback.exe
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\bin\Debug\Quality Feedback.pdb
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.csprojResolveAssemblyReference.cache
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Details_Information.resources
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Form1.resources
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Properties.Resources.resources
+D:\17-Huy\Quality FeedBack\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.csproj.GenerateResource.Cache
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.csproj.ResolveComReference.cache
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.exe
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.pdb
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\bin\Debug\Quality Feedback.exe
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\bin\Debug\Quality Feedback.pdb
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\bin\Debug\ZedGraph.dll
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.csprojResolveAssemblyReference.cache
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Details_Information.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Form1.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Properties.Resources.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality Feedback.csproj.GenerateResource.Cache
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Error_Point.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\bin\Debug\vsdiag_regwcf.exe
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Error_Graph.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Message.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Login.resources
+D:\OneDrive\STU Data\JIJIKOKOKU\QF - 20161028\Quality Feedback\obj\x86\Debug\Quality_Feedback.Mainform.resources
