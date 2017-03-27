@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
     tools:context="com.example.ngothi.checksheet.ui.activity.SheetActivity"
     >
 
@@ -16,71 +15,35 @@
         android:layout_alignParentTop="true"
         android:background="@color/green"
         android:orientation="vertical"
-        android:padding="5dp"
         >
         <TextView
-            android:id="@+id/tvGrade"
+            android:id="@+id/tvStepCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Grade : INNOVA"
-            android:textColor="@color/blue"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/tvSequence"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Grade : INNOVA"
-            android:textColor="@color/blue"
-            android:textSize="15sp"
+            android:background="#000"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/close"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:textStyle="bold"
             />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvStepCount"
+        android:id="@+id/tvCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/lyInfo"
-        android:gravity="center"
-        android:padding="3dp"
+        android:gravity="left"
+        android:padding="5dp"
         android:text="Bước 1/12"
         android:textColor="#000"
-
-        android:textSize="15dp"
+        android:textSize="18dp"
         android:textStyle="bold"
         />
-
-    <LinearLayout
-        android:id="@+id/lyTop"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@id/tvStepCount"
-        android:layout_margin="5dp"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:id="@+id/tvCategory"
-            android:layout_width="0dp"
-            android:gravity="center"
-            android:background="#F7D358"
-            android:layout_marginRight="10dp"
-            android:padding="2dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rcvImage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            ></android.support.v7.widget.RecyclerView>
-    </LinearLayout>
 
 
     <LinearLayout
@@ -129,6 +92,7 @@
             />
     </LinearLayout>
 
+
     <EditText
         android:id="@+id/inputNote"
         android:layout_width="match_parent"
@@ -146,24 +110,16 @@
         android:textStyle="bold"
         />
 
-    <RelativeLayout
-        android:id="@+id/lyImage"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcvImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/inputNote"
-        android:layout_below="@id/lyTop"
-        android:layout_gravity="center"
+        android:layout_below="@id/tvCategory"
         android:layout_margin="5dp"
-        >
-        <com.example.ngothi.checksheet.ui.activity.view.ImageDrawing
-            android:id="@+id/imagePreview"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:scaleType="fitXY"
-            />
-    </RelativeLayout>
+        android:layout_weight="1"
+        ></android.support.v7.widget.RecyclerView>
 
 
 </RelativeLayout>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.example.ngothi.feebbackquality"
+    >
+
+    <ImageView
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:id="@+id/image1"/>
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="55dp"
+        android:id="@+id/btnT1"
+        android:text="T1"
+        android:onClick="ClickT1"
+        android:background="@android:drawable/btn_default"
+        android:fontFamily="sans-serif-medium"
+       />
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:id="@+id/btnT2"
+            android:text="T2"
+            android:onClick="ClickT2"
+            android:background="@android:drawable/btn_default"
+            />
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:id="@+id/btnC1"
+            android:text="C1"
+            android:onClick="ClickC1"
+            android:background="@android:drawable/btn_default"
+            />
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:id="@+id/btnC2"
+            android:text="C2"
+            android:onClick="ClickC2"
+            android:background="@android:drawable/btn_default"
+            />
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:id="@+id/btnF1"
+            android:text="F1"
+            android:onClick="ClickF1"
+            android:background="@android:drawable/btn_default"
+            />
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:id="@+id/btnF2"
+            android:text="F2"
+            android:onClick="ClickF2"
+            android:background="@android:drawable/btn_default"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:id="@+id/btnGui"
+            android:text="Gửi"
+            android:background="@android:drawable/btn_default"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:id="@+id/btnChonLoi"
+            android:text="Chọn Lỗi"
+            android:background="@android:drawable/btn_default"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:id="@+id/btnChup"
+            android:text="Chụp"
+            android:drawableBottom="@drawable/camera"
+            android:onClick="ClickChup"
+            android:background="@android:drawable/btn_default"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:id="@+id/btnmenu"
+            android:text="thu hồi"
+            android:background="@android:drawable/btn_default"
+            android:onClick="ClickThuhoi"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/btnLap"
+            android:background="@android:drawable/btn_default"
+            android:onClick="loilap"
+            android:text="Lặp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

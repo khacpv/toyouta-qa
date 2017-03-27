@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity {
     public void afterSetcontenview() {
         requestPermissionWrite();
 
-        CategoyCheck categoyCheck1 = new CategoyCheck();
+      /*  CategoyCheck categoyCheck1 = new CategoyCheck();
         categoyCheck1.setNoStt(0);
         categoyCheck1.setName("Hang muc 1");
         categoyCheck1.setSpecificities(Arrays.asList("xanh", "dep"));
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
         settingModel.setCarModel("INNOVA");
         settingModel.setCategoyChecks(Arrays.asList(categoyCheck1, categoyCheck2));
 
-        settingModel.save();
+        settingModel.save();*/
     }
 
     private void createDirectory() {

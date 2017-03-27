@@ -222,12 +222,11 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
         }
 
         if (currentStep == maxStep) {
-            //TODO add ResultSheetActivity
-            /*Intent intent = new Intent(SheetActivity.this, ResultSheetActivity.class);
+            Intent intent = new Intent(SheetActivity.this, ResultSheetActivity.class);
             intent.putExtra(Common.BundleConstant.LIST_STEP, GsonUtils.Object2String(mSteps));
             intent.putExtra(Common.BundleConstant.GRADE, mGrade);
             intent.putExtra(Common.BundleConstant.SEQUENCE, mSequence);
-            startActivity(intent);*/
+            startActivity(intent);
             finish();
             return;
         }
@@ -250,11 +249,10 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
     }
 
     public void captureClick(View v) {
-        //TODO add CameraActivity
-        /*AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mgr.setStreamMute(AudioManager.STREAM_SYSTEM, true);
         Intent intent = new Intent(SheetActivity.this, CameraActivity.class);
-        startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);*/
+        startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
     }
 
     public static Bitmap rotateImage(Bitmap source, float angle) {

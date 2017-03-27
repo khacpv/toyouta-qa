@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    android:orientation="vertical"
+    tools:context="vn.com.toyota.checkdetail.activity.CameraActivity"
+    >
+    <SurfaceView
+        android:id="@+id/surfaceCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#00ffffff"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:weightSum="1"
+        >
+        <ImageView
+            android:id="@+id/btnBack1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:onClick="captureClick"
+            android:src="@drawable/bg_capture"
+            android:text="Quay lại"
+            />
+        <ImageView
+            android:id="@+id/btnCapture1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:onClick="back"
+            android:src="@drawable/bg_close_capture"
+            android:text="Chụp"
+            />
+    </RelativeLayout>
+</RelativeLayout>

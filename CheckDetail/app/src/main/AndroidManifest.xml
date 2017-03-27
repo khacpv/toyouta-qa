@@ -2,6 +2,10 @@
 <manifest package="vn.com.toyota.checkdetail"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:name=".ToyotaApplication"
         android:allowBackup="true"
@@ -11,11 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="AA_SERIALIZERS"
             android:value="vn.com.toyota.checkdetail.model.ListGsonSerializer,vn.com.toyota.checkdetail.model.ListCategorySerializer"/>
-
         <meta-data
             android:name="AA_DB_NAME"
             android:value="Toyota_DB.db"/>
@@ -32,6 +34,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.SheetActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.ScanActivity"
+            android:label="@string/title_activity_scan"/>
+        <activity
+            android:name=".activity.ResultSheetActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.CameraActivity"/>
+        <activity android:name=".activity.HomeActivity">
         </activity>
     </application>
 

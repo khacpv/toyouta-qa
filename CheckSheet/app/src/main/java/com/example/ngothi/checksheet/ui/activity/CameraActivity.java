@@ -25,7 +25,10 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
 import com.example.ngothi.checksheet.R;
+import com.example.ngothi.checksheet.ui.Common;
+import com.example.ngothi.checksheet.ui.model.ImageCapture;
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
+import com.example.ngothi.checksheet.ui.utils.GsonUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import java.io.IOException;
 
@@ -42,6 +45,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private int mCameraID = 0;
     KProgressHUD dialog;
     private static final int WIDTH_MAX = 2048;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +196,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -338,7 +341,11 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 return;
             }
             Intent intent = new Intent();
-            intent.putExtra("data", s);
+            intent.putExtra(Common.BundleConstant.IMAGE_CAPTURE, GsonUtils.Object2String(
+                    new ImageCapture.Builder().setFromFile(true)
+                            .setEditted(false)
+                            .setFilepath(s)
+                            .build()));
             setResult(SheetActivity.RESULT_OK, intent);
             finish();
         }

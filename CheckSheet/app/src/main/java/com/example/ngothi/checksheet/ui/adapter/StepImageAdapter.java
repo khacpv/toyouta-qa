@@ -2,11 +2,14 @@ package com.example.ngothi.checksheet.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ngothi.checksheet.R;
 import com.example.ngothi.checksheet.ui.event.OnItemListener;
 import com.example.ngothi.checksheet.ui.model.ImageCapture;
@@ -24,12 +27,17 @@ public class StepImageAdapter extends RecyclerView.Adapter<StepImageAdapter.Step
     OnItemListener<ImageCapture> mOnItemListener;
 
     private int selectedPos = 0;
+    private int screenWidth;
 
     public StepImageAdapter(Context context, List<ImageCapture> imageCaptures,
             OnItemListener<ImageCapture> onItemListener) {
         mImageCaptures = imageCaptures;
         mContext = context;
         mOnItemListener = onItemListener;
+
+        Display display = ((WindowManager) context.getSystemService(
+                Context.WINDOW_SERVICE)).getDefaultDisplay();
+        screenWidth = display.getWidth();
     }
 
     public void addImage(ImageCapture imageCapture) {
@@ -52,11 +60,23 @@ public class StepImageAdapter extends RecyclerView.Adapter<StepImageAdapter.Step
     @Override
     public void onBindViewHolder(StepImageViewHolder holder, int position) {
         ImageCapture imageCapture = mImageCaptures.get(position);
-        Glide.with(mContext)
-                .load(imageCapture.isFromFile() ? new File(imageCapture.getFilepath())
-                        : imageCapture.getResourceId())
-                .into(holder.mImageView);
-        holder.mImageView.setSelected(selectedPos == position);
+
+        holder.mImageView.getLayoutParams().height = screenWidth / 3 - 20;
+        holder.mImageView.requestLayout();
+
+        if (imageCapture.getThumbPath() != null) {
+            Glide.with(mContext)
+                    .load(new File(imageCapture.getThumbPath()))
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(holder.mImageView);
+        } else {
+            Glide.with(mContext)
+                    .load(imageCapture.isFromFile() ? new File(imageCapture.getFilepath())
+                            : imageCapture.getResourceId())
+                    .into(holder.mImageView);
+            holder.mImageView.setSelected(selectedPos == position);
+        }
     }
 
     public void setOnItemListener(OnItemListener<ImageCapture> onItemListener) {
