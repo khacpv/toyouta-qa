@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ngothi.checksheet.R;
-import com.example.ngothi.checksheet.ui.model.HistoryObj;
+import com.example.ngothi.checksheet.ui.model.History;
 
 import java.util.List;
 
@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
 public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecyclerAdapter.ViewHolder> {
 
     Activity activity;
-    List<HistoryObj> mHistoryObjList;
+    List<History> mHistoryObjList;
 
-    public HistoryRecyclerAdapter(Activity activity, List<HistoryObj> mHistoryObjList) {
+    public HistoryRecyclerAdapter(Activity activity, List<History> mHistoryObjList) {
         this.activity = activity;
         this.mHistoryObjList = mHistoryObjList;
     }
@@ -68,7 +68,7 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindData(HistoryObj historyObj) {
+        public void bindData(History historyObj) {
             Glide.with(activity)
                     .load(historyObj.ismStatus() ? R.drawable.yes : R.drawable.no)
                     .fitCenter()

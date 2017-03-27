@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.ngothi.checksheet.R;
-import com.example.ngothi.checksheet.ui.model.HistoryDetailObj;
+import com.example.ngothi.checksheet.ui.model.CategoryHistory;
 
 import java.util.List;
 
@@ -24,9 +24,9 @@ import butterknife.ButterKnife;
 public class HistoryDetailRecyclerAdapter extends RecyclerView.Adapter<HistoryDetailRecyclerAdapter.ViewHolder> {
 
     private Activity activity;
-    private List<HistoryDetailObj> historyDetailObjList;
+    private List<CategoryHistory> historyDetailObjList;
 
-    public HistoryDetailRecyclerAdapter(Activity activity, List<HistoryDetailObj> historyDetailObjList) {
+    public HistoryDetailRecyclerAdapter(Activity activity, List<CategoryHistory> historyDetailObjList) {
         this.activity = activity;
         this.historyDetailObjList = historyDetailObjList;
     }
@@ -67,7 +67,7 @@ public class HistoryDetailRecyclerAdapter extends RecyclerView.Adapter<HistoryDe
             mRecyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
         }
 
-        public void bindData(HistoryDetailObj historyDetailObj, int position) {
+        public void bindData(CategoryHistory historyDetailObj, int position) {
 
             mTextViewNumberStep.setText(activity.getResources().getString(R.string.number_step, position + 1, historyDetailObj.getmNumberStep()));
 

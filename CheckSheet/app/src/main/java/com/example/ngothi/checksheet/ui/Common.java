@@ -10,5 +10,8 @@ public class Common {
         public static final String LIST_STEP = "list_step";
         public static final String GRADE = "grade";
         public static final String SEQUENCE = "sequence";
+        public static final String POSITION = "position";
+        public static final String IMAGE_CAPTURE = "image_capture";
+        public static final String IMAGE = "image";
     }
 }

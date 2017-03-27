@@ -4,6 +4,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.example.ngothi.checksheet.ui.utils.GsonUtils;
 import com.google.gson.annotations.Expose;
 import java.util.List;
 
@@ -18,12 +19,6 @@ public class SettingModel extends Model {
         super();
     }
 
-    public SettingModel(String carModel, List<CategoyCheck> categoyChecks) {
-        super();
-        mCarModel = carModel;
-        mCategoyChecks = categoyChecks;
-    }
-
     @Expose
     @Column(name = "car_model")
     private String mCarModel;
@@ -34,7 +29,7 @@ public class SettingModel extends Model {
 
     @Expose
     @Column(name = "category_check")
-    private List<CategoyCheck> mCategoyChecks;
+    private String mCategoyChecks;
 
     public String getCarModel() {
         return mCarModel;
@@ -45,11 +40,11 @@ public class SettingModel extends Model {
     }
 
     public List<CategoyCheck> getCategoyChecks() {
-        return mCategoyChecks;
+        return GsonUtils.String2ListObject(mCategoyChecks, CategoyCheck[].class);
     }
 
     public void setCategoyChecks(List<CategoyCheck> categoyChecks) {
-        mCategoyChecks = categoyChecks;
+        mCategoyChecks = GsonUtils.Object2String(categoyChecks);
     }
 
     public String getCarModelName() {
@@ -63,6 +58,4 @@ public class SettingModel extends Model {
     public static SettingModel getSettingByModel(String model) {
         return new Select().from(SettingModel.class).where("car_model = ?", model).executeSingle();
     }
-
-
 }

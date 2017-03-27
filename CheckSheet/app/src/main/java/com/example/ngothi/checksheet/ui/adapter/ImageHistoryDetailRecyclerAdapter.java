@@ -1,17 +1,15 @@
 package com.example.ngothi.checksheet.ui.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.ngothi.checksheet.R;
-import com.example.ngothi.checksheet.ui.model.HistoryDetailObj;
+import com.example.ngothi.checksheet.ui.model.CategoryHistory;
 
 import java.util.List;
 
@@ -25,9 +23,9 @@ import butterknife.ButterKnife;
 public class ImageHistoryDetailRecyclerAdapter extends RecyclerView.Adapter<ImageHistoryDetailRecyclerAdapter.ViewHolder> {
 
     private Activity activity;
-    private List<HistoryDetailObj.ImageError> imageErrorList;
+    private List<CategoryHistory.ImageError> imageErrorList;
 
-    public ImageHistoryDetailRecyclerAdapter(Activity activity, List<HistoryDetailObj.ImageError> imageErrorList) {
+    public ImageHistoryDetailRecyclerAdapter(Activity activity, List<CategoryHistory.ImageError> imageErrorList) {
         this.activity = activity;
         this.imageErrorList = imageErrorList;
     }
@@ -58,7 +56,7 @@ public class ImageHistoryDetailRecyclerAdapter extends RecyclerView.Adapter<Imag
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindData(HistoryDetailObj.ImageError imageErrorList) {
+        public void bindData(CategoryHistory.ImageError imageErrorList) {
 
             Glide.with(activity).load(imageErrorList.getmUri()).fitCenter().into(mImageView);
         }
