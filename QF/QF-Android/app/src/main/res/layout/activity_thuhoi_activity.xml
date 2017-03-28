@@ -4,39 +4,56 @@
     android:id="@+id/activity_loi_lap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-    <ImageView
-        android:layout_width="500dp"
-        android:layout_height="match_parent"
-        android:id="@+id/image2"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/thuhoi" />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="1">
 
-        android:layout_marginTop="10dp"
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.75" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="0.1"
+        android:background="@drawable/thuhoi" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.15"
+        android:layout_marginRight="5dp"
         android:orientation="vertical"
-        >
+        android:weightSum="1">
+
         <Button
-            android:layout_width="75dp"
-            android:layout_height="160dp"
             android:id="@+id/btnback_loi"
-            android:textSize="14dp"
-            android:text="Quay lại"
-            android:onClick="ClickBack"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
             android:drawableBottom="@drawable/undo"
-            />
+            android:onClick="ClickBack"
+            android:paddingBottom="30dp"
+            android:paddingTop="30dp"
+            android:text="Quay lại"
+            android:textSize="14dp" />
+
         <Button
-            android:layout_width="75dp"
-            android:layout_height="160dp"
             android:id="@+id/btnDongY"
-            android:text="Đồng ý"
-            android:textSize="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:drawableBottom="@drawable/checkmark2"
             android:onClick="ClickOK"
-            android:drawableBottom="@drawable/checkmark2"/>
+            android:paddingBottom="30dp"
+            android:paddingTop="30dp"
+            android:text="Đồng ý"
+            android:textSize="14dp" />
     </LinearLayout>
 </LinearLayout>
 

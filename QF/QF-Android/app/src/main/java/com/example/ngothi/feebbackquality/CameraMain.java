@@ -74,14 +74,14 @@ public class CameraMain extends Activity  implements SurfaceHolder.Callback {
                 //  Toast.makeText(getApplicationContext(), "Ảnh đã lưu", Toast.LENGTH_LONG).show();
                 Intent data1 = new Intent();
                 Bundle ten_image = new Bundle();
-                ten_image.putString("tenfile", PathFile);
+                ten_image.putString("photoFileName", PathFile);
                 data1.putExtra("GoiTen", ten_image);
                 setResult(MainActivity.RESULT_OK, data1);
                 finish();
                    /*
                 Intent Myintent = new Intent(CameraMain.this,edit_vaythoi.class);
                 Bundle ten_image  = new Bundle();
-                ten_image.putString("tenfile",PathFile);
+                ten_image.putString("photoFileName",PathFile);
                 Myintent.putExtra("GoiTen",ten_image);
                 startActivityForResult(Myintent,IMAGE_EDIT);
                 dialogCamera.dismiss();// thoat dialogCamera

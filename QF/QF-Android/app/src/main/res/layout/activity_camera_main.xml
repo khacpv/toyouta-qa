@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <SurfaceView
-        android:layout_width="500dp"
+        android:id="@+id/surfaceCamera"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/surfaceCamera"/>
+        android:layout_weight="0.9" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btnCapture1"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-          android:layout_marginLeft="20dp">
-          <Button
-              android:id="@+id/btnCapture1"
-              android:onClick="captureImage1"
-              android:text="Chụp"
-              android:textColor="#F8F5FF"
-              android:textSize="20sp"
-
-              android:layout_marginTop="120dp"
-              android:drawableTop="@drawable/camera"
-
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:background="@drawable/circle"
-              android:shadowColor="#43A876"
-              android:shadowDx="0"
-              android:shadowDy="1"
-              android:shadowRadius="5"
-              />
-      </LinearLayout>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/circle"
+        android:drawableTop="@drawable/camera"
+        android:onClick="captureImage1"
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:shadowColor="#43A876"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="5"
+        android:text="Chụp"
+        android:textColor="#F8F5FF"
+        android:textSize="20sp" />
+</RelativeLayout>

@@ -59,7 +59,7 @@ public class thuhoi_activity extends Activity {
             public void onClick(View v) {
                 Intent data = new Intent();
                 Bundle ten_image = new Bundle();
-                ten_image.putString("tenfile",tenFile[index]);
+                ten_image.putString("photoFileName",tenFile[index]);
                 data.putExtra("GoiTen", ten_image);
                 thuhoi_activity.this.setResult(Activity.RESULT_OK, data);
                 thuhoi_activity.super.finish();
