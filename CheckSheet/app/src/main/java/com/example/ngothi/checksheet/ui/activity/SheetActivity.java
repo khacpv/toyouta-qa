@@ -37,6 +37,7 @@ import com.example.ngothi.checksheet.ui.model.ImageCapture;
 import com.example.ngothi.checksheet.ui.model.SettingModel;
 import com.example.ngothi.checksheet.ui.model.Size;
 import com.example.ngothi.checksheet.ui.model.Step;
+import com.example.ngothi.checksheet.ui.service.SaveImageService;
 import com.example.ngothi.checksheet.ui.utils.CanvasUtils;
 import com.example.ngothi.checksheet.ui.utils.DrawableUtils;
 import com.example.ngothi.checksheet.ui.utils.FileUtils;
@@ -168,6 +169,13 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
         mSettingModel.setCategoyChecks(categoyChecks);
     }
 
+    private void saveImageDraw(List<ImageCapture> captures) {
+        Intent intent = new Intent(SheetActivity.this, SaveImageService.class);
+        intent.putExtra(Common.BundleConstant.LIST_IMAGE_CAPTURE,
+                GsonUtils.Object2String(captures));
+        startService(intent);
+    }
+
     private void onStepCheckDone(boolean isGood) {
 
         if (mStep != null) {
@@ -175,6 +183,7 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
             mStep.setNoteReality(inputNote.getText().toString());
             mStep.setImageList(mImageCaptures);
             mSteps.add(mStep);
+            saveImageDraw(mStep.getImageList());
         }
 
         if (currentStep == maxStep) {

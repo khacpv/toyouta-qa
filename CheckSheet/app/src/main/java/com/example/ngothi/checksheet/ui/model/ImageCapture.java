@@ -95,6 +95,12 @@ public class ImageCapture {
 
     public void setThumbPath(String thumbPath) {
         this.thumbPath = thumbPath;
+        if (thumbPath != null) {
+            if (!isFromFile()) {
+                String outputFile = thumbPath.replace("_thumb.jpg", ".jpg");
+                setFilepath(outputFile);
+            }
+        }
     }
 
     public static class Builder {

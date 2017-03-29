@@ -44,7 +44,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private CameraOrientationListener mOrientationListener;
     private int mCameraID = 0;
     KProgressHUD dialog;
-    private static final int WIDTH_MAX = 2048;
+    private static final int WIDTH_MAX = 90000;
     private int position;
 
     @Override
