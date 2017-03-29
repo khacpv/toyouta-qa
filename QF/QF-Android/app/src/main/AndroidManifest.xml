@@ -3,8 +3,10 @@
     package="com.example.ngothi.feebbackquality">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -17,27 +19,35 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:screenOrientation="landscape">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditImageAfterCaptureActivity"
+        <activity
+            android:name=".EditImageAfterCaptureActivity"
             android:screenOrientation="landscape"
-            />
-        <activity android:name=".CameraMain"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CameraMain"
             android:screenOrientation="landscape"
-            />
-        <activity android:name=".chonLoiLapActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".chonLoiLapActivity"
             android:screenOrientation="landscape"
-            />
-        <activity android:name=".thuhoi_activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".thuhoi_activity"
             android:screenOrientation="landscape"
-            />
-        <activity android:name=".ChonloiActivity"
-            android:screenOrientation="landscape"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChonloiActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
