@@ -52,36 +52,37 @@ public class MyView extends View implements View.OnTouchListener {
         rectSrc = new RectF(0, 0, originalbitmap.getWidth(), originalbitmap.getHeight());
     }
 
-    public Bitmap saveBitmap() {
-        // sampleSize: 1 ==> stroke: 200
-        // sampleSize: 2 ==> stroke: 180
-        // sampleSize: 4 ==> stroke: 80
-        int sampleSize = 2;
-        int strokeWidth = 180;
+    public Bitmap saveBitmap(int sampleSize, int radius, int strokeWidth) {
+        // sampleSize: 1 ==> radius: 200
+        // sampleSize: 2 ==> radius: 180
+        // sampleSize: 4 ==> radius: 80
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true; //Chỉ đọc thông tin ảnh, không đọc dữ liwwuj
-        BitmapFactory.decodeFile(pathImage, options); //Đọc thông tin ảnh
-        options.inSampleSize = sampleSize; //Scale bitmap xuống 1 lần
-        options.inJustDecodeBounds = false; //Cho phép đọc dữ liệu ảnh ảnh
-        Bitmap originalSizeBitmap = BitmapFactory.decodeFile(pathImage, options);
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true; //Chỉ đọc thông tin ảnh, không đọc dữ liwwuj
+            BitmapFactory.decodeFile(pathImage, options); //Đọc thông tin ảnh
+            options.inSampleSize = sampleSize; //Scale bitmap xuống 1 lần
+            options.inJustDecodeBounds = false; //Cho phép đọc dữ liệu ảnh ảnh
+            Bitmap originalSizeBitmap = BitmapFactory.decodeFile(pathImage, options);
 
-        Bitmap mutableBitmap = originalSizeBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        RectF originalRect = new RectF(0, 0, mutableBitmap.getWidth(), mutableBitmap.getHeight());
+            Bitmap mutableBitmap = originalSizeBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            RectF originalRect =
+                new RectF(0, 0, mutableBitmap.getWidth(), mutableBitmap.getHeight());
 
-        originalSizeBitmap.recycle();
-        originalSizeBitmap = null;
-        System.gc();
+            originalSizeBitmap.recycle();
+            originalSizeBitmap = null;
+            System.gc();
 
-        Canvas canvas = new Canvas(mutableBitmap);
+            Canvas canvas = new Canvas(mutableBitmap);
 
-        Matrix inverse = new Matrix();
-        if (matrix.invert(inverse)) {
             float[] originXy = getOriginalPoint(originalRect);
-            canvas.drawCircle(originXy[0], originXy[1], strokeWidth, circlePaint);
+            circlePaint.setStrokeWidth(strokeWidth);
+            canvas.drawCircle(originXy[0], originXy[1], radius, circlePaint);
             return mutableBitmap;
-        } else {
-            Toast.makeText(getContext(), "can not draw original bitmap", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "can not draw original bitmap", Toast.LENGTH_SHORT)
+                .show();
             return getBitmapScreenShot();
         }
     }
@@ -105,7 +106,9 @@ public class MyView extends View implements View.OnTouchListener {
 
     public Bitmap getBitmap(String pathImage) {
         setOriginalBitmap(pathImage);
-        return saveBitmap();
+        //return saveBitmap(4, 80, 8);
+        return saveBitmap(2, 180, 16);
+        //return saveBitmap(1, 200, 30);
     }
 
     @Override
