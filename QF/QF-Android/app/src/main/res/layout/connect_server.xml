@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_message_reciver"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="IP ADDRESS"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edtIp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/edit_text"
+            android:gravity="left|center"
+            android:inputType="number"
+            android:padding="10dp"
+            android:text="192.168.1.107"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_message_reciver"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/edtPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="PORT"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edittext_port"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/edit_text"
+            android:gravity="left|center"
+            android:inputType="number"
+            android:padding="10dp"
+            android:text="8888"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnConect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginRight="200dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/btn_default"
+        android:padding="20dp"
+        android:text="Connect"
+        android:textSize="14sp" />
+
+</LinearLayout>

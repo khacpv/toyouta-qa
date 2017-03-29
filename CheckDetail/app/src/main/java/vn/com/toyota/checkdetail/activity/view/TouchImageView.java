@@ -28,7 +28,7 @@ public class TouchImageView extends ImageView {
     float[] m;
     int viewWidth, viewHeight;
 
-    static final int CLICK = 3;
+    static final int CLICK_ACTION_THRESHOLD = 10;
 
     float saveScale = 1f;
 
@@ -48,6 +48,16 @@ public class TouchImageView extends ImageView {
     public TouchImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedConstructing(context);
+    }
+
+    public interface TouchImageViewListener {
+        void onActionUp(Matrix matrix, MotionEvent event);
+    }
+
+    TouchImageViewListener mListener;
+
+    public void setOnTouchImageViewListener(TouchImageViewListener listener) {
+        this.mListener = listener;
     }
 
     private void sharedConstructing(Context context) {
@@ -87,8 +97,11 @@ public class TouchImageView extends ImageView {
                         mode = NONE;
                         int xDiff = (int) Math.abs(curr.x - start.x);
                         int yDiff = (int) Math.abs(curr.y - start.y);
-                        if (xDiff < CLICK && yDiff < CLICK)
+                        if (xDiff < CLICK_ACTION_THRESHOLD && yDiff < CLICK_ACTION_THRESHOLD) {
                             performClick();
+                            if (mListener != null)
+                                mListener.onActionUp(matrix, event);
+                        }
                         break;
                     case MotionEvent.ACTION_POINTER_UP:
                         mode = NONE;

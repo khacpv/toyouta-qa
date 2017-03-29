@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.7" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.3"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1.2">
+
+            <Button
+                android:id="@+id/btn_position_t1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:fontFamily="sans-serif-medium"
+                android:onClick="ClickT1"
+                android:text="T1" />
+
+            <Button
+                android:id="@+id/btn_position_t2"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:onClick="ClickT2"
+                android:text="T2" />
+
+            <Button
+                android:id="@+id/btn_position_c1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:onClick="ClickC1"
+                android:text="C1" />
+
+            <Button
+                android:id="@+id/btn_position_c2"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:onClick="ClickC2"
+                android:text="C2" />
+
+            <Button
+                android:id="@+id/btn_position_f1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:onClick="ClickF1"
+                android:text="F1" />
+
+            <Button
+                android:id="@+id/btn_position_f2"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:onClick="ClickF2"
+                android:text="F2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1.2">
+
+            <Button
+                android:id="@+id/btn_gui"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_alignEnd="@+id/btnT1"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:text="Gửi" />
+
+            <Button
+                android:id="@+id/btn_chon_loi"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:text="Chọn Lỗi" />
+
+            <ImageButton
+                android:id="@+id/btn_chup_anh"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:background="@android:drawable/btn_default"
+                android:gravity="center"
+                android:src="@drawable/camera" />
+
+            <Button
+                android:id="@+id/btn_thu_hoi"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:onClick="ClickThuhoi"
+                android:text="thu hồi" />
+
+            <Button
+                android:id="@+id/btn_lap"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:background="@android:drawable/btn_default"
+                android:onClick="loilap"
+                android:text="Lặp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
