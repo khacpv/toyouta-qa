@@ -3,16 +3,16 @@ package com.example.ngothi.feebbackquality;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * Created by ngothi on 10/31/2016.
@@ -20,8 +20,13 @@ import android.view.View;
 
 public class MyView extends View implements View.OnTouchListener {
 
+    String pathImage;
     Bitmap originalbitmap;
     float x = 0, y = 0;
+
+    Matrix matrix = new Matrix();
+    RectF rectSrc;
+    RectF rectDst;
 
     Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -38,17 +43,69 @@ public class MyView extends View implements View.OnTouchListener {
         setOnTouchListener(this);
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.originalbitmap = bitmap;
+    public void setOriginalBitmap(String path) {
+        this.pathImage = path;
     }
 
+    public void setBitmap(Bitmap bitmap) {
+        this.originalbitmap = bitmap;
+        rectSrc = new RectF(0, 0, originalbitmap.getWidth(), originalbitmap.getHeight());
+    }
 
-    public Bitmap getBitmap() {
+    public Bitmap saveBitmap() {
+        // sampleSize: 1 ==> stroke: 200
+        // sampleSize: 2 ==> stroke: 180
+        // sampleSize: 4 ==> stroke: 80
+        int sampleSize = 2;
+        int strokeWidth = 180;
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; //Chỉ đọc thông tin ảnh, không đọc dữ liwwuj
+        BitmapFactory.decodeFile(pathImage, options); //Đọc thông tin ảnh
+        options.inSampleSize = sampleSize; //Scale bitmap xuống 1 lần
+        options.inJustDecodeBounds = false; //Cho phép đọc dữ liệu ảnh ảnh
+        Bitmap originalSizeBitmap = BitmapFactory.decodeFile(pathImage, options);
+
+        Bitmap mutableBitmap = originalSizeBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        RectF originalRect = new RectF(0, 0, mutableBitmap.getWidth(), mutableBitmap.getHeight());
+
+        originalSizeBitmap.recycle();
+        originalSizeBitmap = null;
+        System.gc();
+
+        Canvas canvas = new Canvas(mutableBitmap);
+
+        Matrix inverse = new Matrix();
+        if (matrix.invert(inverse)) {
+            float[] originXy = getOriginalPoint(originalRect);
+            canvas.drawCircle(originXy[0], originXy[1], strokeWidth, circlePaint);
+            return mutableBitmap;
+        } else {
+            Toast.makeText(getContext(), "can not draw original bitmap", Toast.LENGTH_SHORT).show();
+            return getBitmapScreenShot();
+        }
+    }
+
+    private float[] getOriginalPoint(RectF originalRect) {
+        float percentX = x / rectDst.width();
+        float percentY = y / rectDst.height();
+        float originX = percentX * originalRect.width();
+        float originY = percentY * originalRect.height();
+
+        return new float[] {originX, originY};
+    }
+
+    public Bitmap getBitmapScreenShot() {
         this.setDrawingCacheEnabled(true);
         this.buildDrawingCache();
         Bitmap bmp = Bitmap.createBitmap(this.getDrawingCache());
         this.setDrawingCacheEnabled(false);
         return bmp;
+    }
+
+    public Bitmap getBitmap(String pathImage) {
+        setOriginalBitmap(pathImage);
+        return saveBitmap();
     }
 
     @Override
@@ -62,11 +119,9 @@ public class MyView extends View implements View.OnTouchListener {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Matrix matrix = new Matrix();
-        RectF rectSrc = new RectF(0, 0, originalbitmap.getWidth(), originalbitmap.getHeight());
-        RectF rectDst = new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight());
-
+        rectDst = new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight());
         matrix.setRectToRect(rectSrc, rectDst, Matrix.ScaleToFit.CENTER);
+
         canvas.drawBitmap(originalbitmap, matrix, new Paint());
 
         if (x + y > 0) {
