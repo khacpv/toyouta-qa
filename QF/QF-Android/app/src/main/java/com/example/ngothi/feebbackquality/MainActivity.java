@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     private String imgPath;
 
     // String SERVER_IP ;//huynn
-    String SERVER_IP = "192.168.0.103";// huynt
+    String SERVER_IP = "192.167.43.10";// huynt
     //SurfaceView surface;
 
     int IMAGE_TAKE = 100;// hang so chup anh
