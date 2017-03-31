@@ -246,6 +246,9 @@ public class EditImageActivity extends BaseActivity {
 
     class SaveImageTask extends AsyncTask<Void, Void, String> {
 
+
+
+
         @Override
         protected void onPreExecute() {
             showHUD("Saving image");

@@ -47,6 +47,7 @@ public class CanvasUtils {
             mutableBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
+            mutableBitmap.recycle();
             return outputFile;
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,6 +78,7 @@ public class CanvasUtils {
             mutableBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
+            mutableBitmap.recycle();
             return outputFile;
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,9 +97,6 @@ public class CanvasUtils {
 
     public static String createImage(String inputFile, String outputFile,
             List<DrawEntityPath> mDrawEntityPaths, Paint paint, Size viewSize, int quanlity) {
-
-        Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
-
         Bitmap bitmap = BitmapFactory.decodeFile(inputFile);
         Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Canvas canvas = new Canvas(mutableBitmap);
@@ -109,7 +108,11 @@ public class CanvasUtils {
         mPaint.setStrokeWidth(paint.getStrokeWidth() * ratio);
 
         Path myPath = new Path();
-        for (DrawEntityPath drawEntityPath : mDrawEntityPaths) {
+        for (DrawEntityPath entityPath : mDrawEntityPaths) {
+            DrawEntityPath drawEntityPath = new DrawEntityPath.Builder().action(entityPath.action)
+                    .data(entityPath.data)
+                    .build();
+            drawEntityPath.setScale(ratio);
             switch (drawEntityPath.action) {
                 case ACTION_MOVE_TO:
                     String[] dataMove = drawEntityPath.data.split(",");
@@ -139,6 +142,62 @@ public class CanvasUtils {
             mutableBitmap.compress(Bitmap.CompressFormat.JPEG, quanlity, fos);
             fos.flush();
             fos.close();
+            mutableBitmap.recycle();
+            return outputFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String createImage(Context context, int resouceId, String outputFile,
+            List<DrawEntityPath> mDrawEntityPaths, Paint paint, Size viewSize, int quanlity) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resouceId);
+        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(mutableBitmap);
+        float ratio = (float) bitmap.getWidth() / viewSize.getWidth();
+
+        Matrix matrix = new Matrix();
+        matrix.setScale(ratio, ratio);
+        Paint mPaint = new Paint(paint);
+        mPaint.setStrokeWidth(paint.getStrokeWidth() * ratio);
+
+        Path myPath = new Path();
+        for (DrawEntityPath entityPath : mDrawEntityPaths) {
+            DrawEntityPath drawEntityPath = new DrawEntityPath.Builder().action(entityPath.action)
+                    .data(entityPath.data)
+                    .build();
+            drawEntityPath.setScale(ratio);
+            switch (drawEntityPath.action) {
+                case ACTION_MOVE_TO:
+                    String[] dataMove = drawEntityPath.data.split(",");
+                    myPath.moveTo(Float.parseFloat(dataMove[0]), Float.parseFloat(dataMove[1]));
+                    break;
+
+                case ACTION_LINE_TO:
+                    String[] dataLine = drawEntityPath.data.split(",");
+                    myPath.lineTo(Float.parseFloat(dataLine[0]), Float.parseFloat(dataLine[1]));
+                    break;
+                case ACTION_QUAD_TO:
+                    String[] dataQuad = drawEntityPath.data.split(",");
+                    myPath.quadTo(Float.parseFloat(dataQuad[0]), Float.parseFloat(dataQuad[1]),
+                            Float.parseFloat(dataQuad[2]), Float.parseFloat(dataQuad[3]));
+                    break;
+                case ACTION_RESET:
+                    myPath.reset();
+                    break;
+                case ACTION_DRAW:
+                    canvas.drawPath(myPath, mPaint);
+                    break;
+            }
+        }
+
+        try {
+            FileOutputStream fos = new FileOutputStream(outputFile);
+            mutableBitmap.compress(Bitmap.CompressFormat.JPEG, quanlity, fos);
+            fos.flush();
+            fos.close();
+            mutableBitmap.recycle();
             return outputFile;
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,6 +259,7 @@ public class CanvasUtils {
             mutableBitmap.compress(Bitmap.CompressFormat.JPEG, 50, fos);
             fos.flush();
             fos.close();
+            mutableBitmap.recycle();
             return outputFile;
         } catch (Exception e) {
             e.printStackTrace();
@@ -261,12 +321,21 @@ public class CanvasUtils {
             mutableBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
+            mutableBitmap.recycle();
             return outputFile;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+    public static String createImage(String inputFile, List<DrawEntityPath> paths, Paint paint,
+            Size viewSize, int quantity) {
+        String outputFile = inputFile;
+        return createImage(inputFile, outputFile, paths, paint, viewSize, quantity);
+    }
+
+
 
     public static String createImageThumb(String inputFile, List<DrawEntityPath> paths, Paint paint,
             Size viewSize) {
