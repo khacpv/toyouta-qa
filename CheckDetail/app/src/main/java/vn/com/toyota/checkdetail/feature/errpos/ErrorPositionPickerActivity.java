@@ -1,5 +1,6 @@
 package vn.com.toyota.checkdetail.feature.errpos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,8 +16,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import vn.com.toyota.checkdetail.R;
 import vn.com.toyota.checkdetail.config.AppConfig;
+import vn.com.toyota.checkdetail.feature.main.MainV2Activity;
 import vn.com.toyota.checkdetail.listener.RecyclerTouchListener;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
+import vn.com.toyota.checkdetail.storage.ErrorPositionStorage;
 import vn.com.toyota.checkdetail.utils.DataUtils;
 import vn.com.toyota.checkdetail.view.SpaceItemDecoration;
 
@@ -50,7 +53,8 @@ public class ErrorPositionPickerActivity extends AppCompatActivity
         }
         ErrorPosition item = mAdapter.getItem(position);
         if(!TextUtils.isEmpty(item.getCode())) {
-            Toast.makeText(this, item.getCode(), Toast.LENGTH_SHORT).show();
+            saveToStorage(item);
+            goToMainActivity();
         }
     }
 
@@ -65,5 +69,14 @@ public class ErrorPositionPickerActivity extends AppCompatActivity
         List<ErrorPosition> list = DataUtils.getErrorPositionList();
         mAdapter = new ErrorPositionAdapter(this, list);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void saveToStorage(ErrorPosition item) {
+        ErrorPositionStorage.getInstance().addErrorPosition(item);
+    }
+
+    private void goToMainActivity() {
+        Intent intent = MainV2Activity.newIntent(this);
+        startActivity(intent);
     }
 }

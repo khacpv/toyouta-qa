@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.activeandroid.ActiveAndroid;
 
+import vn.com.toyota.checkdetail.storage.ErrorPositionStorage;
+
 /**
  * Created by eo_cuong on 3/15/17.
  */
@@ -13,5 +15,6 @@ public class ToyotaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ActiveAndroid.initialize(this);
+        ErrorPositionStorage.getInstance().init(this);
     }
 }

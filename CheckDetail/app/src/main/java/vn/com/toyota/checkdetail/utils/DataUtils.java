@@ -26,7 +26,7 @@ public class DataUtils {
                 list.add(new ErrorPosition(""));
                 continue;
             }
-            int index = r.nextInt(maxSize - 1) + 1;
+            int index = r.nextInt(errors.length - 1) + 1;
             String code = errors[index];
             list.add(new ErrorPosition(code));
         }
