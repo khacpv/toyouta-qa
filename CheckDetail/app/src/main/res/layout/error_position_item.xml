@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button
+    android:id="@+id/btn_error_position"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="96dp"
+    android:layout_height="96dp"
+    android:background="@drawable/line_button_selector"
+    android:textSize="22sp"
+    tools:text="SF-RH"/>

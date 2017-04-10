@@ -1,6 +1,5 @@
 package vn.com.toyota.checkdetail.activity;
 
-import android.content.ClipData;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -39,7 +38,15 @@ public class HomeActivity extends AppCompatActivity
 
         initViews();
         drawGridLineIntoImage();
-        displayThumbnail();
+    }
+
+    private int _layoutWidth;
+    private int _layoutHeight;
+
+    private void initLayoutSize() {
+        _layoutWidth = rootLayout.getMeasuredWidth();
+        _layoutHeight = rootLayout.getMeasuredHeight();
+        Log.i("CALCULATE", "_layoutWidth: " + _layoutWidth + " | _layoutHeight: " + _layoutHeight);
     }
 
     @BindView(R.id.iv_car_part)
@@ -52,6 +59,20 @@ public class HomeActivity extends AppCompatActivity
     private void initViews() {
         ivCarPart.setOnTouchImageViewListener(this);
         cvThumbnail.setOnTouchListener(new DragNDropTouchListener());
+
+        rootLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initLayoutSize();
+
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivThumbnail.getLayoutParams();
+                params.height = _layoutHeight / 2;
+                ivThumbnail.setLayoutParams(params);
+
+                displayThumbnail();
+                calculateMargins();
+            }
+        }, 100);
     }
 
     private static final int PAINT_COLOR = Color.RED;
@@ -150,6 +171,20 @@ public class HomeActivity extends AppCompatActivity
                 .into(ivThumbnail);
     }
 
+    private int _maxLeftMargin;
+    private int _maxTopMargin;
+
+    private void calculateMargins() {
+        ivThumbnail.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                _maxLeftMargin = _layoutWidth - ivThumbnail.getMeasuredWidth();
+                _maxTopMargin = _layoutHeight - ivThumbnail.getMeasuredHeight();
+                Log.i("CALCULATE", "_maxLeftMargin: " + _maxLeftMargin + " | _maxTopMargin: " + _maxTopMargin);
+            }
+        }, 100);
+    }
+
     @BindView(R.id.view_root)
     ViewGroup rootLayout;
     private int _xDelta;
@@ -172,10 +207,20 @@ public class HomeActivity extends AppCompatActivity
                 case MotionEvent.ACTION_POINTER_UP:
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    int leftMargin = X - _xDelta;
+                    leftMargin = leftMargin < 0 ? 0 : leftMargin;
+                    leftMargin = leftMargin > _maxLeftMargin ? _maxLeftMargin : leftMargin;
+
+                    int topMargin = Y - _yDelta;
+                    Log.i("ACTION_MOVE", "topMargin: " + topMargin);
+                    topMargin = topMargin < 0 ? 0 : topMargin;
+                    topMargin = topMargin > _maxTopMargin ? _maxTopMargin : topMargin;
+                    Log.i("ACTION_MOVE", "topMargin 222: " + topMargin);
+
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
                             .getLayoutParams();
-                    layoutParams.leftMargin = X - _xDelta;
-                    layoutParams.topMargin = Y - _yDelta;
+                    layoutParams.leftMargin = leftMargin;
+                    layoutParams.topMargin = topMargin;
                     layoutParams.rightMargin = -250;
                     layoutParams.bottomMargin = -250;
                     view.setLayoutParams(layoutParams);

@@ -9,4 +9,7 @@
     <color name="red">#DF0101</color>
     <color name="blue">#0040FF</color>
     <color name="green">#04B431</color>
+
+    <color name="btn_bg_normal">#d6d7d7</color>
+    <color name="btn_bg_selected">#bbbcbc</color>
 </resources>

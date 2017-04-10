@@ -29,11 +29,6 @@
             android:value="vn.com.toyota.checkdetail.model.SettingModel"/>
 
         <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.SheetActivity"
@@ -45,7 +40,20 @@
             android:name=".activity.ResultSheetActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.CameraActivity"/>
-        <activity android:name=".activity.HomeActivity">
+        <activity
+            android:name=".activity.HomeActivity"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity android:name=".activity.Home2Activity">
+        </activity>
+        <activity
+            android:name=".feature.errpos.ErrorPositionPickerActivity"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 
