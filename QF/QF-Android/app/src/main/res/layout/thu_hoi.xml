@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_popup_corner"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="CHẮC CHẮN MUỐN THU HỒI?"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnCo_thuhoi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@android:drawable/btn_default"
+            android:drawableRight="@drawable/checkmark2"
+            android:paddingBottom="20dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="60dp"
+            android:paddingTop="20dp"
+            android:text="Có"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btnKhong_thuhoi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@android:drawable/btn_default"
+            android:drawableRight="@drawable/cross"
+            android:paddingBottom="20dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="50dp"
+            android:paddingTop="20dp"
+            android:text="Không"
+            android:textSize="20sp" />
+    </LinearLayout>
+</LinearLayout>

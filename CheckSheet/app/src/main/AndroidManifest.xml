@@ -66,6 +66,10 @@
         <service
             android:name=".ui.activity.SaveHistoryService"
             android:exported="false"></service>
+
+        <service
+            android:name=".ui.service.SaveImageService"
+            android:exported="true"></service>
     </application>
 
 </manifest>

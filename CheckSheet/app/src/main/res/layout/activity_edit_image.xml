@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/btnClose"
         android:layout_width="match_parent"
@@ -16,25 +16,23 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/lyImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_below="@id/btnClose"
-        >
+        android:gravity="center">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="1dp"
-            android:gravity="center"
             android:layout_gravity="center"
             android:background="@drawable/bg_round_stroke"
-            >
+            android:gravity="center"
+            android:padding="1dp">
+
             <com.example.ngothi.checksheet.ui.activity.view.ImageDrawing
                 android:id="@+id/imageEdit"
                 android:layout_width="wrap_content"
@@ -42,8 +40,7 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:background="@drawable/bg_round_stroke"
-                android:scaleType="fitXY"
-                />
+                android:scaleType="fitXY" />
         </LinearLayout>
 
     </LinearLayout>
