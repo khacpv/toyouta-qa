@@ -11,4 +11,7 @@
     <string name="result">Kết quả</string>
     <string name="saving_image">Lưu ảnh...</string>
     <string name="capture_error">Không thể chụp ảnh, tắt app và bật lại, sau đó thử lại...</string>
+    <string name="seq">seq</string>
+    <string name="grade">grade</string>
+    <string name="process">process</string>
 </resources>

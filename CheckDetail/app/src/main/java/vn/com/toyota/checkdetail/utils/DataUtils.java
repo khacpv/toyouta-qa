@@ -1,11 +1,14 @@
 package vn.com.toyota.checkdetail.utils;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import vn.com.toyota.checkdetail.config.AppConfig;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
+import vn.com.toyota.checkdetail.model.Product;
 
 /**
  * Created by Do Hoang on 4/11/2017.
@@ -31,5 +34,15 @@ public class DataUtils {
             list.add(new ErrorPosition(code));
         }
         return list;
+    }
+
+    public static Product getProduct() {
+        String seq1 = RandomStringUtils.randomNumeric(1);
+        String seq2 = RandomStringUtils.randomAlphabetic(1);
+        String seq3 = RandomStringUtils.randomNumeric(9);
+        String sequence = seq1 + seq2 + seq3;
+        String grade = RandomStringUtils.randomAlphabetic(2);
+
+        return new Product(sequence, grade);
     }
 }
