@@ -77,46 +77,17 @@ public class MainV2Activity extends AppCompatActivity
         }
     }
 
-    private static final String IMAGE_VIEW_TAG = "car_thumbnail";
-
-    private int _layoutWidth;
-    private int _layoutHeight;
-
-    private void initLayoutSize() {
-        _layoutWidth = rootLayout.getMeasuredWidth();
-        _layoutHeight = rootLayout.getMeasuredHeight();
-        Log.i("CALCULATE", "_layoutWidth: " + _layoutWidth + " | _layoutHeight: " + _layoutHeight);
-    }
-
     @BindView(R.id.iv_car_part)
     TouchImageView ivCarPart;
-    @BindView(R.id.iv_thumbnail)
-    ImageView ivThumbnail;
-    @BindView(R.id.cv_thumbnail)
-    View cvThumbnail;
 
     private void initViews() {
         ivCarPart.setOnTouchImageViewListener(this);
-        cvThumbnail.setOnTouchListener(new MainV2Activity.DragNDropTouchListener());
-
-        rootLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initLayoutSize();
-
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivThumbnail.getLayoutParams();
-                params.height = _layoutHeight / 2;
-                ivThumbnail.setLayoutParams(params);
-
-                displayThumbnail();
-                calculateMargins();
-            }
-        }, 100);
     }
 
-    private static final int PAINT_COLOR = Color.RED;
-    private static final int NUMBER_OF_ROWS = 3;
-    private static final int NUMBER_OF_COLUMNS = 3;
+    private static final int PAINT_COLOR = Color.GRAY;
+    private static final int NUMBER_OF_ROWS = 10;
+    private static final int NUMBER_OF_COLUMNS = 10;
+    private static final float STROKE_WIDTH = 1f;
     private int mBitmapWidth, mBitmapHeight;
 
     private void drawGridLineIntoImage() {
@@ -129,7 +100,7 @@ public class MainV2Activity extends AppCompatActivity
         paint.setDither(true);
         paint.setColor(PAINT_COLOR);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(4f);
+        paint.setStrokeWidth(STROKE_WIDTH);
 
         canvas.drawBitmap(bmp, 0f, 0f, paint);
 
@@ -201,72 +172,5 @@ public class MainV2Activity extends AppCompatActivity
         }
         Log.i("TOUCH", "x: " + x + " | y: " + y);
         Toast.makeText(this, "zone(" + x + ", " + y + ")", Toast.LENGTH_SHORT).show();
-    }
-
-    private void displayThumbnail() {
-        Glide.with(this)
-                .load(R.drawable.toyota_innova_2015)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(ivThumbnail);
-    }
-
-    private int _maxLeftMargin;
-    private int _maxTopMargin;
-
-    private void calculateMargins() {
-        ivThumbnail.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                _maxLeftMargin = _layoutWidth - ivThumbnail.getMeasuredWidth();
-                _maxTopMargin = _layoutHeight - ivThumbnail.getMeasuredHeight();
-                Log.i("CALCULATE", "_maxLeftMargin: " + _maxLeftMargin + " | _maxTopMargin: " + _maxTopMargin);
-            }
-        }, 100);
-    }
-
-    @BindView(R.id.view_root)
-    ViewGroup rootLayout;
-    private int _xDelta;
-    private int _yDelta;
-
-    private final class DragNDropTouchListener implements View.OnTouchListener {
-        public boolean onTouch(View view, MotionEvent event) {
-            final int X = (int) event.getRawX();
-            final int Y = (int) event.getRawY();
-            switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                case MotionEvent.ACTION_DOWN:
-                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                    _xDelta = X - lParams.leftMargin;
-                    _yDelta = Y - lParams.topMargin;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-                case MotionEvent.ACTION_POINTER_DOWN:
-                    break;
-                case MotionEvent.ACTION_POINTER_UP:
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    int leftMargin = X - _xDelta;
-                    leftMargin = leftMargin < 0 ? 0 : leftMargin;
-                    leftMargin = leftMargin > _maxLeftMargin ? _maxLeftMargin : leftMargin;
-
-                    int topMargin = Y - _yDelta;
-                    Log.i("ACTION_MOVE", "topMargin: " + topMargin);
-                    topMargin = topMargin < 0 ? 0 : topMargin;
-                    topMargin = topMargin > _maxTopMargin ? _maxTopMargin : topMargin;
-                    Log.i("ACTION_MOVE", "topMargin 222: " + topMargin);
-
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
-                            .getLayoutParams();
-                    layoutParams.leftMargin = leftMargin;
-                    layoutParams.topMargin = topMargin;
-                    layoutParams.rightMargin = -250;
-                    layoutParams.bottomMargin = -250;
-                    view.setLayoutParams(layoutParams);
-                    break;
-            }
-            rootLayout.invalidate();
-            return true;
-        }
     }
 }
