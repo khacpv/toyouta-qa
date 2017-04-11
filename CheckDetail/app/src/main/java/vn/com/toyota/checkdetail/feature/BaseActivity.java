@@ -1,4 +1,4 @@
-package vn.com.toyota.checkdetail.activity;
+package vn.com.toyota.checkdetail.feature;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -28,6 +28,8 @@ import vn.com.toyota.checkdetail.Common;
 import vn.com.toyota.checkdetail.activity.view.ImageDrawing;
 import vn.com.toyota.checkdetail.adapter.StepImageAdapter;
 import vn.com.toyota.checkdetail.event.OnItemListener;
+import vn.com.toyota.checkdetail.feature.BaseActivity;
+import vn.com.toyota.checkdetail.feature.camera.CameraActivity;
 import vn.com.toyota.checkdetail.model.CategoyCheck;
 import vn.com.toyota.checkdetail.model.DrawEntityPath;
 import vn.com.toyota.checkdetail.model.ImageCapture;
@@ -105,7 +107,7 @@ public class SheetActivity extends BaseActivity implements OnItemListener<ImageC
                     return;
                 }
                 mImageCaptures.get(selectedPosition).setEditted(true);
-                mImageCaptures.get(selectedPosition).setPaths(paths);
+//                mImageCaptures.get(selectedPosition).setPaths(paths);
                 mImageCaptures.get(selectedPosition).setDrawEntityPaths(drawEntityPaths);
             }
         });

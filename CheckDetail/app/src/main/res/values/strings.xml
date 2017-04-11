@@ -14,4 +14,5 @@
     <string name="seq">seq</string>
     <string name="grade">grade</string>
     <string name="process">process</string>
+    <string name="close">Đóng</string>
 </resources>

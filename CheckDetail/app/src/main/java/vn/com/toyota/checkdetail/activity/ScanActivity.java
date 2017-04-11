@@ -15,6 +15,7 @@ import com.google.zxing.Result;
 
 import butterknife.OnClick;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import vn.com.toyota.checkdetail.feature.BaseActivity;
 
 public class ScanActivity extends BaseActivity implements ZXingScannerView.ResultHandler {
     private static final String FLASH_STATE = "FLASH_STATE";

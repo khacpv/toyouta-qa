@@ -1,4 +1,4 @@
-package vn.com.toyota.checkdetail.activity;
+package vn.com.toyota.checkdetail.feature.camera;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +26,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import vn.com.toyota.checkdetail.R;
+import vn.com.toyota.checkdetail.Common;
+import vn.com.toyota.checkdetail.activity.SheetActivity;
+import vn.com.toyota.checkdetail.model.ImageCapture;
 import vn.com.toyota.checkdetail.utils.FileUtils;
+import vn.com.toyota.checkdetail.utils.GsonUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.io.IOException;
@@ -41,7 +45,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private CameraOrientationListener mOrientationListener;
     private int mCameraID = 0;
     KProgressHUD dialog;
-    private static final int WIDTH_MAX = 2048;
+    private static final int WIDTH_MAX = 90000;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +197,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -338,7 +342,11 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 return;
             }
             Intent intent = new Intent();
-            intent.putExtra("data", s);
+            intent.putExtra(Common.BundleConstant.IMAGE_CAPTURE, GsonUtils.Object2String(
+                    new ImageCapture.Builder().setFromFile(true)
+                            .setEditted(false)
+                            .setFilepath(s)
+                            .build()));
             setResult(SheetActivity.RESULT_OK, intent);
             finish();
         }

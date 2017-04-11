@@ -39,7 +39,7 @@
         <activity
             android:name=".activity.ResultSheetActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.CameraActivity"/>
+        <activity android:name=".feature.camera.CameraActivity"/>
         <activity
             android:name=".activity.HomeActivity"
             android:screenOrientation="landscape">
@@ -58,6 +58,10 @@
         <activity android:name=".feature.main.MainV2Activity"
                   android:screenOrientation="landscape">
         </activity>
+        <activity
+            android:name=".feature.edtimg.EditImageActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

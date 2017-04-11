@@ -11,6 +11,7 @@ import android.widget.Toast;
 import vn.com.toyota.checkdetail.R;
 import vn.com.toyota.checkdetail.Common;
 import vn.com.toyota.checkdetail.adapter.ResultSheetAdapter;
+import vn.com.toyota.checkdetail.feature.BaseActivity;
 import vn.com.toyota.checkdetail.model.Step;
 import vn.com.toyota.checkdetail.utils.GsonUtils;
 

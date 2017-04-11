@@ -172,5 +172,10 @@ public class MainV2Activity extends AppCompatActivity
         }
         Log.i("TOUCH", "x: " + x + " | y: " + y);
         Toast.makeText(this, "zone(" + x + ", " + y + ")", Toast.LENGTH_SHORT).show();
+        goToCameraActivity();
+    }
+
+    private void goToCameraActivity() {
+
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#000"
     android:orientation="vertical"
-    tools:context="vn.com.toyota.checkdetail.activity.CameraActivity"
+    tools:context=".feature.camera.CameraActivity"
     >
     <SurfaceView
         android:id="@+id/surfaceCamera"

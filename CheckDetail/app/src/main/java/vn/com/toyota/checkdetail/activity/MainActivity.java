@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import vn.com.toyota.checkdetail.R;
+import vn.com.toyota.checkdetail.feature.BaseActivity;
 import vn.com.toyota.checkdetail.model.CategoyCheck;
 import vn.com.toyota.checkdetail.model.SettingModel;
 import vn.com.toyota.checkdetail.utils.FileUtils;
