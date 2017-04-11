@@ -33,7 +33,7 @@
             android:gravity="center"
             android:padding="1dp">
 
-            <com.example.ngothi.checksheet.ui.activity.view.ImageDrawing
+            <vn.com.toyota.checkdetail.view.ImageDrawing
                 android:id="@+id/imageEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package vn.com.toyota.checkdetail.activity.view;
+package vn.com.toyota.checkdetail.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

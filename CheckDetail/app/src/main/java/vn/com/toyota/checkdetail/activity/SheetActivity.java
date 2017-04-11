@@ -25,7 +25,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import vn.com.toyota.checkdetail.R;
 import vn.com.toyota.checkdetail.Common;
-import vn.com.toyota.checkdetail.activity.view.ImageDrawing;
+import vn.com.toyota.checkdetail.view.ImageDrawing;
 import vn.com.toyota.checkdetail.adapter.StepImageAdapter;
 import vn.com.toyota.checkdetail.event.OnItemListener;
 import vn.com.toyota.checkdetail.feature.BaseActivity;

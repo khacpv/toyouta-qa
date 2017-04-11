@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="vn.com.toyota.checkdetail.activity.HomeActivity">
 
-    <vn.com.toyota.checkdetail.activity.view.TouchImageView
+    <vn.com.toyota.checkdetail.view.TouchImageView
         android:id="@+id/iv_car_part"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

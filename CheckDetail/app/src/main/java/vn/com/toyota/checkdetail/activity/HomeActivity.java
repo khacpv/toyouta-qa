@@ -23,7 +23,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import vn.com.toyota.checkdetail.R;
-import vn.com.toyota.checkdetail.activity.view.TouchImageView;
+import vn.com.toyota.checkdetail.view.TouchImageView;
 
 public class HomeActivity extends AppCompatActivity
         implements TouchImageView.TouchImageViewListener {

@@ -10,27 +10,25 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import vn.com.toyota.checkdetail.Common;
 import vn.com.toyota.checkdetail.R;
-import vn.com.toyota.checkdetail.activity.view.TouchImageView;
+import vn.com.toyota.checkdetail.view.TouchImageView;
+import vn.com.toyota.checkdetail.feature.edtimg.EditImageActivity;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
+import vn.com.toyota.checkdetail.model.ImageCapture;
 import vn.com.toyota.checkdetail.model.Product;
 import vn.com.toyota.checkdetail.storage.ErrorPositionStorage;
 import vn.com.toyota.checkdetail.utils.DataUtils;
+import vn.com.toyota.checkdetail.utils.GsonUtils;
 
 public class MainV2Activity extends AppCompatActivity
         implements TouchImageView.TouchImageViewListener {
@@ -175,7 +173,47 @@ public class MainV2Activity extends AppCompatActivity
         goToCameraActivity();
     }
 
-    private void goToCameraActivity() {
+    public static final int REQUEST_CODE_EDIT = 1234;
+    public static final int MAX = Integer.MAX_VALUE;
 
+    private void goToCameraActivity() {
+        Intent intent = new Intent(MainV2Activity.this, EditImageActivity.class);
+        intent.putExtra(Common.BundleConstant.IMAGE_CAPTURE, "");
+        intent.putExtra(Common.BundleConstant.POSITION, MAX);
+        startActivityForResult(intent, REQUEST_CODE_EDIT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_EDIT) {
+            if (resultCode == RESULT_OK) {
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Bundle bundle = data.getExtras();
+
+                        if (bundle == null) {
+                            return;
+                        }
+
+                        ImageCapture imageCapture = GsonUtils.String2Object(
+                                bundle.getString(Common.BundleConstant.IMAGE_CAPTURE),
+                                ImageCapture.class);
+                        Toast.makeText(MainV2Activity.this, imageCapture.getFilepath(), Toast.LENGTH_SHORT).show();
+//                        int position = bundle.getInt(Common.BundleConstant.POSITION);
+//                        if (position == MAX) {
+//                            mStepImageAdapter.addImage(imageCapture);
+//                        } else {
+//                            mImageCaptures.set(position, imageCapture);
+//                            rcvImage.scrollToPosition(position);
+//                        }
+//
+//                        mStepImageAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }
     }
 }

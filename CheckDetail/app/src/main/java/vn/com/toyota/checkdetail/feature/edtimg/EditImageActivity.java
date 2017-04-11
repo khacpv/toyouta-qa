@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import vn.com.toyota.checkdetail.Common;
 import vn.com.toyota.checkdetail.R;
-import vn.com.toyota.checkdetail.activity.view.ImageDrawing;
+import vn.com.toyota.checkdetail.view.ImageDrawing;
 import vn.com.toyota.checkdetail.feature.BaseActivity;
 import vn.com.toyota.checkdetail.feature.camera.CameraActivity;
 import vn.com.toyota.checkdetail.model.DrawEntityPath;
