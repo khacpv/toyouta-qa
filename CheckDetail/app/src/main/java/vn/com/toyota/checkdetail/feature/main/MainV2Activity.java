@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -117,6 +118,23 @@ public class MainV2Activity extends AppCompatActivity
         ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
         mErrorPartAdapter = new ErrorPartAdapter(this, errorPosition.getErrorParts());
         rvErrorPart.setAdapter(mErrorPartAdapter);
+
+        ivGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFullGuideImage();
+            }
+        });
+    }
+
+    private void showFullGuideImage() {
+        Error error = ProductStorage.getInstance().getCurrentError();
+        if (error == null) {
+            Log.w(TAG, "error NULL");
+            return;
+        }
+        DialogFragment fragment = GuideDialogFragment.newInstance(error);
+        fragment.show(getSupportFragmentManager(), GuideDialogFragment.TAG);
     }
 
     @Override
