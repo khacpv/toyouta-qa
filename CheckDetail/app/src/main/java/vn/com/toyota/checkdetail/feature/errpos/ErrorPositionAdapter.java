@@ -28,7 +28,7 @@ public class ErrorPositionAdapter extends RecyclerView.Adapter<ErrorPositionAdap
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.error_position_item, parent, false);
+                R.layout.item_error_position, parent, false);
         return new ErrorPositionAdapter.ViewHolder(itemView);
     }
 

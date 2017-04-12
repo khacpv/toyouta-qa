@@ -12,26 +12,43 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import vn.com.toyota.checkdetail.Common;
 import vn.com.toyota.checkdetail.R;
-import vn.com.toyota.checkdetail.view.TouchImageView;
 import vn.com.toyota.checkdetail.feature.edtimg.EditImageActivity;
+import vn.com.toyota.checkdetail.listener.RecyclerTouchListener;
+import vn.com.toyota.checkdetail.model.Error;
+import vn.com.toyota.checkdetail.model.ErrorPart;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
 import vn.com.toyota.checkdetail.model.ImageCapture;
 import vn.com.toyota.checkdetail.model.Product;
-import vn.com.toyota.checkdetail.storage.ErrorPositionStorage;
-import vn.com.toyota.checkdetail.utils.DataUtils;
+import vn.com.toyota.checkdetail.storage.ProductStorage;
 import vn.com.toyota.checkdetail.utils.GsonUtils;
+import vn.com.toyota.checkdetail.view.TouchImageView;
 
 public class MainV2Activity extends AppCompatActivity
-        implements TouchImageView.TouchImageViewListener {
+        implements TouchImageView.TouchImageViewListener,
+        RecyclerTouchListener.ClickListener {
     private final String TAG = MainV2Activity.class.getName();
 
     public static Intent newIntent(Context context) {
@@ -46,13 +63,19 @@ public class MainV2Activity extends AppCompatActivity
 
         ButterKnife.bind(this);
         initViews();
-        drawGridLineIntoImage();
         showProductInfo();
     }
 
     @Override
-    public void onBackPressed() {
+    protected void onResume() {
+        super.onResume();
+        drawGridLineIntoImage();
+    }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.have_to_complete),
+                Toast.LENGTH_SHORT).show();
     }
 
     @BindView(R.id.tv_sequence)
@@ -63,12 +86,13 @@ public class MainV2Activity extends AppCompatActivity
     TextView tvProcess;
 
     private void showProductInfo() {
-        Product product = DataUtils.getProduct();
+        Product product = ProductStorage.getInstance().getProduct();
+
         String seq = getString(R.string.seq) + ": " + product.getSequence();
         tvSequence.setText(seq);
         String grade = getString(R.string.grade) + ": " + product.getGrade();
         tvGrade.setText(grade);
-        ErrorPosition errorPosition = ErrorPositionStorage.getInstance().getErrorPosition();
+        ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
         if (errorPosition != null) {
             String process = getString(R.string.process) + ": " + errorPosition.getCode();
             tvProcess.setText(process);
@@ -77,19 +101,108 @@ public class MainV2Activity extends AppCompatActivity
 
     @BindView(R.id.iv_car_part)
     TouchImageView ivCarPart;
+    @BindView(R.id.rv_error_part)
+    RecyclerView rvErrorPart;
+
+    private ErrorPartAdapter mErrorPartAdapter;
 
     private void initViews() {
         ivCarPart.setOnTouchImageViewListener(this);
+
+        rvErrorPart.setHasFixedSize(true);
+        rvErrorPart.setLayoutManager(new LinearLayoutManager(this));
+        rvErrorPart.setItemAnimator(new DefaultItemAnimator());
+        rvErrorPart.addOnItemTouchListener(new RecyclerTouchListener(this, rvErrorPart, this));
+
+        ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
+        mErrorPartAdapter = new ErrorPartAdapter(this, errorPosition.getErrorParts());
+        rvErrorPart.setAdapter(mErrorPartAdapter);
+    }
+
+    @Override
+    public void onClick(View view, int position) {
+        ErrorPart errorPart = mErrorPartAdapter.getItem(position);
+        if (errorPart.getImgUrl().isEmpty()) {
+            return;
+        }
+        for (ErrorPart ep : mErrorPartAdapter.getList()) {
+            ep.setSelected(false);
+        }
+        errorPart.setSelected(true);
+        mErrorPartAdapter.notifyDataSetChanged();
+
+        ProductStorage.getInstance().setCurrentErrorPart(errorPart);
+        drawGridLineIntoImage();
+        showPopupMenu(rvErrorPart.getChildAt(position));
+    }
+
+    private void showPopupMenu(View view) {
+        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+        if (errorPart == null) {
+            Log.w(TAG, "errorPart NULL");
+            return;
+        }
+
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        int id = 0;
+        for (Error err : errorPart.getErrors()) {
+            popupMenu.getMenu().add(Menu.NONE, id, id, err.getCode());
+            id++;
+        }
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+                Error error = errorPart.getErrors().get(id);
+                ProductStorage.getInstance().setCurrentError(error);
+                showGuideImage();
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
+
+    @BindView(R.id.iv_guide)
+    ImageView ivGuide;
+
+    private void showGuideImage() {
+        Error error = ProductStorage.getInstance().getCurrentError();
+        if (error == null) {
+            Log.w(TAG, "error NULL");
+            return;
+        }
+        Glide.with(this)
+                .load(error.getImgGuideUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .fitCenter()
+                .into(ivGuide);
+    }
+
+    @Override
+    public void onLongClick(View view, int position) {
+
+    }
+
+    @OnClick(R.id.btn_finish)
+    public void finishClick() {
+        finish();
     }
 
     private static final int PAINT_COLOR = Color.GRAY;
     private static final int NUMBER_OF_ROWS = 10;
     private static final int NUMBER_OF_COLUMNS = 10;
     private static final float STROKE_WIDTH = 1f;
+    private static final float ERROR_DOT_RADIUS = 10f;
     private int mBitmapWidth, mBitmapHeight;
 
     private void drawGridLineIntoImage() {
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.toyota_innova);
+        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+        if (errorPart == null) {
+            Log.w(TAG, "errorPart NULL");
+            return;
+        }
+        Bitmap bmp = BitmapFactory.decodeFile(errorPart.getImgUrl());
         Bitmap result = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
         Canvas canvas = new Canvas(result);
 
@@ -114,6 +227,17 @@ public class MainV2Activity extends AppCompatActivity
             canvas.drawLine(0, height * i / NUMBER_OF_ROWS, width, height * i / NUMBER_OF_ROWS, paint);
         }
 
+        // Error dots
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.FILL);
+        List<Error> errors = errorPart.getErrors();
+        for (Error err : errors) {
+            if (err.getX() == 0 && err.getY() == 0) {
+                continue;
+            }
+            canvas.drawCircle(err.getX(), err.getY(), ERROR_DOT_RADIUS, paint);
+        }
+
         this.mBitmapWidth = width;
         this.mBitmapHeight = height;
 
@@ -122,6 +246,11 @@ public class MainV2Activity extends AppCompatActivity
 
     @Override
     public void onActionUp(Matrix matrix, MotionEvent event) {
+        Error error = ProductStorage.getInstance().getCurrentError();
+        if (error == null) {
+            Toast.makeText(this, "Chưa chọn mã lỗi", Toast.LENGTH_SHORT).show();
+            return;
+        }
 //        Matrix matrix = ivCarPart.getMatrix();
         // Get the values of the matrix
         float[] values = new float[9];
@@ -169,7 +298,8 @@ public class MainV2Activity extends AppCompatActivity
             }
         }
         Log.i("TOUCH", "x: " + x + " | y: " + y);
-        Toast.makeText(this, "zone(" + x + ", " + y + ")", Toast.LENGTH_SHORT).show();
+        error.setX(relativeX);
+        error.setY(relativeY);
         goToCameraActivity();
     }
 

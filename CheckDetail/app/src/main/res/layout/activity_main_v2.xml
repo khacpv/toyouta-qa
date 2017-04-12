@@ -4,40 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="vn.com.toyota.checkdetail.feature.main.MainV2Activity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_sequence"
-            style="@style/ProductInfo"
-            tools:text="SEQ: 1H8239040420"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
 
-        <TextView
-            android:id="@+id/tv_grade"
-            style="@style/ProductInfo"
-            android:background="@drawable/border_left"
-            tools:text="GRADE: CV"/>
+            <TextView
+                android:id="@+id/tv_sequence"
+                style="@style/ProductInfo"
+                tools:text="SEQ: 1H8239040420"/>
 
-        <TextView
-            android:id="@+id/tv_process"
-            style="@style/ProductInfo"
-            android:background="@drawable/border_left"
-            tools:text="PROCESS: SF-RH"/>
+            <TextView
+                android:id="@+id/tv_grade"
+                style="@style/ProductInfo"
+                android:background="@drawable/border_left"
+                tools:text="GRADE: CV"/>
+
+            <TextView
+                android:id="@+id/tv_process"
+                style="@style/ProductInfo"
+                android:background="@drawable/border_left"
+                tools:text="PROCESS: SF-RH"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/view_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <vn.com.toyota.checkdetail.view.TouchImageView
+                android:id="@+id/iv_car_part"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/view_root"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <vn.com.toyota.checkdetail.view.TouchImageView
-            android:id="@+id/iv_car_part"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
+    <include layout="@layout/side_menu"/>
 </LinearLayout>

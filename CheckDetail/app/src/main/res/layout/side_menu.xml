@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="240dp"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <Button
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/ic_arrow_drop_up"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_error_part"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/border"/>
+
+    <Button
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/ic_arrow_drop_down"/>
+
+    <Button
+        android:id="@+id/btn_finish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/line_button_finish_selector"
+        android:text="@string/finish"
+        android:textAllCaps="false"
+        android:textSize="22sp"/>
+
+    <ImageView
+        android:id="@+id/iv_guide"
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        android:layout_marginTop="24dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/border"
+        android:padding="1dp"/>
+</LinearLayout>

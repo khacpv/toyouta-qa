@@ -1,5 +1,8 @@
 package vn.com.toyota.checkdetail.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Do Hoang on 4/11/2017.
  */
@@ -7,10 +10,12 @@ package vn.com.toyota.checkdetail.model;
 public class Product {
     private String sequence;
     private String grade;
+    private List<ErrorPosition> errorPositions;
 
-    public Product(String sequence, String grade) {
+    public Product(String sequence, String grade, List<ErrorPosition> errorPositions) {
         this.sequence = sequence;
         this.grade = grade;
+        this.errorPositions = errorPositions;
     }
 
     public String getSequence() {
@@ -27,5 +32,13 @@ public class Product {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public List<ErrorPosition> getErrorPositions() {
+        return errorPositions;
+    }
+
+    public void setErrorPositions(List<ErrorPosition> errorPositions) {
+        this.errorPositions = errorPositions;
     }
 }

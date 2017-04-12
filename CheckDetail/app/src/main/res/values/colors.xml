@@ -12,4 +12,11 @@
 
     <color name="btn_bg_normal">#d6d7d7</color>
     <color name="btn_bg_selected">#bbbcbc</color>
+
+    <color name="btn_finish_normal">#00a64b</color>
+    <color name="btn_finish_pressed">#009443</color>
+
+    <color name="bg_error_part_item_normal">#b8b8b8</color>
+    <color name="bg_error_part_item_selected">#3d72a2</color>
+
 </resources>
