@@ -5,6 +5,6 @@ package vn.com.toyota.checkdetail.config;
  */
 
 public class AppConfig {
-    public static final int ERROR_POSITION_COL = 4;
-    public static final int ERROR_POSITION_ROW = 4;
+    public static final int ERROR_POSITION_COL = 3;
+    public static final int ERROR_POSITION_ROW = 3;
 }
