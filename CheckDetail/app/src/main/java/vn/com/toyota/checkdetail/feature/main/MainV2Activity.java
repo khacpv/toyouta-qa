@@ -26,9 +26,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,6 +43,7 @@ import vn.com.toyota.checkdetail.model.ImageCapture;
 import vn.com.toyota.checkdetail.model.Product;
 import vn.com.toyota.checkdetail.storage.ProductStorage;
 import vn.com.toyota.checkdetail.utils.GsonUtils;
+import vn.com.toyota.checkdetail.utils.ImageUtils;
 import vn.com.toyota.checkdetail.view.TouchImageView;
 
 public class MainV2Activity extends AppCompatActivity
@@ -65,6 +63,7 @@ public class MainV2Activity extends AppCompatActivity
 
         ButterKnife.bind(this);
         initViews();
+        showErrorPartList();
         showProductInfo();
     }
 
@@ -105,6 +104,8 @@ public class MainV2Activity extends AppCompatActivity
     TouchImageView ivCarPart;
     @BindView(R.id.rv_error_part)
     RecyclerView rvErrorPart;
+    @BindView(R.id.iv_logo)
+    ImageView ivLogo;
 
     private ErrorPartAdapter mErrorPartAdapter;
 
@@ -116,16 +117,26 @@ public class MainV2Activity extends AppCompatActivity
         rvErrorPart.setItemAnimator(new DefaultItemAnimator());
         rvErrorPart.addOnItemTouchListener(new RecyclerTouchListener(this, rvErrorPart, this));
 
-        ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
-        mErrorPartAdapter = new ErrorPartAdapter(this, errorPosition.getErrorParts());
-        rvErrorPart.setAdapter(mErrorPartAdapter);
-
         ivGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFullGuideImage();
             }
         });
+        ImageUtils.showImage(this, R.drawable.toyota_logo, ivLogo);
+    }
+
+    private void showErrorPartList() {
+        ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
+        List<ErrorPart> errorParts = errorPosition.getErrorParts();
+        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+        if (errorPart == null) {
+            for (ErrorPart ep : errorParts) {
+                ep.setSelected(false);
+            }
+        }
+        mErrorPartAdapter = new ErrorPartAdapter(this, errorPosition.getErrorParts());
+        rvErrorPart.setAdapter(mErrorPartAdapter);
     }
 
     private void showFullGuideImage() {
@@ -191,11 +202,7 @@ public class MainV2Activity extends AppCompatActivity
             Log.w(TAG, "error NULL");
             return;
         }
-        Glide.with(this)
-                .load(error.getImgGuideUrl())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .fitCenter()
-                .into(ivGuide);
+        ImageUtils.showImage(this, error.getImgGuideUrl(), ivGuide);
     }
 
     @Override
@@ -206,6 +213,7 @@ public class MainV2Activity extends AppCompatActivity
     @OnClick(R.id.btn_finish)
     public void finishClick() {
         finish();
+        ProductStorage.getInstance().clearMemory();
     }
 
     private static final int PAINT_COLOR = Color.GRAY;
@@ -218,9 +226,11 @@ public class MainV2Activity extends AppCompatActivity
     private void drawGridLineIntoImage() {
         ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
         if (errorPart == null) {
+            ivLogo.setVisibility(View.VISIBLE);
             Log.w(TAG, "errorPart NULL");
             return;
         }
+        ivLogo.setVisibility(View.GONE);
         Bitmap bmp = BitmapFactory.decodeFile(errorPart.getImgUrl());
         Bitmap result = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
         Canvas canvas = new Canvas(result);

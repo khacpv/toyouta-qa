@@ -56,4 +56,10 @@ public class ProductStorage {
     public void setCurrentError(Error currentError) {
         mCurrentError = currentError;
     }
+
+    public void clearMemory() {
+        this.mCurrentError = null;
+        this.mCurrentErrorPart = null;
+        this.mCurrentErrorPosition = null;
+    }
 }
