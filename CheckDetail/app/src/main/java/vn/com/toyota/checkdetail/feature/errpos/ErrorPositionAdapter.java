@@ -7,13 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import vn.com.toyota.checkdetail.R;
+import vn.com.toyota.checkdetail.config.AppConfig;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
+import vn.com.toyota.checkdetail.utils.Utils;
 
 public class ErrorPositionAdapter extends RecyclerView.Adapter<ErrorPositionAdapter.ViewHolder> {
 
@@ -39,6 +42,11 @@ public class ErrorPositionAdapter extends RecyclerView.Adapter<ErrorPositionAdap
         holder.btnErrorPosition.setText(code);
         holder.btnErrorPosition.setClickable(!TextUtils.isEmpty(code));
         holder.btnErrorPosition.setLongClickable(!TextUtils.isEmpty(code));
+
+        int height = Utils.getScreenHeight(mContext);
+        holder.btnErrorPosition.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                height / AppConfig.ERROR_POSITION_ROW));
     }
 
     @Override
