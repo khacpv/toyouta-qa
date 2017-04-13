@@ -40,6 +40,7 @@ import vn.com.toyota.checkdetail.feature.edtimg.EditImageActivity;
 import vn.com.toyota.checkdetail.listener.RecyclerTouchListener;
 import vn.com.toyota.checkdetail.model.Error;
 import vn.com.toyota.checkdetail.model.ErrorPart;
+import vn.com.toyota.checkdetail.model.ErrorPixel;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
 import vn.com.toyota.checkdetail.model.ImageCapture;
 import vn.com.toyota.checkdetail.model.Product;
@@ -248,12 +249,12 @@ public class MainV2Activity extends AppCompatActivity
         // Error dots
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.FILL);
-        List<Error> errors = errorPart.getErrors();
-        for (Error err : errors) {
-            if (err.getX() == 0 && err.getY() == 0) {
+        List<ErrorPixel> errorPixels = errorPart.getErrorPixels();
+        for (ErrorPixel ep : errorPixels) {
+            if (ep.getX() == 0 && ep.getY() == 0) {
                 continue;
             }
-            canvas.drawCircle(err.getX(), err.getY(), ERROR_DOT_RADIUS, paint);
+            canvas.drawCircle(ep.getX(), ep.getY(), ERROR_DOT_RADIUS, paint);
         }
 
         this.mBitmapWidth = width;
@@ -269,6 +270,7 @@ public class MainV2Activity extends AppCompatActivity
             Toast.makeText(this, "Chưa chọn mã lỗi", Toast.LENGTH_SHORT).show();
             return;
         }
+
 //        Matrix matrix = ivCarPart.getMatrix();
         // Get the values of the matrix
         float[] values = new float[9];
@@ -316,8 +318,9 @@ public class MainV2Activity extends AppCompatActivity
             }
         }
         Log.i("TOUCH", "x: " + x + " | y: " + y);
-        error.setX(relativeX);
-        error.setY(relativeY);
+        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+        ErrorPixel errorPixel = new ErrorPixel(relativeX, relativeY);
+        errorPart.getErrorPixels().add(errorPixel);
         goToCameraActivity();
     }
 

@@ -1,7 +1,6 @@
 package vn.com.toyota.checkdetail.model;
 
-import com.activeandroid.Model;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +10,14 @@ public class ErrorPart {
     private String name;
     private String imgUrl;
     private List<Error> errors;
+    private List<ErrorPixel> errorPixels;
     private boolean selected;
 
     public ErrorPart(String name, String imgUrl, List<Error> errors) {
         this.name = name;
         this.imgUrl = imgUrl;
         this.errors = errors;
+        this.errorPixels = new ArrayList<>();
         this.selected = false;
     }
 
@@ -50,5 +51,13 @@ public class ErrorPart {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public List<ErrorPixel> getErrorPixels() {
+        return errorPixels;
+    }
+
+    public void setErrorPixels(List<ErrorPixel> errorPixels) {
+        this.errorPixels = errorPixels;
     }
 }

@@ -7,14 +7,10 @@ import com.activeandroid.Model;
  */
 public class Error {
     private String code;
-    private float x;
-    private float y;
     private String imgGuideUrl;
 
-    public Error(String code, float x, float y, String imgGuideUrl) {
+    public Error(String code, String imgGuideUrl) {
         this.code = code;
-        this.x = x;
-        this.y = y;
         this.imgGuideUrl = imgGuideUrl;
     }
 
@@ -24,22 +20,6 @@ public class Error {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 
     public String getImgGuideUrl() {

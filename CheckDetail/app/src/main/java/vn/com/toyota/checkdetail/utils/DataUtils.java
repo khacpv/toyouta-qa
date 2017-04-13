@@ -70,9 +70,9 @@ public class DataUtils {
         List<Error> errors = new ArrayList<>();
         try {
             String directory = FileUtils.getDirectory();
-            errors.add(new Error("S-", 0, 0, directory + "/guide_01.jpg"));
-            errors.add(new Error("CR", 0, 0, directory + "/guide_02.jpg"));
-            errors.add(new Error("PP", 0, 0, directory + "/guide_03.jpg"));
+            errors.add(new Error("S-", directory + "/guide_01.jpg"));
+            errors.add(new Error("CR", directory + "/guide_02.jpg"));
+            errors.add(new Error("PP", directory + "/guide_03.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
