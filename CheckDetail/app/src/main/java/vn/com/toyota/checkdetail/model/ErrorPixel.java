@@ -7,6 +7,7 @@ package vn.com.toyota.checkdetail.model;
 public class ErrorPixel {
     private float x;
     private float y;
+    private String imageUrl;
 
     public ErrorPixel(float x, float y) {
         this.x = x;
@@ -27,5 +28,13 @@ public class ErrorPixel {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -1,5 +1,6 @@
 package vn.com.toyota.checkdetail.feature.main;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -22,10 +24,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,6 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import vn.com.toyota.checkdetail.Common;
 import vn.com.toyota.checkdetail.R;
+import vn.com.toyota.checkdetail.config.AppConfig;
 import vn.com.toyota.checkdetail.feature.edtimg.EditImageActivity;
 import vn.com.toyota.checkdetail.listener.RecyclerTouchListener;
 import vn.com.toyota.checkdetail.model.Error;
@@ -185,6 +197,7 @@ public class MainV2Activity extends AppCompatActivity
                 int id = item.getItemId();
                 ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
                 Error error = errorPart.getErrors().get(id);
+                error.setSelected(true);
                 ProductStorage.getInstance().setCurrentError(error);
                 showGuideImage();
                 return true;
@@ -212,6 +225,7 @@ public class MainV2Activity extends AppCompatActivity
 
     @OnClick(R.id.btn_finish)
     public void finishClick() {
+        chonCa();
         finish();
         ProductStorage.getInstance().clearMemory();
     }
@@ -331,6 +345,7 @@ public class MainV2Activity extends AppCompatActivity
         ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
         ErrorPixel errorPixel = new ErrorPixel(relativeX, relativeY);
         errorPart.getErrorPixels().add(errorPixel);
+        ProductStorage.getInstance().setCurrentErrorPixel(errorPixel);
         goToCameraActivity();
     }
 
@@ -362,19 +377,110 @@ public class MainV2Activity extends AppCompatActivity
                         ImageCapture imageCapture = GsonUtils.String2Object(
                                 bundle.getString(Common.BundleConstant.IMAGE_CAPTURE),
                                 ImageCapture.class);
+                        ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
+                        if (errorPixel != null) {
+                            errorPixel.setImageUrl(imageCapture.getFilepath());
+                        }
                         Toast.makeText(MainV2Activity.this, imageCapture.getFilepath(), Toast.LENGTH_SHORT).show();
-//                        int position = bundle.getInt(Common.BundleConstant.POSITION);
-//                        if (position == MAX) {
-//                            mStepImageAdapter.addImage(imageCapture);
-//                        } else {
-//                            mImageCaptures.set(position, imageCapture);
-//                            rcvImage.scrollToPosition(position);
-//                        }
-//
-//                        mStepImageAdapter.notifyDataSetChanged();
                     }
                 });
             }
         }
+    }
+
+
+    Socket clientSocket;
+
+    class ClientThread implements Runnable {
+
+        private String msgToServer;
+
+        public ClientThread(String msgToServer) {
+            this.msgToServer = msgToServer;
+        }
+
+        @Override
+        public void run() {
+            try {
+                InetAddress serverAddr = InetAddress.getByName(AppConfig.SERVER_IP);
+                clientSocket = new Socket(serverAddr, AppConfig.SERVER_PORT);
+
+                OutputStream outputStream = null;
+                outputStream = clientSocket.getOutputStream();
+                final PrintStream printStream = new PrintStream(outputStream);
+                printStream.print(msgToServer);
+                printStream.flush();
+            } catch (UnknownHostException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    class StopClientThread implements Runnable {
+        @Override
+        public void run() {
+            try {
+                clientSocket.close();
+            } catch (UnknownHostException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    Dialog dialog_chonCa;
+
+    public void chonCa() {
+        dialog_chonCa = new Dialog(this);
+        dialog_chonCa.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog_chonCa.setContentView(R.layout.chonca_layout);
+        dialog_chonCa.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        dialog_chonCa.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Button nut_CaVang = (Button) dialog_chonCa.findViewById(R.id.btnCavang);
+        Button nut_CaDo = (Button) dialog_chonCa.findViewById(R.id.btnCado);
+        nut_CaVang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRequest("Ca Y");
+            }
+        });
+        nut_CaDo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRequest("Ca R");
+            }
+        });
+        dialog_chonCa.show();
+    }
+
+    //Tên file ảnh - mã lỗi - mã process - tọa độ x - tọa độ y - col - row - ca làm việc
+
+    private void sendRequest(String shiftCode) {
+        ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
+        ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
+        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+
+        String errorCodes = "";
+        for (Error err : errorPart.getErrors()) {
+            if (err.isSelected()) {
+                errorCodes += err.getCode() + "|";
+            }
+        }
+        errorCodes = errorCodes.substring(0, errorCodes.length() - 1);
+
+        String msgToServer = errorPixel.getImageUrl()
+                + ";" + errorCodes
+                + ";" + errorPosition.getCode()
+                + ";" + errorPixel.getX()
+                + ";" + errorPixel.getY()
+                + ";" + NUMBER_OF_COLUMNS
+                + ";" + NUMBER_OF_ROWS
+                + ";" + shiftCode;
+        Log.d(TAG, "msgToServer: " + msgToServer);
+        new Thread(new ClientThread(msgToServer)).start();
+        dialog_chonCa.dismiss();
     }
 }

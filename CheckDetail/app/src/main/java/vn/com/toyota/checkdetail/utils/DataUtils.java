@@ -25,6 +25,9 @@ public class DataUtils {
         String sequence = seq1 + seq2 + seq3;
         String grade = RandomStringUtils.randomAlphabetic(2);
 
+        //TODO: data fixed
+        sequence = "1H041832404";
+        grade = "CZ";
         Product product = new Product(sequence, grade, createErrorPositionList());
 
         return product;

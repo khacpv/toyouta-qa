@@ -2,6 +2,7 @@ package vn.com.toyota.checkdetail.storage;
 
 import vn.com.toyota.checkdetail.model.Error;
 import vn.com.toyota.checkdetail.model.ErrorPart;
+import vn.com.toyota.checkdetail.model.ErrorPixel;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
 import vn.com.toyota.checkdetail.model.Product;
 import vn.com.toyota.checkdetail.utils.DataUtils;
@@ -20,6 +21,7 @@ public class ProductStorage {
     private ErrorPosition mCurrentErrorPosition;
     private ErrorPart mCurrentErrorPart;
     private Error mCurrentError;
+    private ErrorPixel mCurrentErrorPixel;
 
     public ProductStorage() {
         this.mProduct = DataUtils.createProduct();
@@ -57,7 +59,16 @@ public class ProductStorage {
         mCurrentError = currentError;
     }
 
+    public ErrorPixel getCurrentErrorPixel() {
+        return mCurrentErrorPixel;
+    }
+
+    public void setCurrentErrorPixel(ErrorPixel currentErrorPixel) {
+        mCurrentErrorPixel = currentErrorPixel;
+    }
+
     public void clearMemory() {
+        this.mCurrentErrorPixel = null;
         this.mCurrentError = null;
         this.mCurrentErrorPart = null;
         this.mCurrentErrorPosition = null;
