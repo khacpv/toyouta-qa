@@ -226,6 +226,9 @@ public class MainV2Activity extends AppCompatActivity
     @OnClick(R.id.btn_finish)
     public void finishClick() {
         chonCa();
+    }
+
+    private void finishActivity() {
         finish();
         ProductStorage.getInstance().clearMemory();
     }
@@ -379,7 +382,9 @@ public class MainV2Activity extends AppCompatActivity
                                 ImageCapture.class);
                         ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
                         if (errorPixel != null) {
-                            errorPixel.setImageUrl(imageCapture.getFilepath());
+                            String path = imageCapture.getFilepath();
+                            String fileName = path.substring(path.lastIndexOf('/') + 1, path.length());
+                            errorPixel.setImageUrl(fileName);
                         }
                         Toast.makeText(MainV2Activity.this, imageCapture.getFilepath(), Toast.LENGTH_SHORT).show();
                     }
@@ -459,19 +464,24 @@ public class MainV2Activity extends AppCompatActivity
     //Tên file ảnh - mã lỗi - mã process - tọa độ x - tọa độ y - col - row - ca làm việc
 
     private void sendRequest(String shiftCode) {
-        ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
-        ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
-        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
-
-        String errorCodes = "";
-        for (Error err : errorPart.getErrors()) {
-            if (err.isSelected()) {
-                errorCodes += err.getCode() + "|";
+        try {
+            ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
+            ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
+            ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+            if(errorPart == null || errorPosition == null || errorPixel == null){
+                Log.e("TAG","param is null");
+                dialog_chonCa.dismiss();
+                return;
             }
-        }
-        errorCodes = errorCodes.substring(0, errorCodes.length() - 1);
+            String errorCodes = "";
+            for (Error err : errorPart.getErrors()) {
+                if (err.isSelected()) {
+                    errorCodes += err.getCode() + "|";
+                }
+            }
+            errorCodes = errorCodes.substring(0, errorCodes.length() - 1);
 
-        String msgToServer = errorPixel.getImageUrl()
+            String msgToServer = errorPixel.getImageUrl()
                 + ";" + errorCodes
                 + ";" + errorPosition.getCode()
                 + ";" + errorPixel.getX()
@@ -479,8 +489,15 @@ public class MainV2Activity extends AppCompatActivity
                 + ";" + NUMBER_OF_COLUMNS
                 + ";" + NUMBER_OF_ROWS
                 + ";" + shiftCode;
-        Log.d(TAG, "msgToServer: " + msgToServer);
-        new Thread(new ClientThread(msgToServer)).start();
-        dialog_chonCa.dismiss();
+            Log.d(TAG, "msgToServer: " + msgToServer);
+            new Thread(new ClientThread(msgToServer)).start();
+            dialog_chonCa.dismiss();
+            finishActivity();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            Log.e("TAG","DATA is null");
+        }catch (Exception e){
+
+        }
     }
 }
