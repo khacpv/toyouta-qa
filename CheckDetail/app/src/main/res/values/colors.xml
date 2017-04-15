@@ -19,4 +19,5 @@
     <color name="bg_error_part_item_normal">#b8b8b8</color>
     <color name="bg_error_part_item_selected">#3d72a2</color>
 
+    <color name="text_error_part_item_disabled">#61000000</color>
 </resources>

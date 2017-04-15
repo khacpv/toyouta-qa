@@ -60,7 +60,7 @@ import vn.com.toyota.checkdetail.view.TouchImageView;
 
 public class MainV2Activity extends AppCompatActivity
         implements TouchImageView.TouchImageViewListener,
-        RecyclerTouchListener.ClickListener {
+        ErrorPartAdapter.ErrorPartListener {
     private final String TAG = MainV2Activity.class.getName();
 
     public static Intent newIntent(Context context) {
@@ -127,7 +127,6 @@ public class MainV2Activity extends AppCompatActivity
         rvErrorPart.setHasFixedSize(true);
         rvErrorPart.setLayoutManager(new LinearLayoutManager(this));
         rvErrorPart.setItemAnimator(new DefaultItemAnimator());
-        rvErrorPart.addOnItemTouchListener(new RecyclerTouchListener(this, rvErrorPart, this));
 
         ivGuide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +139,7 @@ public class MainV2Activity extends AppCompatActivity
 
     private void showErrorPartList() {
         ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
-        mErrorPartAdapter = new ErrorPartAdapter(this, errorPosition.getErrorParts());
+        mErrorPartAdapter = new ErrorPartAdapter(this, errorPosition.getErrorParts(), this);
         rvErrorPart.setAdapter(mErrorPartAdapter);
     }
 
@@ -155,8 +154,7 @@ public class MainV2Activity extends AppCompatActivity
     }
 
     @Override
-    public void onClick(View view, int position) {
-        ErrorPart errorPart = mErrorPartAdapter.getItem(position);
+    public void errorPartItemOnClick(View view, ErrorPart errorPart) {
         if (errorPart.getImgUrl().isEmpty()) {
             return;
         }
@@ -168,7 +166,7 @@ public class MainV2Activity extends AppCompatActivity
 
         ProductStorage.getInstance().setCurrentErrorPart(errorPart);
         drawGridLineIntoImage();
-        showPopupMenu(rvErrorPart.getChildAt(position));
+        showPopupMenu(view);
     }
 
     private void showPopupMenu(View view) {
@@ -209,11 +207,6 @@ public class MainV2Activity extends AppCompatActivity
             return;
         }
         ImageUtils.showImage(this, error.getImgGuideUrl(), ivGuide);
-    }
-
-    @Override
-    public void onLongClick(View view, int position) {
-
     }
 
     @OnClick(R.id.btn_finish)

@@ -18,12 +18,18 @@ import vn.com.toyota.checkdetail.utils.Utils;
 
 public class ErrorPartAdapter extends RecyclerView.Adapter<ErrorPartAdapter.ViewHolder> {
 
+    public interface ErrorPartListener {
+        void errorPartItemOnClick(View view, ErrorPart errorPart);
+    }
+
     private Context mContext;
     private List<ErrorPart> mList;
+    private ErrorPartListener mErrorPartListener;
 
-    public ErrorPartAdapter(Context context, List<ErrorPart> list) {
+    public ErrorPartAdapter(Context context, List<ErrorPart> list, ErrorPartListener errorPartListener) {
         this.mContext = context;
         this.mList = list;
+        this.mErrorPartListener = errorPartListener;
     }
 
     @Override
@@ -35,7 +41,7 @@ public class ErrorPartAdapter extends RecyclerView.Adapter<ErrorPartAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ErrorPart item = getItem(position);
+        final ErrorPart item = getItem(position);
         holder.tvErrorPartName.setText(item.getName());
         holder.tvErrorPartName.setSelected(item.isSelected());
         if (item.isSelected()) {
@@ -43,6 +49,13 @@ public class ErrorPartAdapter extends RecyclerView.Adapter<ErrorPartAdapter.View
         } else {
             Utils.setTypefaceText(holder.tvErrorPartName, Typeface.NORMAL);
         }
+        holder.tvErrorPartName.setEnabled(!item.getImgUrl().isEmpty());
+        holder.tvErrorPartName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mErrorPartListener.errorPartItemOnClick(v, item);
+            }
+        });
     }
 
     @Override

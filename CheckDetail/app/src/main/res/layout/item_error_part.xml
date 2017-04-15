@@ -6,7 +6,7 @@
           android:layout_height="wrap_content"
           android:background="@drawable/error_part_item_selector"
           android:padding="16dp"
-          android:textColor="@android:color/black"
+          android:textColor="@color/item_error_part_selector"
           android:textSize="20sp"
           android:textStyle="bold"
           tools:text="2. Bề mặt Opening FR"/>
