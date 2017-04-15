@@ -37,6 +37,7 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,7 +53,9 @@ import vn.com.toyota.checkdetail.model.ErrorPixel;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
 import vn.com.toyota.checkdetail.model.ImageCapture;
 import vn.com.toyota.checkdetail.model.Product;
+import vn.com.toyota.checkdetail.service.SaveImageService;
 import vn.com.toyota.checkdetail.storage.ProductStorage;
+import vn.com.toyota.checkdetail.utils.FileUtils;
 import vn.com.toyota.checkdetail.utils.GsonUtils;
 import vn.com.toyota.checkdetail.utils.ImageUtils;
 import vn.com.toyota.checkdetail.view.TouchImageView;
@@ -404,19 +407,30 @@ public class MainV2Activity extends AppCompatActivity
                         ImageCapture imageCapture = GsonUtils.String2Object(
                                 bundle.getString(Common.BundleConstant.IMAGE_CAPTURE),
                                 ImageCapture.class);
-                        ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
-                        if (errorPixel != null) {
-                            String path = imageCapture.getFilepath();
-                            String fileName = path.substring(path.lastIndexOf('/') + 1, path.length());
-                            errorPixel.setImageUrl(fileName);
-                        }
-                        Toast.makeText(MainV2Activity.this, imageCapture.getFilepath(), Toast.LENGTH_SHORT).show();
+                        List<ImageCapture> imageCaptures = new ArrayList<>();
+                        imageCaptures.add(imageCapture);
+                        saveImageDraw(imageCaptures);
+                        setErrorPixelImageUrl(imageCapture.getFilepath());
                     }
                 });
             }
         }
     }
 
+    private void setErrorPixelImageUrl(String path) {
+        ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
+        if (errorPixel != null) {
+            String fileName = path.substring(path.lastIndexOf('/') + 1, path.length());
+            fileName = FileUtils.getFileNameWithExtAdded(fileName, AppConfig.SAVED_IMAGE_EXT);
+            errorPixel.setImageUrl(fileName);
+        }
+    }
+
+    private void saveImageDraw(List<ImageCapture> captures) {
+        Intent intent = new Intent(MainV2Activity.this, SaveImageService.class);
+        intent.putExtra(Common.BundleConstant.LIST_IMAGE_CAPTURE, GsonUtils.Object2String(captures));
+        startService(intent);
+    }
 
     Socket clientSocket;
 

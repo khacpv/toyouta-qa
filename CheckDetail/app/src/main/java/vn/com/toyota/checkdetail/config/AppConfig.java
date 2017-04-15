@@ -9,4 +9,6 @@ public class AppConfig {
     public static final int ERROR_POSITION_ROW = 3;
     public static final String SERVER_IP = "192.168.43.78";
     public static final int SERVER_PORT = 8888;
+    public static final String SAVED_IMAGE_EXT = "_ext";
+    public static final String THUMB_IMAGE_EXT = "_thumb";
 }

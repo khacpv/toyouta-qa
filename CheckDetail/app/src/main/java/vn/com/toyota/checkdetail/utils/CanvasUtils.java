@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+import vn.com.toyota.checkdetail.config.AppConfig;
 import vn.com.toyota.checkdetail.model.DrawEntityPath;
 import vn.com.toyota.checkdetail.model.Size;
 
@@ -332,6 +333,7 @@ public class CanvasUtils {
     public static String createImage(String inputFile, List<DrawEntityPath> paths, Paint paint,
             Size viewSize, int quantity) {
         String outputFile = inputFile;
+        outputFile = FileUtils.getFileNameWithExtAdded(outputFile, AppConfig.SAVED_IMAGE_EXT);
         return createImage(inputFile, outputFile, paths, paint, viewSize, quantity);
     }
 
@@ -340,9 +342,7 @@ public class CanvasUtils {
     public static String createImageThumb(String inputFile, List<DrawEntityPath> paths, Paint paint,
             Size viewSize) {
         String outputFile = inputFile;
-        outputFile = outputFile.replace(".jpg", "_thumb.jpg");
-        outputFile = outputFile.replace(".JPG", "_thumb.jpg");
-        outputFile = outputFile.replace(".png", "_thumb.png");
+        outputFile = FileUtils.getFileNameWithExtAdded(outputFile, AppConfig.THUMB_IMAGE_EXT);
         return createImageSmall(inputFile, outputFile, paths, paint, viewSize);
     }
 

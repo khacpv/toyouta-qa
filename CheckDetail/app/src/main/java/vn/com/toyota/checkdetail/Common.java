@@ -12,5 +12,6 @@ public class Common {
         public static final String SEQUENCE = "sequence";
         public static final String IMAGE_CAPTURE = "image_capture";
         public static final String POSITION = "position";
+        public static final String LIST_IMAGE_CAPTURE = "list_image_capture";
     }
 }

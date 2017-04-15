@@ -60,4 +60,11 @@ public class FileUtils {
         Bitmap bitmap = Bitmap.createBitmap(imageView.getDrawingCache());
         return saveBimapToSdCard(bitmap);
     }
+
+    public static String getFileNameWithExtAdded(String fileName, String ext) {
+        String result = fileName.replace(".jpg", ext + ".jpg");
+        result = result.replace(".JPG", ext + ".jpg");
+        result = result.replace(".png", ext + ".png");
+        return result;
+    }
 }

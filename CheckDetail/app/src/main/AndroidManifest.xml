@@ -66,6 +66,10 @@
             android:name=".feature.edtimg.EditImageActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <service
+            android:name=".service.SaveImageService"
+            android:exported="true"/>
     </application>
 
 </manifest>
