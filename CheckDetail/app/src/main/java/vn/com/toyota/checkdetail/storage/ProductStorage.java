@@ -68,6 +68,12 @@ public class ProductStorage {
     }
 
     public void clearMemory() {
+        for (ErrorPart ep : mCurrentErrorPosition.getErrorParts()) {
+            ep.setSelected(false);
+        }
+        for (Error err : mCurrentErrorPart.getErrors()) {
+            err.setSelected(false);
+        }
         this.mCurrentErrorPixel = null;
         this.mCurrentError = null;
         this.mCurrentErrorPart = null;

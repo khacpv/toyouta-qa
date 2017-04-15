@@ -17,7 +17,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
+import android.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -140,13 +140,6 @@ public class MainV2Activity extends AppCompatActivity
 
     private void showErrorPartList() {
         ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
-        List<ErrorPart> errorParts = errorPosition.getErrorParts();
-        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
-        if (errorPart == null) {
-            for (ErrorPart ep : errorParts) {
-                ep.setSelected(false);
-            }
-        }
         mErrorPartAdapter = new ErrorPartAdapter(this, errorPosition.getErrorParts());
         rvErrorPart.setAdapter(mErrorPartAdapter);
     }
@@ -185,7 +178,7 @@ public class MainV2Activity extends AppCompatActivity
             return;
         }
 
-        PopupMenu popupMenu = new PopupMenu(this, view);
+        final PopupMenu popupMenu = new PopupMenu(this, view);
         int id = 0;
         for (Error err : errorPart.getErrors()) {
             popupMenu.getMenu().add(Menu.NONE, id, id, err.getCode());
@@ -225,7 +218,12 @@ public class MainV2Activity extends AppCompatActivity
 
     @OnClick(R.id.btn_finish)
     public void finishClick() {
-        chonCa();
+        ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
+        if (errorPixel == null) {
+            Toast.makeText(this, "Chưa chụp ảnh lỗi", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        chooseShift();
     }
 
     private void finishActivity() {
@@ -436,29 +434,29 @@ public class MainV2Activity extends AppCompatActivity
         }
     }
 
-    Dialog dialog_chonCa;
+    private Dialog dialogChooseShift;
 
-    public void chonCa() {
-        dialog_chonCa = new Dialog(this);
-        dialog_chonCa.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog_chonCa.setContentView(R.layout.chonca_layout);
-        dialog_chonCa.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        dialog_chonCa.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        Button nut_CaVang = (Button) dialog_chonCa.findViewById(R.id.btnCavang);
-        Button nut_CaDo = (Button) dialog_chonCa.findViewById(R.id.btnCado);
-        nut_CaVang.setOnClickListener(new View.OnClickListener() {
+    public void chooseShift() {
+        dialogChooseShift = new Dialog(this);
+        dialogChooseShift.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogChooseShift.setContentView(R.layout.dialog_choose_shift);
+        dialogChooseShift.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        dialogChooseShift.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Button btnYellow = (Button) dialogChooseShift.findViewById(R.id.btnCavang);
+        Button btnRed = (Button) dialogChooseShift.findViewById(R.id.btnCado);
+        btnYellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendRequest("Ca Y");
             }
         });
-        nut_CaDo.setOnClickListener(new View.OnClickListener() {
+        btnRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendRequest("Ca R");
             }
         });
-        dialog_chonCa.show();
+        dialogChooseShift.show();
     }
 
     //Tên file ảnh - mã lỗi - mã process - tọa độ x - tọa độ y - col - row - ca làm việc
@@ -468,11 +466,13 @@ public class MainV2Activity extends AppCompatActivity
             ErrorPixel errorPixel = ProductStorage.getInstance().getCurrentErrorPixel();
             ErrorPosition errorPosition = ProductStorage.getInstance().getCurrentErrorPosition();
             ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
-            if(errorPart == null || errorPosition == null || errorPixel == null){
-                Log.e("TAG","param is null");
-                dialog_chonCa.dismiss();
+
+            if (errorPart == null || errorPosition == null || errorPixel == null) {
+                Log.e(TAG, "params is null");
+                dialogChooseShift.dismiss();
                 return;
             }
+
             String errorCodes = "";
             for (Error err : errorPart.getErrors()) {
                 if (err.isSelected()) {
@@ -482,22 +482,19 @@ public class MainV2Activity extends AppCompatActivity
             errorCodes = errorCodes.substring(0, errorCodes.length() - 1);
 
             String msgToServer = errorPixel.getImageUrl()
-                + ";" + errorCodes
-                + ";" + errorPosition.getCode()
-                + ";" + errorPixel.getX()
-                + ";" + errorPixel.getY()
-                + ";" + NUMBER_OF_COLUMNS
-                + ";" + NUMBER_OF_ROWS
-                + ";" + shiftCode;
+                    + ";" + errorCodes
+                    + ";" + errorPosition.getCode()
+                    + ";" + errorPixel.getX()
+                    + ";" + errorPixel.getY()
+                    + ";" + NUMBER_OF_COLUMNS
+                    + ";" + NUMBER_OF_ROWS
+                    + ";" + shiftCode;
             Log.d(TAG, "msgToServer: " + msgToServer);
             new Thread(new ClientThread(msgToServer)).start();
-            dialog_chonCa.dismiss();
+            dialogChooseShift.dismiss();
             finishActivity();
-        }catch (NullPointerException e){
+        } catch (Exception e) {
             e.printStackTrace();
-            Log.e("TAG","DATA is null");
-        }catch (Exception e){
-
         }
     }
 }
