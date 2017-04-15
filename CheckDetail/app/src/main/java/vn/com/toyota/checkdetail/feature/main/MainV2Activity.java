@@ -17,7 +17,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +46,6 @@ import vn.com.toyota.checkdetail.Common;
 import vn.com.toyota.checkdetail.R;
 import vn.com.toyota.checkdetail.config.AppConfig;
 import vn.com.toyota.checkdetail.feature.edtimg.EditImageActivity;
-import vn.com.toyota.checkdetail.listener.RecyclerTouchListener;
 import vn.com.toyota.checkdetail.model.Error;
 import vn.com.toyota.checkdetail.model.ErrorPart;
 import vn.com.toyota.checkdetail.model.ErrorPixel;
@@ -118,6 +117,10 @@ public class MainV2Activity extends AppCompatActivity
     RecyclerView rvErrorPart;
     @BindView(R.id.iv_logo)
     ImageView ivLogo;
+    @BindView(R.id.btn_scroll_down)
+    Button btnScrollDown;
+    @BindView(R.id.btn_scroll_up)
+    Button btnScrollUp;
 
     private ErrorPartAdapter mErrorPartAdapter;
 
@@ -135,6 +138,36 @@ public class MainV2Activity extends AppCompatActivity
             }
         });
         ImageUtils.showImage(this, R.drawable.toyota_logo, ivLogo);
+
+        btnScrollDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollDown();
+            }
+        });
+
+        btnScrollUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollUp();
+            }
+        });
+
+        scrollUp();
+    }
+
+    private void scrollDown() {
+        if (mErrorPartAdapter != null) {
+            rvErrorPart.smoothScrollToPosition(mErrorPartAdapter.getItemCount() - 1);
+            btnScrollDown.setEnabled(false);
+            btnScrollUp.setEnabled(true);
+        }
+    }
+
+    private void scrollUp() {
+        rvErrorPart.smoothScrollToPosition(0);
+        btnScrollUp.setEnabled(false);
+        btnScrollDown.setEnabled(true);
     }
 
     private void showErrorPartList() {
