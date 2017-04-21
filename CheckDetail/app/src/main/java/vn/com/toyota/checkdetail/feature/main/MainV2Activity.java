@@ -513,6 +513,8 @@ public class MainV2Activity extends AppCompatActivity
                 return;
             }
 
+            /*
+            // Send multiple error codes
             String errorCodes = "";
             for (Error err : errorPart.getErrors()) {
                 if (err.isSelected()) {
@@ -520,9 +522,17 @@ public class MainV2Activity extends AppCompatActivity
                 }
             }
             errorCodes = errorCodes.substring(0, errorCodes.length() - 1);
+            */
+            // Send single error code
+            String errorCode = "";
+            for (Error err : errorPart.getErrors()) {
+                if (err.isSelected()) {
+                    errorCode = err.getCode();
+                }
+            }
 
             String msgToServer = errorPixel.getImageUrl()
-                    + ";" + errorCodes
+                    + ";" + errorCode
                     + ";" + errorPosition.getCode()
                     + ";" + errorPixel.getX()
                     + ";" + errorPixel.getY()
