@@ -53,8 +53,10 @@ import vn.com.toyota.checkdetail.model.ErrorPixel;
 import vn.com.toyota.checkdetail.model.ErrorPosition;
 import vn.com.toyota.checkdetail.model.ImageCapture;
 import vn.com.toyota.checkdetail.model.Product;
+import vn.com.toyota.checkdetail.model.Setting;
 import vn.com.toyota.checkdetail.service.SaveImageService;
 import vn.com.toyota.checkdetail.storage.ProductStorage;
+import vn.com.toyota.checkdetail.storage.SettingStorage;
 import vn.com.toyota.checkdetail.utils.FileUtils;
 import vn.com.toyota.checkdetail.utils.GsonUtils;
 import vn.com.toyota.checkdetail.utils.ImageUtils;
@@ -79,6 +81,9 @@ public class MainV2Activity extends AppCompatActivity
         initViews();
         showErrorPartList();
         showProductInfo();
+
+        Setting setting = SettingStorage.getInstance().getSetting();
+        Log.i(TAG, setting.getIp() + " - " + setting.getPort());
     }
 
     @Override
@@ -445,8 +450,9 @@ public class MainV2Activity extends AppCompatActivity
         @Override
         public void run() {
             try {
-                InetAddress serverAddr = InetAddress.getByName(AppConfig.SERVER_IP);
-                clientSocket = new Socket(serverAddr, AppConfig.SERVER_PORT);
+                Setting setting = SettingStorage.getInstance().getSetting();
+                InetAddress serverAddr = InetAddress.getByName(setting.getIp());
+                clientSocket = new Socket(serverAddr, setting.getPort());
 
                 OutputStream outputStream = null;
                 outputStream = clientSocket.getOutputStream();

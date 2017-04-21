@@ -23,7 +23,7 @@ public class ProductStorage {
     private Error mCurrentError;
     private ErrorPixel mCurrentErrorPixel;
 
-    public ProductStorage() {
+    private ProductStorage() {
         this.mProduct = DataUtils.createProduct();
     }
 
