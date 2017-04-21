@@ -7,18 +7,28 @@ import java.util.List;
  * Created by Do Hoang on 4/11/2017.
  */
 public class ErrorPart {
+    private String id;
     private String name;
     private String imgUrl;
     private List<Error> errors;
     private List<ErrorPixel> errorPixels;
     private boolean selected;
 
-    public ErrorPart(String name, String imgUrl, List<Error> errors) {
+    public ErrorPart(String id, String name, String imgUrl, List<Error> errors) {
+        this.id = id;
         this.name = name;
         this.imgUrl = imgUrl;
         this.errors = errors;
         this.errorPixels = new ArrayList<>();
         this.selected = false;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -53,16 +53,16 @@ public class DataUtils {
         List<ErrorPart> errorParts = new ArrayList<>();
         try {
             String directory = FileUtils.getDirectory();
-            errorParts.add(new ErrorPart("1. Bề mặt Door FR", directory + "/main_01.jpg", createErrorList()));
-            errorParts.add(new ErrorPart("2. Bề mặt Opening FR", directory + "/main_02.jpg", createErrorList()));
-            errorParts.add(new ErrorPart("3. Bề mặt Door3 FR", "", createErrorList()));
-            errorParts.add(new ErrorPart("4. Bề mặt Door4 FR", "", createErrorList()));
-            errorParts.add(new ErrorPart("5. Bề mặt Door5 FR", "", createErrorList()));
-            errorParts.add(new ErrorPart("6. Bề mặt Door6 RR", "", createErrorList()));
-            errorParts.add(new ErrorPart("7. Bề mặt Door7 FR", "", createErrorList()));
-            errorParts.add(new ErrorPart("8. Bề mặt Door8 RR", "", createErrorList()));
-            errorParts.add(new ErrorPart("9. Bề mặt Door9 RR", "", createErrorList()));
-            errorParts.add(new ErrorPart("10. Bề mặt Door10 RR", "", createErrorList()));
+            errorParts.add(new ErrorPart("Step_1", "1. Bề mặt Door FR", directory + "/main_01.jpg", createErrorList()));
+            errorParts.add(new ErrorPart("Step_2", "2. Bề mặt Opening FR", directory + "/main_02.jpg", createErrorList()));
+            errorParts.add(new ErrorPart("Step_3", "3. Bề mặt Door3 FR", "", createErrorList()));
+            errorParts.add(new ErrorPart("Step_4", "4. Bề mặt Door4 FR", "", createErrorList()));
+            errorParts.add(new ErrorPart("Step_5", "5. Bề mặt Door5 FR", "", createErrorList()));
+            errorParts.add(new ErrorPart("Step_6", "6. Bề mặt Door6 RR", "", createErrorList()));
+            errorParts.add(new ErrorPart("Step_7", "7. Bề mặt Door7 FR", "", createErrorList()));
+            errorParts.add(new ErrorPart("Step_8", "8. Bề mặt Door8 RR", "", createErrorList()));
+            errorParts.add(new ErrorPart("Step_9", "9. Bề mặt Door9 RR", "", createErrorList()));
+            errorParts.add(new ErrorPart("Step_10", "10. Bề mặt Door10 RR", "", createErrorList()));
         } catch (IOException e) {
             e.printStackTrace();
         }

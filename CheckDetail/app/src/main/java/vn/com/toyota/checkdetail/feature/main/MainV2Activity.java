@@ -538,7 +538,8 @@ public class MainV2Activity extends AppCompatActivity
                     + ";" + errorPixel.getY()
                     + ";" + NUMBER_OF_COLUMNS
                     + ";" + NUMBER_OF_ROWS
-                    + ";" + shiftCode;
+                    + ";" + shiftCode
+                    + ";" + errorPart.getId();
             Log.d(TAG, "msgToServer: " + msgToServer);
             new Thread(new ClientThread(msgToServer)).start();
             dialogChooseShift.dismiss();
