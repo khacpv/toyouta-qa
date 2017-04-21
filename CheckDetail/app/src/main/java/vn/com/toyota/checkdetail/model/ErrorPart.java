@@ -10,14 +10,16 @@ public class ErrorPart {
     private String id;
     private String name;
     private String imgUrl;
+    private String imgGuideUrl;
     private List<Error> errors;
     private List<ErrorPixel> errorPixels;
     private boolean selected;
 
-    public ErrorPart(String id, String name, String imgUrl, List<Error> errors) {
+    public ErrorPart(String id, String name, String imgUrl, String imgGuideUrl, List<Error> errors) {
         this.id = id;
         this.name = name;
         this.imgUrl = imgUrl;
+        this.imgGuideUrl = imgGuideUrl;
         this.errors = errors;
         this.errorPixels = new ArrayList<>();
         this.selected = false;
@@ -61,6 +63,15 @@ public class ErrorPart {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+
+    public String getImgGuideUrl() {
+        return imgGuideUrl;
+    }
+
+    public void setImgGuideUrl(String imgGuideUrl) {
+        this.imgGuideUrl = imgGuideUrl;
     }
 
     public List<ErrorPixel> getErrorPixels() {

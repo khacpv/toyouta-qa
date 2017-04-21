@@ -5,12 +5,10 @@ package vn.com.toyota.checkdetail.model;
  */
 public class Error {
     private String code;
-    private String imgGuideUrl;
     private boolean selected;
 
-    public Error(String code, String imgGuideUrl) {
+    public Error(String code) {
         this.code = code;
-        this.imgGuideUrl = imgGuideUrl;
         this.selected = false;
     }
 
@@ -20,14 +18,6 @@ public class Error {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getImgGuideUrl() {
-        return imgGuideUrl;
-    }
-
-    public void setImgGuideUrl(String imgGuideUrl) {
-        this.imgGuideUrl = imgGuideUrl;
     }
 
     public boolean isSelected() {

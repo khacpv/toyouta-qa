@@ -203,6 +203,7 @@ public class MainV2Activity extends AppCompatActivity
         ProductStorage.getInstance().setCurrentErrorPart(errorPart);
         drawGridLineIntoImage();
         showPopupMenu(view);
+        showGuideImage();
     }
 
     private void showPopupMenu(View view) {
@@ -226,7 +227,6 @@ public class MainV2Activity extends AppCompatActivity
                 Error error = errorPart.getErrors().get(id);
                 error.setSelected(true);
                 ProductStorage.getInstance().setCurrentError(error);
-                showGuideImage();
                 return true;
             }
         });
@@ -237,12 +237,12 @@ public class MainV2Activity extends AppCompatActivity
     ImageView ivGuide;
 
     private void showGuideImage() {
-        Error error = ProductStorage.getInstance().getCurrentError();
-        if (error == null) {
-            Log.w(TAG, "error NULL");
+        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+        if (errorPart == null) {
+            Log.w(TAG, "errorPart NULL");
             return;
         }
-        ImageUtils.showImage(this, error.getImgGuideUrl(), ivGuide);
+        ImageUtils.showImage(this, errorPart.getImgGuideUrl(), ivGuide);
     }
 
     @OnClick(R.id.btn_finish)
