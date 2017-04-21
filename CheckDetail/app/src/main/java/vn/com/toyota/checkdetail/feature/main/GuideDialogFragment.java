@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import vn.com.toyota.checkdetail.R;
-import vn.com.toyota.checkdetail.model.Error;
+import vn.com.toyota.checkdetail.model.ErrorPart;
 import vn.com.toyota.checkdetail.utils.DialogUtils;
 
 public class GuideDialogFragment extends DialogFragment {
@@ -26,11 +26,11 @@ public class GuideDialogFragment extends DialogFragment {
         setRetainInstance(true);
     }
 
-    private Error mError;
+    private ErrorPart mErrorPart;
 
-    public static GuideDialogFragment newInstance(Error error) {
+    public static GuideDialogFragment newInstance(ErrorPart errorPart) {
         GuideDialogFragment fragment = new GuideDialogFragment();
-        fragment.mError = error;
+        fragment.mErrorPart = errorPart;
         return fragment;
     }
 
@@ -51,7 +51,7 @@ public class GuideDialogFragment extends DialogFragment {
 
     public void initViews() {
         Glide.with(this)
-                .load(mError.getImgGuideUrl())
+                .load(mErrorPart.getImgGuideUrl())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .fitCenter()
                 .into(ivGuide);

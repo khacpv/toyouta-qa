@@ -180,12 +180,12 @@ public class MainV2Activity extends AppCompatActivity
     }
 
     private void showFullGuideImage() {
-        Error error = ProductStorage.getInstance().getCurrentError();
-        if (error == null) {
-            Log.w(TAG, "error NULL");
+        ErrorPart errorPart = ProductStorage.getInstance().getCurrentErrorPart();
+        if (errorPart == null) {
+            Log.w(TAG, "errorPart NULL");
             return;
         }
-        DialogFragment fragment = GuideDialogFragment.newInstance(error);
+        DialogFragment fragment = GuideDialogFragment.newInstance(errorPart);
         fragment.show(getSupportFragmentManager(), GuideDialogFragment.TAG);
     }
 
