@@ -70,6 +70,9 @@
         <service
             android:name=".service.SaveImageService"
             android:exported="true"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b019f0ccf33cbc9f28f10df02eb0fab63b90f8ff" />
     </application>
 
 </manifest>

@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.activeandroid.ActiveAndroid;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import vn.com.toyota.checkdetail.storage.ProductStorage;
 
 /**
@@ -14,6 +16,7 @@ public class ToyotaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         ActiveAndroid.initialize(this);
     }
 }
